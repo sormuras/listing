@@ -75,8 +75,12 @@ public class JavaNameTest {
   @Test
   public void isStatic() throws Exception {
     assertEquals(false, of(Object.class).isStatic());
+    assertEquals(false, of(Object.class.getDeclaredConstructor()).isStatic());
     assertEquals(false, of(Object.class.getDeclaredMethod("toString")).isStatic());
     assertEquals(true, of(Object.class.getDeclaredMethod("registerNatives")).isStatic());
+    assertEquals(false, of(Object.class.getDeclaredMethod("clone")).isStatic());
+    assertEquals(false, of(Thread.class.getDeclaredMethod("start")).isStatic());
+    assertEquals(true, of(Math.class.getDeclaredField("PI")).isStatic());
     assertEquals(false, of(byte.class).isStatic());
     assertEquals(true, of(Character.Subset.class).isStatic());
     assertEquals(true, of(Thread.State.class).isStatic());

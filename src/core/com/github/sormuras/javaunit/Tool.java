@@ -53,7 +53,7 @@ public interface Tool {
   static String canonical(String packageName, List<String> names) {
     check(packageName, "packageName");
     check(names, "names");
-    check(!(packageName.isEmpty() && names.isEmpty()), "packageName and names are empty");
+    assume(!(packageName.isEmpty() && names.isEmpty()), "packageName and names are empty");
     if (names.isEmpty()) {
       return packageName;
     }

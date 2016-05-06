@@ -1,6 +1,5 @@
 package com.github.sormuras.javaunit;
 
-
 import static com.github.sormuras.javaunit.Listable.IDENTITY;
 import static com.github.sormuras.javaunit.Listable.NEWLINE;
 import static com.github.sormuras.javaunit.Listable.SPACE;
@@ -11,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+
 import org.junit.Test;
 
 public class ListableTest {

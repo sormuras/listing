@@ -3,9 +3,43 @@ package com.github.sormuras.javaunit;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Modifier;
+import java.util.Collections;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ToolTest {
+
+  @Test
+  public void canonicalOfEmptyFails() {
+    try {
+      Tool.canonical("", Collections.emptyList());
+      Assert.fail();
+    } catch(IllegalArgumentException e) {
+      Assert.assertTrue(e.toString().contains("empty"));
+    }
+  }
+
+  @Test
+  public void check() {
+    try {
+      Tool.check(null, "<null>");
+      Assert.fail();
+    } catch(NullPointerException e) {
+      Assert.assertTrue(e.toString().contains("<null>"));
+    }
+  }
+
+  @Test
+  public void elementOf() {
+    try {
+      Tool.elementOf(null);
+      Assert.fail();
+    } catch(AssertionError e) {
+      // expected
+    }
+  }
 
   @Test
   public void escapeCharacter() {
@@ -63,6 +97,13 @@ public class ToolTest {
   }
 
   @Test
+  public void modifiers() {
+    assertEquals("[strictfp]", Tool.modifiers(Modifier.STRICT).toString());
+    assertEquals("[transient]", Tool.modifiers(Modifier.TRANSIENT).toString());
+    assertEquals("[volatile]", Tool.modifiers(Modifier.VOLATILE).toString());
+  }
+
+  @Test
   public void packageOf() {
     assertEquals("", Tool.packageOf("Abc"));
     assertEquals("java.lang", Tool.packageOf("java.lang.Object"));
@@ -73,6 +114,12 @@ public class ToolTest {
     String thisPackageName = getClass().getPackage().getName();
     assertEquals(thisPackageName, Tool.packageOf(ToolTest.class));
     assertEquals(thisPackageName, Tool.packageOf(new Object() {}.getClass()));
+    try {
+      Tool.packageOf(".Abc");
+      Assert.fail();
+    } catch (AssertionError e) {
+      // expected
+    }
   }
 
   @Test
