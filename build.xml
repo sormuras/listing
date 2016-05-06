@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE project>
+
+<project basedir="." name="sormuras/javaunit" default="test">
+
+  <tstamp>
+    <format property="timestamp" pattern="yyyyMMddHHmm" />
+  </tstamp>
+
+  <property name="version.number" value="1.0.0-SNAPSHOT-${timestamp}" />
+  <property name="dir.out" value="${basedir}/bin/ant" />
+  <property name="dir.src" value="${basedir}/src" />
+  <property name="dir.lib" value="${basedir}/lib" />
+
+  <target name="clean">
+    <echo>be*free</echo>
+    <delete dir="${dir.out}" />
+  </target>
+
+  <target name="init" depends="clean">
+    <echo>Creating javaunit-${version.number}.jar</echo>
+    <mkdir dir="${dir.out}" />
+  </target>
+
+  <target name="format" depends="init" description="apply google-java-format">
+    <!-- <property name="format.jar" value="google-java-format-1.0-all-deps.jar" /> -->
+  	<property name="format.jar" value="google-java-format-1.1-20160505.013913-6-all-deps.jar" />
+  	<copy file="${dir.lib}/build/${format.jar}" todir="${basedir}/bin" />
+  	<!-- <get dest="${basedir}/bin" verbose="true" usetimestamp="true"> -->
+  	  <!-- <url url="https://github.com/google/google-java-format/releases/download/google-java-format-1.0/${format.jar}" /> -->
+  	  <!-- <url url="https://oss.sonatype.org/content/repositories/snapshots/com/google/googlejavaformat/google-java-format/1.1-SNAPSHOT/${format.jar}" /> -->
+	<!-- </get> -->
+    <fileset dir="${dir.src}" id="src.files">
+      <include name="**/*.java" />
+      <exclude name="generated/**/*" />
+    </fileset>
+    <concat destfile="${dir.out}/format-sources-1.txt">
+      <fileset refid="src.files" />
+    </concat>
+    <pathconvert pathsep=" " property="javafiles" refid="src.files" />
+    <java jar="${basedir}/bin/${format.jar}" fork="yes">
+      <arg line="-replace" />
+      <arg line="${javafiles}" />
+    </java>
+    <concat destfile="${dir.out}/format-sources-2.txt">
+      <fileset refid="src.files" />
+    </concat>
+    <condition property="files.match">
+      <filesmatch file1="${dir.out}/format-sources-1.txt"
+                  file2="${dir.out}/format-sources-2.txt"
+                  textfile="yes" />
+    </condition>
+    <fail unless="files.match">Formatter ${format.jar} changed at least one source file</fail>
+    <echo>Formatter ${format.jar} applied</echo>
+  </target>
+
+  <target name="compile" depends="format" description="compile and jar sources">
+    <mkdir dir="${dir.out}/main/classes" />
+    <javac destdir="${dir.out}/main/classes" encoding="UTF-8" includeantruntime="no" debug="on">
+      <src path="${dir.src}/core" />
+      <src path="${dir.src}/type" />
+      <src path="${dir.src}/main" />
+    </javac>
+    <jar destfile="${dir.out}/javaunit-${version.number}.jar">
+      <fileset dir="${dir.out}/main/classes" />
+      <fileset dir="${dir.src}/main" />
+      <manifest>
+        <section name="com/github/sormuras/javaunit/">
+          <attribute name="Specification-Title" value="listing" />
+          <attribute name="Specification-Version" value="1.0" />
+          <attribute name="Specification-Vendor" value="Christian Stein" />
+          <attribute name="Implementation-Title" value="com.github.sormuras.javaunit" />
+          <attribute name="Implementation-Version" value="${version.number}" />
+          <attribute name="Implementation-Vendor" value="Christian Stein" />
+        </section>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="test" depends="compile" description="execute all tests">
+    <path id="junit.class.path">
+      <pathelement path="${dir.out}/test/classes" />
+      <pathelement path="${dir.out}/javaunit-${version.number}.jar" />
+      <fileset dir="${dir.lib}/test">
+        <include name="**/*.jar" />
+      </fileset>
+    </path>
+
+    <mkdir dir="${dir.out}/test/classes" />
+    <javac destdir="${dir.out}/test/classes" encoding="UTF-8" includeantruntime="no">
+      <classpath refid="junit.class.path" />
+      <src path="${dir.src}/test" />
+    </javac>
+    <copy todir="${dir.out}/test/classes">
+      <fileset dir="${dir.src}/test" excludes="**/*.java" />
+    </copy>
+
+    <mkdir dir="${dir.out}/test-result" />
+    <!-- JUnit4 -->
+    <junit printsummary="yes"
+           fork="yes"
+           haltonfailure="no"
+           showoutput="yes"
+           failureproperty="test.failed">
+      <jvmarg value="-Dfile.encoding=UTF-8" />
+      <jvmarg value="-Dant.running=true" />
+      <jvmarg value="-Djava.util.logging.config.file=${dir.src}/test/logging.properties" />
+      <classpath refid="junit.class.path" />
+      <formatter type="xml" />
+      <assertions enablesystemassertions="true" />
+      <batchtest todir="${dir.out}/test-result">
+        <fileset dir="${dir.src}/test">
+          <include name="**/*Test.java" />
+        </fileset>
+      </batchtest>
+    </junit>
+    <fail message="Test failure detected, check test results." if="test.failed" />
+  </target>
+
+</project>

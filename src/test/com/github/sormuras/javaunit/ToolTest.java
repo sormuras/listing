@@ -16,7 +16,7 @@ public class ToolTest {
     try {
       Tool.canonical("", Collections.emptyList());
       Assert.fail();
-    } catch(IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       Assert.assertTrue(e.toString().contains("empty"));
     }
   }
@@ -26,7 +26,7 @@ public class ToolTest {
     try {
       Tool.check(null, "<null>");
       Assert.fail();
-    } catch(NullPointerException e) {
+    } catch (NullPointerException e) {
       Assert.assertTrue(e.toString().contains("<null>"));
     }
   }
@@ -36,7 +36,7 @@ public class ToolTest {
     try {
       Tool.elementOf(null);
       Assert.fail();
-    } catch(AssertionError e) {
+    } catch (AssertionError e) {
       // expected
     }
   }

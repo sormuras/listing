@@ -9,5 +9,4 @@ public class UnnamedTest {
   public void packageOf() {
     Assert.assertEquals("", Tool.packageOf(UnnamedTest.class));
   }
-
 }

@@ -26,7 +26,6 @@ public class ListableTest {
     public String toString() {
       return "a";
     }
-
   }
 
   class Z implements Listable {
@@ -40,7 +39,6 @@ public class ListableTest {
     public String toString() {
       return "z";
     }
-
   }
 
   @Test
@@ -77,5 +75,4 @@ public class ListableTest {
     assertEquals("null", Listable.of(null).list());
     assertEquals("0", Listable.of(BigInteger.ZERO).list());
   }
-
 }

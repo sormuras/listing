@@ -51,7 +51,8 @@ public class JavaName implements Listable {
     Tool.check(type, "type");
     String packageName = Tool.packageOf(type);
     List<String> names = Tool.simpleNames(type);
-    return new JavaName(packageName, names).setTarget(ElementType.TYPE)
+    return new JavaName(packageName, names)
+        .setTarget(ElementType.TYPE)
         .setModifiers(type.getModifiers());
   }
 
@@ -59,7 +60,8 @@ public class JavaName implements Listable {
     Tool.check(constant, "constant");
     String packageName = Tool.packageOf(constant.getDeclaringClass());
     List<String> names = Tool.simpleNames(constant.getDeclaringClass(), constant.name());
-    return new JavaName(packageName, names).setTarget(ElementType.FIELD)
+    return new JavaName(packageName, names)
+        .setTarget(ElementType.FIELD)
         .setModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
   }
 
@@ -68,7 +70,8 @@ public class JavaName implements Listable {
     Class<?> type = member.getDeclaringClass();
     String packageName = Tool.packageOf(type);
     List<String> names = Tool.simpleNames(type, member.getName());
-    return new JavaName(packageName, names).setTarget(Tool.elementOf(member))
+    return new JavaName(packageName, names)
+        .setTarget(Tool.elementOf(member))
         .setModifiers(member.getModifiers());
   }
 
@@ -174,7 +177,12 @@ public class JavaName implements Listable {
 
   @Override
   public String toString() {
-    return "JavaName{" + getCanonicalName() + ", target=" + getTarget() + ", modifiers="
-        + getModifiers() + "}";
+    return "JavaName{"
+        + getCanonicalName()
+        + ", target="
+        + getTarget()
+        + ", modifiers="
+        + getModifiers()
+        + "}";
   }
 }
