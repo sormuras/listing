@@ -1,0 +1,3 @@
+BEGIN
+  writeln('Hello, world.')
+END.
