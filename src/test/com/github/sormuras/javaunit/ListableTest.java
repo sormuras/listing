@@ -71,7 +71,7 @@ public class ListableTest {
     assertEquals("\"a\"", Listable.of("a").list());
     assertEquals("2.718282F", Listable.of((float) Math.E).list());
     assertEquals("9223372036854775807L", Listable.of(Long.MAX_VALUE).list());
-    assertEquals("!", Listable.of('!').list());
+    assertEquals("'!'", Listable.of('!').list());
     assertEquals("null", Listable.of(null).list());
     assertEquals("0", Listable.of(BigInteger.ZERO).list());
   }

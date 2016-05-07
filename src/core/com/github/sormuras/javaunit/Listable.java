@@ -13,6 +13,8 @@
  */
 package com.github.sormuras.javaunit;
 
+import static com.github.sormuras.javaunit.Tool.escape;
+
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
@@ -23,10 +25,10 @@ public interface Listable extends UnaryOperator<Listing>, Comparable<Listable> {
   static Listable of(Object o) {
     if (o instanceof Class) return listing -> listing.add(JavaName.of((Class<?>) o)).add(".class");
     if (o instanceof Enum) return listing -> listing.add(JavaName.of((Enum<?>) o));
-    if (o instanceof String) return listing -> listing.add(Tool.escape((String) o));
+    if (o instanceof String) return listing -> listing.add(escape((String) o));
     if (o instanceof Float) return listing -> listing.add(Locale.US, "%fF", o);
     if (o instanceof Long) return listing -> listing.add(Locale.US, "%dL", o);
-    if (o instanceof Character) return listing -> listing.add(Tool.escape((char) o));
+    if (o instanceof Character) return listing -> listing.add('\'').add(escape((char) o)).add('\'');
     return listing -> listing.add(Objects.toString(o));
   }
 

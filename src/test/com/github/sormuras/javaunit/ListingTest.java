@@ -19,8 +19,8 @@ public class ListingTest {
   @Test
   public void addChar() {
     assertEquals("\0", new Listing().add('\0').toString());
-    assertEquals("0", new Listing().add(Listable.of('0')).toString());
-    assertEquals("\\u0000", new Listing().add(Listable.of('\0')).toString());
+    assertEquals("'0'", new Listing().add(Listable.of('0')).toString());
+    assertEquals("'\\u0000'", new Listing().add(Listable.of('\0')).toString());
   }
 
   @Test
@@ -49,10 +49,10 @@ public class ListingTest {
     List<Listable> list = new ArrayList<>();
     assertEquals("", new Listing().add(list).toString());
     list.add(Listable.of('a'));
-    assertEquals("a", new Listing().add(list).toString());
+    assertEquals("'a'", new Listing().add(list).toString());
     list.add(Listable.of('z'));
-    assertEquals("a\nz", new Listing().add(list).toString());
-    assertEquals("a-z", new Listing().add(list, "-").toString());
+    assertEquals("'a'\n'z'", new Listing().add(list).toString());
+    assertEquals("'a'-'z'", new Listing().add(list, "-").toString());
   }
 
   @Test
