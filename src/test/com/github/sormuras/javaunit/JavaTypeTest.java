@@ -12,13 +12,11 @@ public class JavaTypeTest<T> {
 
   int a = 4;
 
-  @U
-  int b = 4;
+  @U int b = 4;
 
   int c @U [] @U [] @U [] = {};
 
-  @U
-  List<@U String> los = Collections.emptyList();
+  @U List<@U String> los = Collections.emptyList();
 
   List<@U T> lot = Collections.emptyList();
 
@@ -76,12 +74,14 @@ public class JavaTypeTest<T> {
 
   @Test
   public void type() throws Exception {
-    assertEquals("void",
+    assertEquals(
+        "void",
         JavaType.of(JavaTypeTest.class.getDeclaredMethod("type").getGenericReturnType()).list());
     try {
-      assertEquals("void",
-          JavaType
-              .of(JavaTypeTest.class.getDeclaredField("parameterizedFieldType").getGenericType())
+      assertEquals(
+          "void",
+          JavaType.of(
+                  JavaTypeTest.class.getDeclaredField("parameterizedFieldType").getGenericType())
               .list());
     } catch (AssertionError e) {
       // expected
