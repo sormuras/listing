@@ -13,8 +13,18 @@
  */
 package com.github.sormuras.javaunit;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
+import java.lang.reflect.AnnotatedArrayType;
+import java.lang.reflect.AnnotatedParameterizedType;
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.AnnotatedTypeVariable;
+import java.lang.reflect.AnnotatedWildcardType;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The Java programming language is a statically typed language, which means that every variable and
@@ -34,6 +44,61 @@ import java.lang.reflect.Type;
  */
 public abstract class JavaType<T extends JavaType<T>> implements Listable, Annotated<T> {
 
+  static JavaType<?> of(AnnotatedType annotatedType) {
+    if (annotatedType instanceof AnnotatedArrayType) {
+      List<ArrayDimension> dimensions = new ArrayList<>();
+      AnnotatedType component = annotatedType;
+      while (component instanceof AnnotatedArrayType) {
+        ArrayDimension dimension = new ArrayDimension();
+        Arrays.asList(component.getAnnotations()).forEach(dimension::addAnnotation);
+        dimensions.add(dimension);
+        component = ((AnnotatedArrayType) component).getAnnotatedGenericComponentType();
+      }
+      return new ArrayType(of(component), dimensions);
+    }
+    if (annotatedType instanceof AnnotatedParameterizedType) {
+      AnnotatedParameterizedType apt = (AnnotatedParameterizedType) annotatedType;
+      List<TypeArgument> arguments = new ArrayList<>();
+      for (AnnotatedType actual : apt.getAnnotatedActualTypeArguments()) {
+        arguments.add(new TypeArgument(of(actual)));
+      }
+      ParameterizedType pt = (ParameterizedType) annotatedType.getType();
+      ClassType result = (ClassType) of(pt.getRawType());
+      result.getAnnotations().addAll(JavaAnnotation.of(annotatedType.getAnnotations()));
+      result.getTypeArguments().addAll(arguments);
+      return result;
+    }
+    if (annotatedType instanceof AnnotatedTypeVariable) {
+      // TODO consider/ignore bounds at type use location
+      // AnnotatedTypeVariable atv = (AnnotatedTypeVariable) annotatedType;
+      // List<TypeArgument> bounds = new ArrayList<>();
+      // for (AnnotatedType bound : atv.getAnnotatedBounds()) {
+      // bounds.add(new TypeArgument(of(bound)));
+      // }
+      TypeVariable result = new TypeVariable();
+      result.getAnnotations().addAll(JavaAnnotation.of(annotatedType.getAnnotations()));
+      result.setName(((java.lang.reflect.TypeVariable<?>) annotatedType.getType()).getName());
+      return result;
+    }
+    if (annotatedType instanceof AnnotatedWildcardType) {
+      AnnotatedWildcardType awt = (AnnotatedWildcardType) annotatedType;
+      Wildcard result = new Wildcard();
+      for (AnnotatedType bound : awt.getAnnotatedLowerBounds()) { // ? super lower bound
+        result.setBoundSuper((ReferenceType<?>) of(bound));
+      }
+      for (AnnotatedType bound : awt.getAnnotatedUpperBounds()) { // ? extends upper bound
+        result.setBoundExtends((ReferenceType<?>) of(bound));
+      }
+      result.getAnnotations().addAll(JavaAnnotation.of(annotatedType.getAnnotations()));
+      return result;
+    }
+    // default case
+    JavaType<?> result = of((Class<?>) annotatedType.getType());
+    Annotation[] annotations = annotatedType.getAnnotations();
+    result.getAnnotations().addAll(JavaAnnotation.of(annotations));
+    return result;
+  }
+
   // raw (not annotated, not generic) class type factory
   static JavaType<?> of(Class<?> c) {
     if (c.isPrimitive()) {
@@ -50,8 +115,7 @@ public abstract class JavaType<T extends JavaType<T>> implements Listable, Annot
         }
       }
     }
-    // TODO return new ClassType(JavaName.of(c));
-    throw new AssertionError("Class " + c.getCanonicalName() + " not supported, yet");
+    return new ClassType(JavaName.of(c));
   }
 
   static JavaType<?> of(Type type) {
