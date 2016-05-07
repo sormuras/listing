@@ -16,7 +16,6 @@ package com.github.sormuras.javaunit;
 import static java.util.stream.Collectors.toList;
 
 import java.lang.annotation.ElementType;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,9 +24,12 @@ import java.util.Optional;
 public class ClassType extends ReferenceType<ClassType> {
 
   private List<ClassName> names;
-  private String packageName;
-  private final List<TypeArgument> typeargs = new ArrayList<>();
+  private final String packageName;
   private final JavaName typeName;
+
+  public ClassType(Class<?> type) {
+    this(JavaName.of(type));
+  }
 
   public ClassType(String... names) {
     this(JavaName.of(names));
@@ -37,7 +39,7 @@ public class ClassType extends ReferenceType<ClassType> {
     this.typeName = typeName;
     this.packageName = typeName.getPackageName();
     this.names = typeName.getSimpleNames().stream().map(ClassName::new).collect(toList());
-    Collections.addAll(typeargs, typeArguments);
+    Collections.addAll(getTypeArguments(), typeArguments);
   }
 
   public ClassType addAnnotation(String... names) {
@@ -64,9 +66,6 @@ public class ClassType extends ReferenceType<ClassType> {
   @Override
   public Listing apply(Listing listing) {
     applyPackageAndNames(listing);
-    if (!typeargs.isEmpty()) {
-      listing.add('<').add(getTypeArguments(), ", ").add('>');
-    }
     return listing;
   }
 
@@ -83,10 +82,10 @@ public class ClassType extends ReferenceType<ClassType> {
     //    if (listing.getImportDeclarations().testOnDemandImport(this.typeName)) {
     //      return listing.add(names, ".");
     //    }
-    if (!packageName.isEmpty()) {
-      listing.add(packageName).add('.');
+    if (!getPackageName().isEmpty()) {
+      listing.add(getPackageName()).add('.');
     }
-    return listing.add(names, ".");
+    return listing.add(getNames(), ".");
   }
 
   @Override
@@ -115,14 +114,15 @@ public class ClassType extends ReferenceType<ClassType> {
   }
 
   public List<TypeArgument> getTypeArguments() {
-    return typeargs;
+    return names.get(names.size() - 1).getTypeArguments();
   }
 
   public JavaName getTypeName() {
     return typeName;
   }
 
-  public void setPackageName(String packageName) {
-    this.packageName = packageName;
+  @Override
+  public boolean isJavaLangObject() {
+    return getTypeName().isJavaLangObject();
   }
 }

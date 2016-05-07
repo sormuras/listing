@@ -28,7 +28,7 @@ public class TypeArgument implements Listable {
     if (argument instanceof Wildcard) setWildcard((Wildcard) argument);
     if (argument instanceof ReferenceType) setReference((ReferenceType<?>) argument);
     if (getReference() == null && getWildcard() == null) {
-      throw new AssertionError("reference nor wildcard set");
+      throw new AssertionError("neither reference nor wildcard set");
     }
   }
 

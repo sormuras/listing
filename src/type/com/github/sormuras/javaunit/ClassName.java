@@ -44,10 +44,10 @@ public class ClassName implements Listable, Annotated<ClassName> {
   @Override
   public Listing apply(Listing listing) {
     listing.add(toAnnotationsListable());
-    if (typeArguments.isEmpty()) {
+    if (getTypeArguments().isEmpty()) {
       return listing.add(getName());
     }
-    listing.add(getName()).add('<').add(typeArguments, ", ").add('>');
+    listing.add(getName()).add('<').add(getTypeArguments(), ", ").add('>');
     return listing;
   }
 

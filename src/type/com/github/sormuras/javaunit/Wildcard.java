@@ -27,8 +27,8 @@ import java.util.List;
 public class Wildcard extends JavaType<Wildcard> {
 
   private final List<JavaAnnotation> annotations = new ArrayList<>();
-  private ReferenceType<?> boundExtends;
-  private ReferenceType<?> boundSuper;
+  private ReferenceType<?> boundExtends = new ClassType(Object.class);
+  private ReferenceType<?> boundSuper = null;
 
   @Override
   public List<JavaAnnotation> getAnnotations() {
@@ -48,24 +48,17 @@ public class Wildcard extends JavaType<Wildcard> {
     return boundSuper;
   }
 
-  public boolean isBound() {
-    return getBoundExtends() != null || getBoundSuper() != null;
-  }
-
   @Override
   public Listing apply(Listing listing) {
     listing.add(toAnnotationsListable());
     listing.add('?');
-    if (!isBound() || JavaType.of(Object.class).equals(boundExtends)) {
-      return listing;
+    if (!getBoundExtends().isJavaLangObject()) {
+      return listing.add(" extends ").add(getBoundExtends());
     }
-    if (boundExtends != null && !boundExtends.equals(JavaType.of(Object.class))) {
-      return listing.add(" extends ").add(boundExtends);
+    if (getBoundSuper() != null) {
+      return listing.add(" super ").add(getBoundSuper());
     }
-    if (boundSuper != null) {
-      return listing.add(" super ").add(boundSuper);
-    }
-    throw new AssertionError("bounded and still here?!");
+    return listing;
   }
 
   /** upper bound */
@@ -77,8 +70,8 @@ public class Wildcard extends JavaType<Wildcard> {
 
   /** lower bound */
   public Wildcard setBoundSuper(ReferenceType<?> boundSuper) {
+    this.boundExtends = new ClassType(Object.class);
     this.boundSuper = boundSuper;
-    this.boundExtends = null;
     return this;
   }
 }

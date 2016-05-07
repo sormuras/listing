@@ -142,4 +142,8 @@ public abstract class JavaType<T extends JavaType<T>> implements Listable, Annot
   public int hashCode() {
     return list().hashCode();
   }
+
+  public boolean isJavaLangObject() {
+    return false;
+  }
 }
