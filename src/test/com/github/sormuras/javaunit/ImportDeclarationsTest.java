@@ -9,6 +9,7 @@ import java.lang.annotation.ElementType;
 import java.lang.reflect.Member;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -46,6 +47,7 @@ public class ImportDeclarationsTest {
     imports.addSingleStaticImport(JavaName.of(STATIC, "org.junit", "Assert", "assertEquals"));
     imports.addSingleStaticImport(JavaName.of(STATIC, "org.junit", "Assert", "assertFalse"));
     imports.addSingleStaticImport(JavaName.of(STATIC, "org.junit", "Assert", "assertTrue"));
+    imports.addStaticImportOnDemand(JavaName.of(Objects.class));
     imports.addSingleTypeImport(JavaName.of(ElementType.class));
     imports.addSingleTypeImport(JavaName.of(Member.class));
     imports.addTypeImportOnDemand(JavaName.of("java.util"));
