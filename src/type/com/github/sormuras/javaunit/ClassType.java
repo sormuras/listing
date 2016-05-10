@@ -16,7 +16,6 @@ package com.github.sormuras.javaunit;
 import static java.util.stream.Collectors.toList;
 
 import java.lang.annotation.ElementType;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -39,49 +38,12 @@ public class ClassType extends ReferenceType<ClassType> {
     this.typeName = typeName;
     this.packageName = typeName.getPackageName();
     this.names = typeName.getSimpleNames().stream().map(ClassName::new).collect(toList());
+    Tool.assume(!names.isEmpty(), "not a single class name given by: %s", typeName);
     Collections.addAll(getTypeArguments(), typeArguments);
-  }
-
-  public ClassType addAnnotation(String... names) {
-    return addAnnotations(new JavaAnnotation(JavaName.of(names)));
-  }
-
-  public ClassType addAnnotations(JavaAnnotation... annotations) {
-    return addAnnotations(Arrays.asList(annotations));
-  }
-
-  public ClassType addAnnotations(int index, JavaAnnotation... annotations) {
-    return addAnnotations(index, Arrays.asList(annotations));
-  }
-
-  public ClassType addAnnotations(int index, List<JavaAnnotation> annotations) {
-    names.get(index).getAnnotations().addAll(annotations);
-    return this;
-  }
-
-  public ClassType addAnnotations(List<JavaAnnotation> annotations) {
-    return addAnnotations(names.size() - 1, annotations);
   }
 
   @Override
   public Listing apply(Listing listing) {
-    applyPackageAndNames(listing);
-    return listing;
-  }
-
-  public Listing applyPackageAndNames(Listing listing) {
-    //    ClassType candidate = this;
-    //    while (candidate != null) {
-    //      if (listing.getImportDeclarations().testSingleTypeImport(candidate.typeName)) {
-    //        int fromIndex = candidate.names.size() - 1;
-    //        int toIndex = names.size();
-    //        return listing.add(names.subList(fromIndex, toIndex), ".");
-    //      }
-    //      candidate = candidate.getEnclosingClassType();
-    //    }
-    //    if (listing.getImportDeclarations().testOnDemandImport(this.typeName)) {
-    //      return listing.add(names, ".");
-    //    }
     if (!getPackageName().isEmpty()) {
       listing.add(getPackageName()).add('.');
     }

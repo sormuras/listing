@@ -77,8 +77,8 @@ public class JavaAnnotation implements Listable {
     return new JavaAnnotation(JavaName.of(type), values);
   }
 
-  private Map<String, List<Listable>> members;
-  private JavaName typeName;
+  private final Map<String, List<Listable>> members;
+  private final JavaName typeName;
 
   public JavaAnnotation(JavaName typeName, Object... values) {
     this.typeName = Tool.check(typeName, "typeName");
@@ -125,9 +125,8 @@ public class JavaAnnotation implements Listable {
         e -> listing.add(e.getKey()).add(" = ").add(values(e.getValue()));
     Spliterator<Entry<String, List<Listable>>> entries = members.entrySet().spliterator();
     listing.add('(');
-    if (entries.tryAdvance(print)) {
-      entries.forEachRemaining(separate.andThen(print));
-    }
+    entries.tryAdvance(print);
+    entries.forEachRemaining(separate.andThen(print));
     listing.add(')');
     return listing;
   }
@@ -138,14 +137,6 @@ public class JavaAnnotation implements Listable {
 
   public JavaName getTypeName() {
     return typeName;
-  }
-
-  public void setMembers(Map<String, List<Listable>> members) {
-    this.members = members;
-  }
-
-  public void setTypeName(JavaName typeName) {
-    this.typeName = typeName;
   }
 
   @Override

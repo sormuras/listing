@@ -96,4 +96,13 @@ public class JavaAnnotationTest {
     target.addObject("value", ElementType.PACKAGE);
     assertEquals("@" + t + "({" + et + ".TYPE, " + et + ".PACKAGE})", target.list());
   }
+
+  @Test
+  public void singleElementNotNamedValue() {
+    JavaAnnotation a = new JavaAnnotation(JavaName.of("a.A"));
+    a.addMember("a", Listable.of("zzz"));
+    assertEquals("@a.A(a = \"zzz\")", a.list());
+    a.addMember("b", Listable.of(4711));
+    assertEquals("@a.A(a = \"zzz\", b = 4711)", a.list());
+  }
 }

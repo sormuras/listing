@@ -9,6 +9,10 @@ import org.junit.Assert;
 
 public interface Text {
 
+  static void assertEquals(Class<?> testClass, String testName, Listable listable) {
+    assertEquals(testClass, testName, new Listing().add(listable));
+  }
+
   static void assertEquals(Class<?> testClass, String testName, Listing listing) {
     try {
       Assert.assertEquals(load(testClass, testName), listing.toString());

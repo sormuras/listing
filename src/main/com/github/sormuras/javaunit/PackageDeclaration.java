@@ -15,35 +15,42 @@ package com.github.sormuras.javaunit;
 
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * Simple and(!) annotatable and(!) typed class or interface name.
+ * PackageDeclaration:<br>
+ * {PackageModifier} package Identifier {. Identifier} ;
+ *
+ * @author Christian Stein
+ * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html#jls-7.4
  */
-public class ClassName implements Listable, Annotated<ClassName> {
+public class PackageDeclaration implements Listable, Annotated<PackageDeclaration> {
 
   private final List<JavaAnnotation> annotations = new ArrayList<>();
-  private final String name;
-  private final List<TypeArgument> typeArguments = new ArrayList<>();
+  private final JavaName packageName;
 
-  public ClassName(String name, JavaAnnotation... annotations) {
-    this(name, Arrays.asList(annotations));
+  /**
+   * Unnamed package declaration constructor - use it sparsely.
+   */
+  public PackageDeclaration() {
+    this.packageName = null;
   }
 
-  public ClassName(String name, List<JavaAnnotation> annotations) {
-    this.name = name;
-    getAnnotations().addAll(annotations);
+  public PackageDeclaration(JavaName packageName) {
+    this.packageName = packageName;
+  }
+
+  public PackageDeclaration(String packageName) {
+    this(JavaName.of(packageName));
   }
 
   @Override
   public Listing apply(Listing listing) {
-    listing.add(toAnnotationsListable());
-    if (getTypeArguments().isEmpty()) {
-      return listing.add(getName());
+    if (isUnnamed()) {
+      return listing;
     }
-    listing.add(getName()).add('<').add(getTypeArguments(), ", ").add('>');
-    return listing;
+    String name = packageName.getPackageName();
+    return listing.add(toAnnotationsListable()).add("package ").add(name).add(';').newline();
   }
 
   @Override
@@ -53,14 +60,10 @@ public class ClassName implements Listable, Annotated<ClassName> {
 
   @Override
   public ElementType getAnnotationTarget() {
-    return ElementType.TYPE_USE;
+    return ElementType.PACKAGE;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public List<TypeArgument> getTypeArguments() {
-    return typeArguments;
+  public boolean isUnnamed() {
+    return packageName == null;
   }
 }
