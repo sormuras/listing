@@ -51,9 +51,9 @@ public class ListableTest {
 
   @Test
   public void comparisonKey() {
-    assertEquals("A#a", new A().comparisonKey());
-    assertEquals("Z#z", new Z().comparisonKey());
-    assertTrue(IDENTITY.comparisonKey().startsWith("Listable$$Lambda"));
+    assertEquals("a#a", new A().comparisonKey());
+    assertEquals("z#z", new Z().comparisonKey());
+    assertTrue(IDENTITY.comparisonKey().startsWith("listable$$lambda"));
   }
 
   @Test

@@ -44,7 +44,7 @@ public interface Listable extends UnaryOperator<Listing>, Comparable<Listable> {
   }
 
   default String comparisonKey() {
-    return getClass().getSimpleName() + "#" + toString();
+    return getClass().getSimpleName().toLowerCase() + "#" + toString().toLowerCase();
   }
 
   default boolean isEmpty() {

@@ -76,16 +76,21 @@ public class JavaName implements Listable {
   }
 
   public static JavaName of(String... names) {
+    return of(null, names);
+  }
+
+  public static JavaName of(Modifier modifier, String... names) {
     Tool.assume(names.length > 0, "non-empty names array expected");
     List<String> simpleNames = new ArrayList<>(Arrays.asList(names));
     Iterator<String> iterator = simpleNames.iterator();
     String packageName = iterator.next();
     iterator.remove();
     simpleNames.forEach(n -> Tool.assume(SourceVersion.isIdentifier(n), "non identifier %s", n));
-    ElementType target = null;
-    if (names.length == 1) target = ElementType.PACKAGE;
-    if (names.length == 2) target = ElementType.TYPE;
-    return new JavaName(packageName, simpleNames).setTarget(target);
+    JavaName javaName = new JavaName(packageName, simpleNames);
+    if (names.length == 1) javaName.setTarget(ElementType.PACKAGE);
+    if (names.length == 2) javaName.setTarget(ElementType.TYPE);
+    if (modifier != null) javaName.setModifiers(modifier);
+    return javaName;
   }
 
   private final String canonicalName;
