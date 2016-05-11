@@ -22,7 +22,8 @@ import java.util.TreeSet;
  * An import declaration allows a named type or a static member to be referred to by a simple name
  * (§6.2) that consists of a single identifier.
  *
- * <li>https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html#jls-7.5
+ * @author Christian Stein
+ * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html#jls-7.5
  */
 public class ImportDeclarations implements Listable {
 
