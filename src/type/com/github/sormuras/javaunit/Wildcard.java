@@ -27,7 +27,7 @@ import java.util.List;
 public class Wildcard extends JavaType<Wildcard> {
 
   private final List<JavaAnnotation> annotations = new ArrayList<>();
-  private ReferenceType<?> boundExtends = new ClassType(Object.class);
+  private ReferenceType<?> boundExtends = ClassType.of(Object.class);
   private ReferenceType<?> boundSuper = null;
 
   @Override
@@ -70,7 +70,7 @@ public class Wildcard extends JavaType<Wildcard> {
 
   /** lower bound */
   public Wildcard setBoundSuper(ReferenceType<?> boundSuper) {
-    this.boundExtends = new ClassType(Object.class);
+    this.boundExtends = ClassType.of(Object.class);
     this.boundSuper = boundSuper;
     return this;
   }

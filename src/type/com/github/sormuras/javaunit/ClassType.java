@@ -13,6 +13,7 @@
  */
 package com.github.sormuras.javaunit;
 
+import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
 import java.lang.annotation.ElementType;
@@ -22,17 +23,22 @@ import java.util.Optional;
 
 public class ClassType extends ReferenceType<ClassType> {
 
-  private List<ClassName> names;
+  public static ClassType of(Class<?> type) {
+    return new ClassType(JavaName.of(type));
+  }
+
+  public static ClassType of(Class<?> type, Class<?>... arguments) {
+    TypeArgument[] args = stream(arguments).map(TypeArgument::new).toArray(TypeArgument[]::new);
+    return new ClassType(JavaName.of(type), args);
+  }
+
+  public static ClassType of(String... names) {
+    return new ClassType(JavaName.of(names));
+  }
+
+  private final List<ClassName> names;
   private final String packageName;
   private final JavaName typeName;
-
-  public ClassType(Class<?> type) {
-    this(JavaName.of(type));
-  }
-
-  public ClassType(String... names) {
-    this(JavaName.of(names));
-  }
 
   public ClassType(JavaName typeName, TypeArgument... typeArguments) {
     this.typeName = typeName;

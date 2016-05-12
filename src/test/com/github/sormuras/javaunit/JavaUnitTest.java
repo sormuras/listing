@@ -16,8 +16,7 @@ public class JavaUnitTest {
   @Test
   public void crazy() throws Exception {
     JavaAnnotation tag = new JavaAnnotation(JavaName.of("", "Tag"));
-    ClassType stringType = new ClassType(JavaName.of(String.class));
-    ClassType listOfStrings = new ClassType(JavaName.of(List.class), new TypeArgument(stringType));
+    ClassType listOfStrings = ClassType.of(List.class, String.class);
 
     JavaUnit unit = new JavaUnit("abc.xyz");
     unit.getPackageDeclaration()

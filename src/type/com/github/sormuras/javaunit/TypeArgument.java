@@ -24,6 +24,10 @@ public class TypeArgument implements Listable {
   private ReferenceType<?> reference;
   private Wildcard wildcard;
 
+  public TypeArgument(Class<?> argument) {
+    this(JavaType.of(argument));
+  }
+
   public TypeArgument(JavaType<?> argument) {
     if (argument instanceof Wildcard) setWildcard((Wildcard) argument);
     if (argument instanceof ReferenceType) setReference((ReferenceType<?>) argument);

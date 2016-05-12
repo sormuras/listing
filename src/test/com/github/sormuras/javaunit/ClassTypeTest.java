@@ -13,16 +13,16 @@ public class ClassTypeTest {
 
   @Test
   public void annotationTarget() {
-    assertEquals(ElementType.TYPE_USE, new ClassType("", "Unnamed").getAnnotationTarget());
+    assertEquals(ElementType.TYPE_USE, ClassType.of("", "Unnamed").getAnnotationTarget());
   }
 
   @Test
   public void constructor() {
-    assertEquals("Unnamed", new ClassType("", "Unnamed").list());
-    assertEquals("a.b.c.D", new ClassType("a.b.c", "D").list());
-    assertEquals("a.b.c.D.E", new ClassType("a.b.c", "D", "E").list());
+    assertEquals("Unnamed", ClassType.of("", "Unnamed").list());
+    assertEquals("a.b.c.D", ClassType.of("a.b.c", "D").list());
+    assertEquals("a.b.c.D.E", ClassType.of("a.b.c", "D", "E").list());
     try {
-      new ClassType("pack.age");
+      ClassType.of("pack.age");
       Assert.fail();
     } catch (IllegalArgumentException expected) {
       assertTrue(expected.toString().contains("pack.age"));
@@ -31,9 +31,9 @@ public class ClassTypeTest {
 
   @Test
   public void enclosingClassType() {
-    ClassType state = new ClassType(Thread.State.class);
+    ClassType state = ClassType.of(Thread.State.class);
     assertEquals("java.lang.Thread.State", state.list());
-    assertEquals(new ClassType(Thread.class), state.getEnclosingClassType().get());
-    assertEquals(Optional.empty(), new ClassType(Thread.class).getEnclosingClassType());
+    assertEquals(ClassType.of(Thread.class), state.getEnclosingClassType().get());
+    assertEquals(Optional.empty(), ClassType.of(Thread.class).getEnclosingClassType());
   }
 }
