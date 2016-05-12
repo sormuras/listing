@@ -36,7 +36,7 @@ public class MethodDeclaration extends ClassMemberDeclaration<MethodDeclaration>
   }
 
   public MethodDeclaration addParameter(MethodParameter declaration) {
-    // TODO declaration.setMethodDeclaration(this);
+    declaration.setMethodDeclaration(this);
     getParameters().add(declaration);
     return this;
   }

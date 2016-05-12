@@ -1,6 +1,7 @@
 package com.github.sormuras.javaunit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.lang.annotation.ElementType;
@@ -51,6 +52,7 @@ public class MethodDeclarationTest {
     Text.assertEquals(getClass(), "runnable", runnable);
     assertEquals(true, runnable.isModified());
     assertEquals(false, runnable.isVarArgs());
+    assertSame(runnable, runnable.getParameters().get(0).getMethodDeclaration().get());
     try {
       runnable.setVarArgs(true);
       fail();

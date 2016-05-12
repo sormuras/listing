@@ -16,6 +16,7 @@ package com.github.sormuras.javaunit;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The formal parameters of a method or constructor, if any, are specified by a list of
@@ -34,7 +35,7 @@ public class MethodParameter implements Listable, Annotated<MethodParameter> {
 
   private final List<JavaAnnotation> annotations = new ArrayList<>();
   private boolean finalModifier;
-  // private MethodDeclaration methodDeclaration;
+  private MethodDeclaration methodDeclaration;
   private String name;
   private JavaType<?> type;
   private boolean variable;
@@ -68,6 +69,10 @@ public class MethodParameter implements Listable, Annotated<MethodParameter> {
     return ElementType.PARAMETER;
   }
 
+  public Optional<MethodDeclaration> getMethodDeclaration() {
+    return Optional.ofNullable(methodDeclaration);
+  }
+
   public String getName() {
     return name;
   }
@@ -86,6 +91,11 @@ public class MethodParameter implements Listable, Annotated<MethodParameter> {
 
   public MethodParameter setFinal(boolean finalModifier) {
     this.finalModifier = finalModifier;
+    return this;
+  }
+
+  public MethodParameter setMethodDeclaration(MethodDeclaration methodDeclaration) {
+    this.methodDeclaration = methodDeclaration;
     return this;
   }
 

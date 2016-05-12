@@ -18,11 +18,17 @@ public class PackageDeclarationTest {
     assertEquals("package abc;\n", new PackageDeclaration("abc").list());
     assertEquals("package abc.xyz;\n", new PackageDeclaration("abc.xyz").list());
     // with annotation(s)
-    Text.assertEquals(
-        getClass(),
-        "annotated",
-        new PackageDeclaration("abc.xyz")
-            .addAnnotation(new JavaAnnotation(JavaName.of("abc", "PackageAnnotation"))));
+    PackageDeclaration annotated = new PackageDeclaration("abc.xyz");
+    annotated.addAnnotation(new JavaAnnotation(JavaName.of("abc", "PackageAnnotation")));
+    Text.assertEquals(getClass(), "annotated", annotated);
+    // with (hand-crafted) Javadoc
+    Listing listing = new Listing();
+    listing.add("/**").newline();
+    listing.add(" * Testing Javadoc on PackageDeclaration element.").newline();
+    listing.add(" * @since 1.0").newline();
+    listing.add(" */").newline();
+    listing.add(annotated);
+    Text.assertEquals(getClass(), "javadoc", listing);
   }
 
   @Test

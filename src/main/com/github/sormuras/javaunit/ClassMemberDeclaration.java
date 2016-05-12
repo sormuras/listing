@@ -16,6 +16,7 @@ package com.github.sormuras.javaunit;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.lang.model.element.Modifier;
@@ -29,14 +30,22 @@ import javax.lang.model.element.Modifier;
 public abstract class ClassMemberDeclaration<T> implements Annotated<T>, Modified<T> {
 
   private List<JavaAnnotation> annotations = new ArrayList<>();
-  // TODO private JavaFile compilationUnit = null;
-  // TODO private TypeDeclaration<?> enclosingType = null;
+  private JavaUnit unit = null;
+  private TypeDeclaration<?> enclosingType = null;
   private Set<Modifier> modifiers = EnumSet.noneOf(Modifier.class);
   private String name;
 
   @Override
   public List<JavaAnnotation> getAnnotations() {
     return annotations;
+  }
+
+  public Optional<JavaUnit> getUnit() {
+    return Optional.ofNullable(unit);
+  }
+
+  public Optional<TypeDeclaration<?>> getEnclosingType() {
+    return Optional.ofNullable(enclosingType);
   }
 
   @Override
@@ -46,6 +55,18 @@ public abstract class ClassMemberDeclaration<T> implements Annotated<T>, Modifie
 
   public String getName() {
     return name;
+  }
+
+  @SuppressWarnings("unchecked")
+  public T setUnit(JavaUnit unit) {
+    this.unit = unit;
+    return (T) this;
+  }
+
+  @SuppressWarnings("unchecked")
+  public T setEnclosingType(TypeDeclaration<?> enclosingType) {
+    this.enclosingType = enclosingType;
+    return (T) this;
   }
 
   @SuppressWarnings("unchecked")
