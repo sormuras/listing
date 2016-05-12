@@ -28,6 +28,10 @@ import java.util.List;
  */
 public class MethodParameter implements Listable, Annotated<MethodParameter> {
 
+  public static MethodParameter of(Class<?> type, String name) {
+    return new MethodParameter().setType(JavaType.of(type)).setName(name);
+  }
+
   private final List<JavaAnnotation> annotations = new ArrayList<>();
   private boolean finalModifier;
   // private MethodDeclaration methodDeclaration;
