@@ -17,5 +17,4 @@ public class FieldDeclarationTest {
     i.setInitializer(l -> l.add(Listable.of(4711)));
     assertEquals("int i = 4711;\n", i.list());
   }
-
 }
