@@ -100,6 +100,9 @@ public class MethodParameter implements Listable, Annotated<MethodParameter> {
   }
 
   public MethodParameter setVariable(boolean variable) {
+    if (variable && !(getType() instanceof ArrayType)) {
+      throw new IllegalStateException("array type expected, got: " + getType());
+    }
     this.variable = variable;
     return this;
   }

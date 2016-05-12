@@ -1,6 +1,7 @@
 package com.github.sormuras.javaunit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.lang.annotation.ElementType;
 
@@ -21,5 +22,11 @@ public class MethodParameterTest {
             .setFinal(true)
             .list());
     assertEquals(ElementType.PARAMETER, new MethodParameter().getAnnotationTarget());
+    try {
+      MethodParameter.of(int.class, "i").setVariable(true);
+      fail();
+    } catch (IllegalStateException expected) {
+      assertEquals(true, expected.toString().contains("array type expected"));
+    }
   }
 }

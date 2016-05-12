@@ -19,6 +19,8 @@ import java.util.List;
 
 /**
  * Provides default methods for handling a list of {@linkplain JavaAnnotation}s.
+ *
+ * @author Christian Stein
  */
 public interface Annotated<T> {
 
