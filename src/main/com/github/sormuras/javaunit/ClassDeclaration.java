@@ -104,6 +104,15 @@ public class ClassDeclaration extends TypeDeclaration<ClassDeclaration> {
     return listing;
   }
 
+  public MethodDeclaration declareConstructor() {
+    MethodDeclaration declaration = new MethodDeclaration();
+    declaration.setUnit(getUnit().orElse(null));
+    declaration.setEnclosingType(this);
+    declaration.setName("<init>");
+    classBodyElements.add(declaration);
+    return declaration;
+  }
+
   public ClassDeclaration setSuperClass(JavaType<?> superClass) {
     this.superClass = (ClassType) superClass;
     return this;

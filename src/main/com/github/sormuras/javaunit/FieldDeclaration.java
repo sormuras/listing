@@ -35,9 +35,9 @@ public class FieldDeclaration extends ClassMemberDeclaration<FieldDeclaration> {
     listing.add(' ');
     listing.add(getName());
     if (initializer != null) {
-      listing.add(" = ").add(getInitializer()).add(';');
-      listing.newline();
+      listing.add(" = ").add(getInitializer());
     }
+    listing.add(';').newline();
     return listing;
   }
 

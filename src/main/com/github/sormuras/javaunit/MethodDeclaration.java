@@ -16,6 +16,7 @@ package com.github.sormuras.javaunit;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Method declaration.
@@ -26,6 +27,7 @@ import java.util.List;
 public class MethodDeclaration extends ClassMemberDeclaration<MethodDeclaration> {
 
   private Listable body = null;
+  private List<Listable> bodyStatements = new ArrayList<>();
   private List<MethodParameter> parameters = new ArrayList<>();
   private JavaType<?> returnType = JavaType.of(void.class);
   private List<ReferenceType<?>> throwables = new ArrayList<>();
@@ -38,6 +40,11 @@ public class MethodDeclaration extends ClassMemberDeclaration<MethodDeclaration>
   public MethodDeclaration addParameter(MethodParameter declaration) {
     declaration.setMethodDeclaration(this);
     getParameters().add(declaration);
+    return this;
+  }
+
+  public MethodDeclaration addStatement(String line) {
+    bodyStatements.add(l -> l.add(line).add(';'));
     return this;
   }
 
@@ -70,9 +77,13 @@ public class MethodDeclaration extends ClassMemberDeclaration<MethodDeclaration>
       listing.add(getTypeParameters(), ", ");
       listing.add("> ");
     }
-    listing.add(getReturnType());
-    listing.add(' ');
-    listing.add(getName());
+    if (getName().equals("<init>")) {
+      listing.add(getEnclosingType().get().getName());
+    } else {
+      listing.add(getReturnType());
+      listing.add(' ');
+      listing.add(getName());
+    }
     listing.add('(');
     listing.add(getParameters(), ", ");
     listing.add(')');
@@ -80,9 +91,14 @@ public class MethodDeclaration extends ClassMemberDeclaration<MethodDeclaration>
       listing.add(" throws ");
       listing.add(getThrows(), ", ");
     }
-    if (getBody() != null) {
+    if (getBody().isPresent()) {
       listing.add(" {").newline().indent(1);
-      listing.add(getBody());
+      listing.add(getBody().get());
+      listing.indent(-1).add('}');
+    } else if (!bodyStatements.isEmpty()) {
+      listing.add(" {").newline().indent(1);
+      listing.add(bodyStatements, Listable.NEWLINE);
+      listing.newline();
       listing.indent(-1).add('}');
     }
     listing.newline();
@@ -94,8 +110,8 @@ public class MethodDeclaration extends ClassMemberDeclaration<MethodDeclaration>
     return ElementType.METHOD;
   }
 
-  public Listable getBody() {
-    return body;
+  public Optional<Listable> getBody() {
+    return Optional.ofNullable(body);
   }
 
   public List<MethodParameter> getParameters() {

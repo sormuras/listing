@@ -11,7 +11,7 @@ public class FieldDeclarationTest {
   @Test
   public void declaration() {
     FieldDeclaration i = new FieldDeclaration().setType(JavaType.of(int.class)).setName("i");
-    assertEquals("int i", i.list());
+    assertEquals("int i;\n", i.list());
     assertEquals(ElementType.FIELD, i.getAnnotationTarget());
     assertEquals(false, i.isModified());
     assertEquals(false, i.getEnclosingType().isPresent());

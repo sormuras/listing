@@ -44,6 +44,10 @@ public interface Modified<T> extends Listable {
     return !getModifiers().isEmpty();
   }
 
+  default boolean isPublic() {
+    return getModifiers().contains(Modifier.PUBLIC);
+  }
+
   default Listable toModifiersListable() {
     return listing -> {
       getModifiers().forEach(m -> listing.add(m.name().toLowerCase()).add(' '));

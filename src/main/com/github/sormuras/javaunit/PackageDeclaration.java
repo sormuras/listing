@@ -14,6 +14,7 @@
 package com.github.sormuras.javaunit;
 
 import java.lang.annotation.ElementType;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class PackageDeclaration implements Listable, Annotated<PackageDeclaratio
     if (isUnnamed()) {
       return listing;
     }
-    String name = packageName.getPackageName();
+    String name = getPackageName().getPackageName();
     return listing.add(toAnnotationsListable()).add("package ").add(name).add(';').newline();
   }
 
@@ -63,7 +64,21 @@ public class PackageDeclaration implements Listable, Annotated<PackageDeclaratio
     return ElementType.PACKAGE;
   }
 
+  public JavaName getPackageName() {
+    return packageName;
+  }
+
   public boolean isUnnamed() {
-    return packageName == null;
+    return getPackageName() == null;
+  }
+
+  public String resolve(String simpleName) {
+    if (isUnnamed()) return simpleName;
+    return getPackageName().getCanonicalName() + '.' + simpleName;
+  }
+
+  public URI toURI(String simpleName) {
+    if (isUnnamed()) return URI.create(simpleName);
+    return URI.create(getPackageName().getCanonicalName().replace('.', '/') + '/' + simpleName);
   }
 }
