@@ -1,6 +1,8 @@
 package com.github.sormuras.javaunit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.Collections;
@@ -49,6 +51,38 @@ public class JavaTypeTest<T> {
     assertEquals("java.util.List<" + U.USE + " ?>", asString("low"));
     assertEquals("java.util.List<" + U.USE + " ? extends T>", asString("lowe"));
     assertEquals("java.util.List<" + U.USE + " ? super T>", asString("lows"));
+  }
+
+  @Test
+  public void className() {
+    assertEquals(boolean.class.getName(), JavaType.of(boolean.class).toClassName());
+    assertEquals(byte.class.getName(), JavaType.of(byte.class).toClassName());
+    assertEquals(char.class.getName(), JavaType.of(char.class).toClassName());
+    assertEquals(double.class.getName(), JavaType.of(double.class).toClassName());
+    assertEquals(float.class.getName(), JavaType.of(float.class).toClassName());
+    assertEquals(int.class.getName(), JavaType.of(int.class).toClassName());
+    assertEquals(long.class.getName(), JavaType.of(long.class).toClassName());
+    assertEquals(short.class.getName(), JavaType.of(short.class).toClassName());
+    assertEquals(void.class.getName(), JavaType.of(void.class).toClassName());
+    assertEquals(Object.class.getName(), JavaType.of(Object.class).toClassName());
+    assertEquals(Thread.class.getName(), JavaType.of(Thread.class).toClassName());
+    assertEquals(Thread.State.class.getName(), JavaType.of(Thread.State.class).toClassName());
+    assertEquals(Object[].class.getName(), JavaType.of(Object[].class).toClassName());
+    assertEquals(Object[][].class.getName(), JavaType.of(Object[][].class).toClassName());
+    assertEquals(boolean[][][].class.getName(), JavaType.of(boolean[][][].class).toClassName());
+    assertEquals(byte[][][].class.getName(), JavaType.of(byte[][][].class).toClassName());
+    assertEquals(char[][][].class.getName(), JavaType.of(char[][][].class).toClassName());
+    assertEquals(double[][][].class.getName(), JavaType.of(double[][][].class).toClassName());
+    assertEquals(float[][][].class.getName(), JavaType.of(float[][][].class).toClassName());
+    assertEquals(int[][][].class.getName(), JavaType.of(int[][][].class).toClassName());
+    assertEquals(long[][][].class.getName(), JavaType.of(long[][][].class).toClassName());
+    assertEquals(short[][][].class.getName(), JavaType.of(short[][][].class).toClassName());
+    try {
+      new Wildcard().toClassName();
+      fail();
+    } catch (UnsupportedOperationException expected) {
+      assertTrue(expected.toString().contains("does not support"));
+    }
   }
 
   @Test

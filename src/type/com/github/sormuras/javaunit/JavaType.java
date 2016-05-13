@@ -146,4 +146,13 @@ public abstract class JavaType<T extends JavaType<T>> implements Listable, Annot
   public boolean isJavaLangObject() {
     return false;
   }
+
+  /**
+   * @see Class#getName()
+   * @see Class#forName(String)
+   * @return (binary) class name
+   */
+  public String toClassName() {
+    throw new UnsupportedOperationException(getClass() + " does not support toClassName()");
+  }
 }

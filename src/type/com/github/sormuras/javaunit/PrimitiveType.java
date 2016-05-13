@@ -21,11 +21,20 @@ public class PrimitiveType extends JavaType<PrimitiveType> {
 
   @Override
   public Listing apply(Listing listing) {
-    return listing.add(toAnnotationsListable()).add(type.getTypeName());
+    return listing.add(toAnnotationsListable()).add(getType().getTypeName());
   }
 
   @Override
   public List<JavaAnnotation> getAnnotations() {
     return annotations;
+  }
+
+  public Class<?> getType() {
+    return type;
+  }
+
+  @Override
+  public String toClassName() {
+    return getType().getName();
   }
 }

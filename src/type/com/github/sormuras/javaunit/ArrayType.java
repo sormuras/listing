@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ArrayType extends ReferenceType<ArrayType> {
 
@@ -61,5 +62,23 @@ public class ArrayType extends ReferenceType<ArrayType> {
 
   public List<ArrayDimension> getDimensions() {
     return dimensions;
+  }
+
+  @Override
+  public String toClassName() {
+    StringBuilder builder = new StringBuilder();
+    IntStream.range(0, getDimensions().size()).forEach(i -> builder.append('['));
+    if (getComponentType() instanceof PrimitiveType) {
+      PrimitiveType primitive = (PrimitiveType) getComponentType();
+      if (primitive.getType() == boolean.class) return builder.append('Z').toString();
+      if (primitive.getType() == byte.class) return builder.append('B').toString();
+      if (primitive.getType() == char.class) return builder.append('C').toString();
+      if (primitive.getType() == double.class) return builder.append('D').toString();
+      if (primitive.getType() == float.class) return builder.append('F').toString();
+      if (primitive.getType() == int.class) return builder.append('I').toString();
+      if (primitive.getType() == long.class) return builder.append('J').toString();
+      /* if (primitive.getType() == short.class) */ return builder.append('S').toString();
+    }
+    return builder.append('L').append(getComponentType().toClassName()).append(';').toString();
   }
 }

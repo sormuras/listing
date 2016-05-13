@@ -11,25 +11,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+/**
+ * Java compilation unit listing tool.
+ *
+ * @author Christian Stein
+ * @see https://docs.oracle.com/javase/specs/jls/se8/html/index.html
+ */
 package com.github.sormuras.javaunit;
-
-import java.util.Collections;
-import java.util.List;
-
-public class VoidType extends JavaType<VoidType> {
-
-  @Override
-  public Listing apply(Listing listing) {
-    return listing.add("void");
-  }
-
-  @Override
-  public List<JavaAnnotation> getAnnotations() {
-    return Collections.emptyList();
-  }
-
-  @Override
-  public String toClassName() {
-    return "void";
-  }
-}

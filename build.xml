@@ -66,7 +66,7 @@
       <fileset dir="${dir.src}/main" />
       <manifest>
         <section name="com/github/sormuras/javaunit/">
-          <attribute name="Specification-Title" value="listing" />
+          <attribute name="Specification-Title" value="javaunit" />
           <attribute name="Specification-Version" value="1.0" />
           <attribute name="Specification-Vendor" value="Christian Stein" />
           <attribute name="Implementation-Title" value="com.github.sormuras.javaunit" />

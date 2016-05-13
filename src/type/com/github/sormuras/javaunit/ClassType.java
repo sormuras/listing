@@ -14,6 +14,7 @@
 package com.github.sormuras.javaunit;
 
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import java.lang.annotation.ElementType;
@@ -92,5 +93,15 @@ public class ClassType extends ReferenceType<ClassType> {
   @Override
   public boolean isJavaLangObject() {
     return getTypeName().isJavaLangObject();
+  }
+
+  @Override
+  public String toClassName() {
+    StringBuilder builder = new StringBuilder();
+    if (!getPackageName().isEmpty()) {
+      builder.append(getPackageName()).append('.');
+    }
+    builder.append(getNames().stream().map(n -> n.getName()).collect(joining("$")));
+    return builder.toString();
   }
 }
