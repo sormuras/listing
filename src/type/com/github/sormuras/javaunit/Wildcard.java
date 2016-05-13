@@ -16,6 +16,7 @@ package com.github.sormuras.javaunit;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Wildcards are useful in situations where only partial knowledge about the type parameter is
@@ -44,8 +45,8 @@ public class Wildcard extends JavaType<Wildcard> {
     return boundExtends;
   }
 
-  public ReferenceType<?> getBoundSuper() {
-    return boundSuper;
+  public Optional<ReferenceType<?>> getBoundSuper() {
+    return Optional.ofNullable(boundSuper);
   }
 
   @Override
@@ -55,8 +56,8 @@ public class Wildcard extends JavaType<Wildcard> {
     if (!getBoundExtends().isJavaLangObject()) {
       return listing.add(" extends ").add(getBoundExtends());
     }
-    if (getBoundSuper() != null) {
-      return listing.add(" super ").add(getBoundSuper());
+    if (getBoundSuper().isPresent()) {
+      return listing.add(" super ").add(getBoundSuper().get());
     }
     return listing;
   }

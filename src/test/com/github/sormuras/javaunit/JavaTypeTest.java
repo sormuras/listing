@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class JavaTypeTest<T> {
 
   int c @U [] @U [] @U [] = {};
 
+  List<String> @U [] @U [] d = null;
+
   @U List<@U String> los = Collections.emptyList();
 
   List<@U T> lot = Collections.emptyList();
@@ -28,12 +31,20 @@ public class JavaTypeTest<T> {
 
   List<@U ? super T> lows = Collections.emptyList();
 
-  private String asString(String fieldName) throws Exception {
+  private String asAnno(String fieldName) throws Exception {
     AnnotatedType annotatedType = getClass().getDeclaredField(fieldName).getAnnotatedType();
     Listing listing = new Listing();
     // listing.getImportDeclarations().add(U.class);
     // listing.getImportDeclarations().add(List.class);
     return listing.add(JavaType.of(annotatedType)).toString();
+  }
+
+  private String asGenericType(String fieldName) throws Exception {
+    Type type = getClass().getDeclaredField(fieldName).getGenericType();
+    Listing listing = new Listing();
+    // listing.getImportDeclarations().add(U.class);
+    // listing.getImportDeclarations().add(List.class);
+    return listing.add(JavaType.of(type)).toString();
   }
 
   @Test
@@ -42,15 +53,29 @@ public class JavaTypeTest<T> {
   }
 
   @Test
-  public void reflectFieldType() throws Exception {
-    assertEquals("int", asString("a"));
-    assertEquals(U.USE + " int", asString("b"));
-    assertEquals("int" + U.USE + " []" + U.USE + " []" + U.USE + " []", asString("c"));
-    assertEquals("java.util." + U.USE + " List<java.lang." + U.USE + " String>", asString("los"));
-    assertEquals("java.util.List<" + U.USE + " T>", asString("lot"));
-    assertEquals("java.util.List<" + U.USE + " ?>", asString("low"));
-    assertEquals("java.util.List<" + U.USE + " ? extends T>", asString("lowe"));
-    assertEquals("java.util.List<" + U.USE + " ? super T>", asString("lows"));
+  public void reflectFieldTypeAsAnnotatedType() throws Exception {
+    assertEquals("int", asAnno("a"));
+    assertEquals(U.USE + " int", asAnno("b"));
+    assertEquals("int" + U.USE + " []" + U.USE + " []" + U.USE + " []", asAnno("c"));
+    assertEquals("java.util.List<java.lang.String>" + U.USE + " []" + U.USE + " []", asAnno("d"));
+    assertEquals("java.util." + U.USE + " List<java.lang." + U.USE + " String>", asAnno("los"));
+    assertEquals("java.util.List<" + U.USE + " T>", asAnno("lot"));
+    assertEquals("java.util.List<" + U.USE + " ?>", asAnno("low"));
+    assertEquals("java.util.List<" + U.USE + " ? extends T>", asAnno("lowe"));
+    assertEquals("java.util.List<" + U.USE + " ? super T>", asAnno("lows"));
+  }
+
+  @Test
+  public void reflectFieldTypeAsGenericType() throws Exception {
+    assertEquals("int", asGenericType("a"));
+    assertEquals("int", asGenericType("b"));
+    assertEquals("int[][][]", asGenericType("c"));
+    assertEquals("java.util.List<java.lang.String>[][]", asGenericType("d"));
+    assertEquals("java.util.List<java.lang.String>", asGenericType("los"));
+    assertEquals("java.util.List<T>", asGenericType("lot"));
+    assertEquals("java.util.List<?>", asGenericType("low"));
+    assertEquals("java.util.List<? extends T>", asGenericType("lowe"));
+    assertEquals("java.util.List<? super T>", asGenericType("lows"));
   }
 
   @Test

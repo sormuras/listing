@@ -20,11 +20,11 @@ import java.lang.reflect.AnnotatedParameterizedType;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.AnnotatedTypeVariable;
 import java.lang.reflect.AnnotatedWildcardType;
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 
 /**
  * The Java programming language is a statically typed language, which means that every variable and
@@ -44,63 +44,28 @@ import java.util.List;
  */
 public abstract class JavaType<T extends JavaType<T>> implements Listable, Annotated<T> {
 
-  static JavaType<?> of(AnnotatedType annotatedType) {
+  public static JavaType<?> of(AnnotatedType annotatedType) {
     if (annotatedType instanceof AnnotatedArrayType) {
-      List<ArrayDimension> dimensions = new ArrayList<>();
-      AnnotatedType component = annotatedType;
-      while (component instanceof AnnotatedArrayType) {
-        ArrayDimension dimension = new ArrayDimension();
-        Arrays.asList(component.getAnnotations()).forEach(dimension::addAnnotation);
-        dimensions.add(dimension);
-        component = ((AnnotatedArrayType) component).getAnnotatedGenericComponentType();
-      }
-      return new ArrayType(of(component), dimensions);
+      return JavaTypes.of((AnnotatedArrayType) annotatedType);
     }
     if (annotatedType instanceof AnnotatedParameterizedType) {
-      AnnotatedParameterizedType apt = (AnnotatedParameterizedType) annotatedType;
-      List<TypeArgument> arguments = new ArrayList<>();
-      for (AnnotatedType actual : apt.getAnnotatedActualTypeArguments()) {
-        arguments.add(new TypeArgument(of(actual)));
-      }
-      ParameterizedType pt = (ParameterizedType) annotatedType.getType();
-      ClassType result = (ClassType) of(pt.getRawType());
-      result.getAnnotations().addAll(JavaAnnotation.of(annotatedType.getAnnotations()));
-      result.getTypeArguments().addAll(arguments);
-      return result;
+      return JavaTypes.of((AnnotatedParameterizedType) annotatedType);
     }
     if (annotatedType instanceof AnnotatedTypeVariable) {
-      // TODO consider/ignore bounds at type use location
-      // AnnotatedTypeVariable atv = (AnnotatedTypeVariable) annotatedType;
-      // List<TypeArgument> bounds = new ArrayList<>();
-      // for (AnnotatedType bound : atv.getAnnotatedBounds()) {
-      // bounds.add(new TypeArgument(of(bound)));
-      // }
-      TypeVariable result = new TypeVariable();
-      result.getAnnotations().addAll(JavaAnnotation.of(annotatedType.getAnnotations()));
-      result.setName(((java.lang.reflect.TypeVariable<?>) annotatedType.getType()).getName());
-      return result;
+      return JavaTypes.of((AnnotatedTypeVariable) annotatedType);
     }
     if (annotatedType instanceof AnnotatedWildcardType) {
-      AnnotatedWildcardType awt = (AnnotatedWildcardType) annotatedType;
-      Wildcard result = new Wildcard();
-      for (AnnotatedType bound : awt.getAnnotatedLowerBounds()) { // ? super lower bound
-        result.setBoundSuper((ReferenceType<?>) of(bound));
-      }
-      for (AnnotatedType bound : awt.getAnnotatedUpperBounds()) { // ? extends upper bound
-        result.setBoundExtends((ReferenceType<?>) of(bound));
-      }
-      result.getAnnotations().addAll(JavaAnnotation.of(annotatedType.getAnnotations()));
-      return result;
+      return JavaTypes.of((AnnotatedWildcardType) annotatedType);
     }
-    // default case
-    JavaType<?> result = of((Class<?>) annotatedType.getType());
+    // default case: use underlying raw type
+    JavaType<?> result = of(annotatedType.getType());
     Annotation[] annotations = annotatedType.getAnnotations();
     result.getAnnotations().addAll(JavaAnnotation.of(annotations));
     return result;
   }
 
   // raw (not annotated, not generic) class type factory
-  static JavaType<?> of(Class<?> c) {
+  public static JavaType<?> of(Class<?> c) {
     if (c.isPrimitive()) {
       if (c == void.class) {
         return new VoidType();
@@ -118,11 +83,20 @@ public abstract class JavaType<T extends JavaType<T>> implements Listable, Annot
     return new ClassType(JavaName.of(c));
   }
 
-  static JavaType<?> of(Type type) {
-    if (type instanceof Class) {
-      return of((Class<?>) type);
+  public static JavaType<?> of(Type type) {
+    if (type instanceof GenericArrayType) {
+      return JavaTypes.of((GenericArrayType) type);
     }
-    throw new AssertionError("Type " + type.getTypeName() + " not supported, yet");
+    if (type instanceof ParameterizedType) {
+      return JavaTypes.of((ParameterizedType) type);
+    }
+    if (type instanceof TypeVariable<?>) {
+      return JavaTypes.of((TypeVariable<?>) type);
+    }
+    if (type instanceof WildcardType) {
+      return JavaTypes.of((WildcardType) type);
+    }
+    return of((Class<?>) type);
   }
 
   @Override
