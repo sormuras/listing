@@ -2,6 +2,7 @@ package com.github.sormuras.javaunit;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Modifier;
 import java.util.Collections;
@@ -15,7 +16,7 @@ public class ToolTest {
   public void canonicalOfEmptyFails() {
     try {
       Tool.canonical("", Collections.emptyList());
-      Assert.fail();
+      fail();
     } catch (IllegalArgumentException e) {
       Assert.assertTrue(e.toString().contains("empty"));
     }
@@ -25,7 +26,7 @@ public class ToolTest {
   public void check() {
     try {
       Tool.check(null, "<null>");
-      Assert.fail();
+      fail();
     } catch (NullPointerException e) {
       Assert.assertTrue(e.toString().contains("<null>"));
     }
@@ -35,7 +36,7 @@ public class ToolTest {
   public void elementOf() {
     try {
       Tool.elementOf(null);
-      Assert.fail();
+      fail();
     } catch (AssertionError e) {
       // expected
     }
@@ -116,7 +117,7 @@ public class ToolTest {
     assertEquals(thisPackageName, Tool.packageOf(new Object() {}.getClass()));
     try {
       Tool.packageOf(".Abc");
-      Assert.fail();
+      fail();
     } catch (AssertionError e) {
       // expected
     }

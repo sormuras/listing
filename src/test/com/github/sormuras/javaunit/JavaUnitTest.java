@@ -1,10 +1,12 @@
 package com.github.sormuras.javaunit;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -92,6 +94,44 @@ public class JavaUnitTest {
   }
 
   @Test
+  public void duplicateClassFails() {
+    JavaUnit unit = new JavaUnit("test");
+    unit.declareInterface("I");
+    try {
+      Compilation.compile(getClass().getClassLoader(), emptyList(), emptyList(), unit, unit);
+      fail();
+    } catch (Exception e) {
+      assertEquals(true, e.toString().contains("duplicate class"));
+    }
+  }
+
+  @Test
+  public void nonExistingAnnotationClassFails() {
+    JavaUnit unit = new JavaUnit("test");
+    unit.declareInterface("I").addAnnotation("does.not", "Exist");
+    try {
+      Compilation.compile(getClass().getClassLoader(), emptyList(), emptyList(), unit);
+      fail();
+    } catch (Exception e) {
+      assertEquals(true, e.toString().contains("does not exist"));
+    }
+  }
+
+  @Test
+  public void loadUnknownFails() {
+    JavaUnit unit = new JavaUnit("test");
+    unit.declareInterface("I");
+    ClassLoader l = Compilation.compile(null, emptyList(), emptyList(), unit);
+    try {
+      l.loadClass("123");
+      fail();
+    } catch (Exception e) {
+      assertEquals(ClassNotFoundException.class, e.getClass());
+      assertEquals("java.lang.ClassNotFoundException: 123", e.toString());
+    }
+  }
+
+  @Test
   public void empty() {
     JavaUnit empty = new JavaUnit(new PackageDeclaration());
     assertEquals(Optional.empty(), empty.getEponymousDeclaration());
@@ -134,7 +174,7 @@ public class JavaUnitTest {
     Text.assertEquals(getClass(), "processed", unit);
 
     Counter counter = new Counter();
-    unit.compile(getClass().getClassLoader(), Collections.emptyList(), Arrays.asList(counter));
+    Compilation.compile(getClass().getClassLoader(), emptyList(), asList(counter), unit);
     assertEquals(2, counter.listOfElements.size());
   }
 
@@ -143,7 +183,21 @@ public class JavaUnitTest {
     JavaUnit unnamed = new JavaUnit(new PackageDeclaration());
     unnamed.declareClass("Unnamed").addModifier("public");
     assertEquals("Unnamed", unnamed.compile(Object.class).getClass().getTypeName());
+    try {
+      unnamed.compile(Object.class, "unused", "arguments");
+      fail();
+    } catch (Exception e) {
+      assertEquals(true, e.toString().contains("compiling or instantiating failed"));
+    }
+    // with types supplier...
     Supplier<Class<?>[]> types = () -> new Class<?>[0];
     assertEquals("Unnamed", unnamed.compile(Object.class, types).getClass().getTypeName());
+    try {
+      types = () -> new Class<?>[1];
+      unnamed.compile(Object.class, types);
+      fail();
+    } catch (Exception e) {
+      assertEquals(true, e.toString().contains("compiling or instantiating failed"));
+    }
   }
 }

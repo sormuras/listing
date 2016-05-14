@@ -15,23 +15,10 @@ package com.github.sormuras.javaunit;
 
 import static java.util.Collections.emptyList;
 
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Supplier;
-
-import javax.annotation.processing.Processor;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.StandardLocation;
-import javax.tools.ToolProvider;
-import javax.tools.JavaCompiler.CompilationTask;
 
 /**
  * JavaFile models compilation unit.
@@ -82,22 +69,19 @@ public class JavaUnit implements Container {
     return listing;
   }
 
-  public Class<?> compile() {
-    ClassLoader loader = compile(getClass().getClassLoader(), emptyList(), emptyList());
-    try {
-      TypeDeclaration<?> declaration = getEponymousDeclaration().get();
-      return loader.loadClass(getPackageDeclaration().resolve(declaration.getName()));
-    } catch (ClassNotFoundException e) {
-      throw new IllegalStateException("loading class failed after successful compilation?!", e);
-    }
+  public Class<?> compile() throws ClassNotFoundException {
+    ClassLoader parent = getClass().getClassLoader();
+    ClassLoader loader = Compilation.compile(parent, emptyList(), emptyList(), this);
+    TypeDeclaration<?> declaration = getEponymousDeclaration().get();
+    return loader.loadClass(getPackageDeclaration().resolve(declaration.getName()));
   }
 
   @SuppressWarnings("unchecked")
   public <T> T compile(Class<T> clazz, Object... args) {
     try {
       return (T) compile().getDeclaredConstructors()[0].newInstance(args);
-    } catch (Throwable t) {
-      throw new IllegalStateException("compiling or instantiating failed", t);
+    } catch (Exception e) {
+      throw new IllegalStateException("compiling or instantiating failed", e);
     }
   }
 
@@ -105,32 +89,9 @@ public class JavaUnit implements Container {
     try {
       Class<? extends T> subClass = compile().asSubclass(clazz);
       return subClass.getConstructor(typesProvider.get()).newInstance(args);
-    } catch (Throwable t) {
-      throw new IllegalStateException("compiling or instantiating failed", t);
+    } catch (Exception e) {
+      throw new IllegalStateException("compiling or instantiating failed", e);
     }
-  }
-
-  public ClassLoader compile(ClassLoader parent, List<String> options, List<Processor> processors) {
-    JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-    Tool.assume(compiler != null, "no system java compiler available - JDK is required!");
-    DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
-    StandardJavaFileManager sjfm =
-        compiler.getStandardFileManager(diagnostics, Locale.getDefault(), StandardCharsets.UTF_8);
-    Manager manager = new Manager(sjfm, parent);
-    TypeDeclaration<?> declaration = getEponymousDeclaration().get();
-    URI uri = getPackageDeclaration().toURI(declaration.getName() + ".java");
-    CompilationTask task =
-        compiler.getTask(
-            null,
-            manager,
-            diagnostics,
-            options,
-            null, // names of classes to be processed by annotation processing, null means no classes
-            Collections.singleton(manager.getJavaFileForInput(uri, list())));
-    if (!processors.isEmpty()) task.setProcessors(processors);
-    boolean success = task.call();
-    if (!success) throw new RuntimeException("compilation failed! " + diagnostics.getDiagnostics());
-    return manager.getClassLoader(StandardLocation.CLASS_PATH);
   }
 
   @Override
