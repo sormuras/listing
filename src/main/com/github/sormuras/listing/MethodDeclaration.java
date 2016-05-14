@@ -18,13 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.sormuras.listing.ClassType;
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-import com.github.sormuras.listing.ReferenceType;
-import com.github.sormuras.listing.TypeVariable;
-
 /**
  * Method declaration.
  *

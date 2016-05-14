@@ -18,10 +18,6 @@ import javax.lang.model.element.Modifier;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.ImportDeclarations;
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.Listing;
-
 public class ImportDeclarationsTest {
 
   static void check(Consumer<ImportDeclarations> consumer, String... expected) {

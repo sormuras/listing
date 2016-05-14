@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.Listing;
-
 /**
  * Wildcards are useful in situations where only partial knowledge about the type parameter is
  * required.

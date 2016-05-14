@@ -4,9 +4,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.PrimitiveType;
-import com.github.sormuras.listing.TypeArgument;
-
 public class TypeArgumentTest {
 
   @Test

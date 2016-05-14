@@ -19,10 +19,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 public class ArrayType extends ReferenceType<ArrayType> {
 
   public static List<ArrayDimension> createArrayDimensions(int size) {

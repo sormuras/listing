@@ -8,12 +8,6 @@ import java.lang.annotation.ElementType;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-import com.github.sormuras.listing.PackageDeclaration;
-
 public class PackageDeclarationTest {
 
   @Test

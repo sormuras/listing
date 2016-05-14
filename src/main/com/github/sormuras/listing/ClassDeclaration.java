@@ -16,11 +16,6 @@ package com.github.sormuras.listing;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.sormuras.listing.ClassType;
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 /**
  * A class declaration specifies a new named reference type.
  *

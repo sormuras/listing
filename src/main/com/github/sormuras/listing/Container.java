@@ -15,8 +15,6 @@ package com.github.sormuras.listing;
 
 import java.util.List;
 
-import com.github.sormuras.listing.Listable;
-
 /**
  * Collects {@linkplain TypeDeclaration}s.
  */

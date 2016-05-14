@@ -5,9 +5,6 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.PrimitiveType;
-
 public class PrimitiveTypeTest {
 
   @Test

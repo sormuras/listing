@@ -22,13 +22,6 @@ import java.util.Optional;
 
 import javax.lang.model.SourceVersion;
 
-import com.github.sormuras.listing.ClassType;
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-import com.github.sormuras.listing.Tool;
-import com.github.sormuras.listing.TypeVariable;
-
 /**
  * A class or method is generic if it declares one or more type variables (§4.4).
  * <p>

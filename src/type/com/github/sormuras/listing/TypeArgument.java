@@ -13,9 +13,6 @@
  */
 package com.github.sormuras.listing;
 
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 /**
  * Type arguments may be either reference types or wildcards.
  *

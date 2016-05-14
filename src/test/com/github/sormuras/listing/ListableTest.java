@@ -13,9 +13,6 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 public class ListableTest {
 
   class A implements Listable {

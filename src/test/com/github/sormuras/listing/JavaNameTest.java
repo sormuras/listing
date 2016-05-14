@@ -9,9 +9,6 @@ import java.util.Optional;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.Listing;
-
 public class JavaNameTest {
 
   @Test

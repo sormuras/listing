@@ -16,10 +16,6 @@ package com.github.sormuras.listing;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.sormuras.listing.ClassType;
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.Listing;
-
 /**
  * An enum declaration specifies a new enum type, a special kind of class type.
  *

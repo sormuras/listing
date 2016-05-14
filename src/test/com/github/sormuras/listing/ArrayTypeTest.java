@@ -5,11 +5,6 @@ import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.ArrayType;
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.JavaType;
-
 public class ArrayTypeTest {
 
   @Test

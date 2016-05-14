@@ -7,9 +7,6 @@ import java.lang.annotation.ElementType;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.ClassType;
-import com.github.sormuras.listing.TypeParameter;
-
 public class TypeParameterTest {
 
   @Test

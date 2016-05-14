@@ -19,19 +19,6 @@ import javax.lang.model.element.Modifier;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.sormuras.listing.ClassDeclaration;
-import com.github.sormuras.listing.ClassType;
-import com.github.sormuras.listing.Compilation;
-import com.github.sormuras.listing.FieldDeclaration;
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.JavaUnit;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.PackageDeclaration;
-import com.github.sormuras.listing.TypeParameter;
-import com.github.sormuras.listing.TypeVariable;
-
 public class JavaUnitTest {
 
   @Test

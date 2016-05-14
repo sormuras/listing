@@ -27,8 +27,6 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.sormuras.listing.JavaAnnotation;
-
 /**
  * Common <code>JavaType</code> factory collection.
  *

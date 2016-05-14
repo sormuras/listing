@@ -18,10 +18,6 @@ import java.lang.reflect.Modifier;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-import com.github.sormuras.listing.Tool;
-
 /**
  * An import declaration allows a named type or a static member to be referred to by a simple name
  * (§6.2) that consists of a single identifier.

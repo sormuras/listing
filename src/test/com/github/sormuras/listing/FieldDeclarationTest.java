@@ -6,10 +6,6 @@ import java.lang.annotation.ElementType;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.FieldDeclaration;
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.Listable;
-
 public class FieldDeclarationTest {
 
   @Test

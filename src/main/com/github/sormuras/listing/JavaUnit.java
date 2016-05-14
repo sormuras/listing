@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import com.github.sormuras.listing.Compilation;
-import com.github.sormuras.listing.Listing;
-
 /**
  * JavaFile models compilation unit.
  *

@@ -18,11 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.github.sormuras.listing.Annotated;
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 /**
  * Simple and(!) annotatable and(!) typed class or interface name.
  */

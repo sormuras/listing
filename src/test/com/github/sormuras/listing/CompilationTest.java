@@ -10,8 +10,6 @@ import javax.tools.JavaFileObject;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.Compilation;
-
 public class CompilationTest {
 
   @Test

@@ -16,9 +16,6 @@ package com.github.sormuras.listing;
 import java.util.Collections;
 import java.util.List;
 
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.Listing;
-
 public class VoidType extends JavaType<VoidType> {
 
   @Override

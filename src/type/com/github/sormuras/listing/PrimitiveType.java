@@ -3,10 +3,6 @@ package com.github.sormuras.listing;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.Listing;
-import com.github.sormuras.listing.Tool;
-
 /**
  * A primitive type is predefined by the Java language and named by its reserved keyword.
  *

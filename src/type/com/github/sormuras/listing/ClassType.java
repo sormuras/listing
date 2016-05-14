@@ -22,11 +22,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.Listing;
-import com.github.sormuras.listing.Tool;
-
 public class ClassType extends ReferenceType<ClassType> {
 
   public static ClassType of(Class<?> type) {

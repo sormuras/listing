@@ -17,11 +17,6 @@ import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.sormuras.listing.Annotated;
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 public class ArrayDimension implements Listable, Annotated<ArrayDimension> {
 
   private final List<JavaAnnotation> annotations = new ArrayList<>();

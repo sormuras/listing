@@ -1,5 +1,7 @@
 package com.github.sormuras.listing;
 
+import static org.junit.Assert.assertEquals;
+
 import java.beans.Transient;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,12 +10,6 @@ import java.lang.annotation.Target;
 import javax.annotation.Generated;
 
 import org.junit.Test;
-
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.Listable;
-
-import static org.junit.Assert.assertEquals;
 
 @Crazy(
   o = @Target(ElementType.TYPE),

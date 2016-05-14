@@ -15,10 +15,6 @@ package com.github.sormuras.listing;
 
 import java.lang.annotation.ElementType;
 
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 /**
  * The variables of a class type are introduced by field declarations.
  *

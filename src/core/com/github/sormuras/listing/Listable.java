@@ -19,8 +19,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
 
-import com.github.sormuras.listing.JavaName;
-
 @FunctionalInterface
 public interface Listable extends UnaryOperator<Listing>, Comparable<Listable> {
 

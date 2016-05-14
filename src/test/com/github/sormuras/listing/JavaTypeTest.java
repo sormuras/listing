@@ -11,10 +11,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.Listing;
-import com.github.sormuras.listing.Wildcard;
-
 public class JavaTypeTest<T> {
 
   int a = 4;

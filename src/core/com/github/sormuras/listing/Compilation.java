@@ -33,17 +33,13 @@ import javax.tools.DiagnosticCollector;
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
 import javax.tools.JavaCompiler;
+import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileObject;
 import javax.tools.JavaFileObject.Kind;
-
-import com.github.sormuras.listing.JavaUnit;
-import com.github.sormuras.listing.TypeDeclaration;
-
 import javax.tools.SimpleJavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
-import javax.tools.JavaCompiler.CompilationTask;
 
 /**
  * In-memory file manager and compiler support.

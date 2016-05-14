@@ -14,6 +14,7 @@
 package com.github.sormuras.listing;
 
 import static java.util.Collections.unmodifiableList;
+
 import java.lang.annotation.ElementType;
 import java.lang.reflect.Member;
 import java.util.ArrayList;
@@ -27,10 +28,6 @@ import java.util.Set;
 
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Modifier;
-
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-import com.github.sormuras.listing.Tool;
 
 /**
  * Names are used to refer to entities declared in a program.

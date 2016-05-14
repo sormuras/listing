@@ -26,11 +26,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 
-import com.github.sormuras.listing.Annotated;
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.Listable;
-
 /**
  * The Java programming language is a statically typed language, which means that every variable and
  * every expression has a type that is known at compile time.

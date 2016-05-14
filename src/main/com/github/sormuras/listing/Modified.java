@@ -19,8 +19,6 @@ import java.util.Set;
 
 import javax.lang.model.element.Modifier;
 
-import com.github.sormuras.listing.Listable;
-
 /**
  * Provides default methods for handling a set of {@linkplain Modifier}s.
  *

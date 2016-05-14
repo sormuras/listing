@@ -9,8 +9,6 @@ import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.sormuras.listing.ClassType;
-
 public class ClassTypeTest {
 
   @Test

@@ -17,9 +17,6 @@ import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.sormuras.listing.JavaAnnotation;
-import com.github.sormuras.listing.Listing;
-
 /**
  * A type variable is an unqualified identifier used as a type in class, interface, method, and
  * constructor bodies.

@@ -17,8 +17,6 @@ import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.util.List;
 
-import com.github.sormuras.listing.Listable;
-
 /**
  * Provides default methods for handling a list of {@linkplain JavaAnnotation}s.
  *

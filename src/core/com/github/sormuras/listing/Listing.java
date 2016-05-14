@@ -19,8 +19,6 @@ import java.util.Locale;
 import java.util.Spliterator;
 import java.util.stream.IntStream;
 
-import com.github.sormuras.listing.JavaName;
-
 public class Listing {
 
   private final List<String> collectedLines = new ArrayList<>();

@@ -7,9 +7,6 @@ import java.lang.annotation.ElementType;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.MethodParameter;
-import com.github.sormuras.listing.TypeVariable;
-
 public class MethodParameterTest {
 
   @Test

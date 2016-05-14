@@ -7,9 +7,6 @@ import java.nio.file.Paths;
 
 import org.junit.Assert;
 
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 public interface Text {
 
   static void assertEquals(Class<?> testClass, String testName, Listable listable) {

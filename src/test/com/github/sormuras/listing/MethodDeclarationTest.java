@@ -9,13 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.ClassType;
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.MethodDeclaration;
-import com.github.sormuras.listing.TypeArgument;
-import com.github.sormuras.listing.TypeParameter;
-import com.github.sormuras.listing.TypeVariable;
-
 public class MethodDeclarationTest {
 
   @Test

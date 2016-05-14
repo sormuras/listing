@@ -18,11 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.sormuras.listing.ArrayType;
-import com.github.sormuras.listing.JavaType;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 /**
  * The formal parameters of a method or constructor, if any, are specified by a list of
  * comma-separated parameter specifiers. Each parameter specifier consists of a type (optionally

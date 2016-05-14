@@ -14,10 +14,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.github.sormuras.listing.JavaName;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
-
 public class ListingTest {
 
   @Test
