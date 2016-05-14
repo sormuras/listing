@@ -65,22 +65,22 @@ public class JavaUnitTest {
             .addInterface(JavaType.of(Runnable.class));
     FieldDeclaration i =
         simple
-            .addFieldDeclaration(int.class, "i")
+            .declareField(int.class, "i")
             .addModifier("private", "volatile")
             .setInitializer(Listable.of(4711));
     simple
-        .addFieldDeclaration(JavaType.of(String.class).addAnnotation(tag), "s")
+        .declareField(JavaType.of(String.class).addAnnotation(tag), "s")
         .setInitializer(Listable.of("The Story about \"Ping\""));
     simple
-        .addFieldDeclaration(listOfStrings, "l")
+        .declareField(listOfStrings, "l")
         .setInitializer(l -> l.add("java.util.Collections.emptyList()"));
     simple
-        .addMethodDeclaration(void.class, "run")
+        .declareMethod(void.class, "run")
         .addAnnotation(Override.class)
         .addModifier(Modifier.PUBLIC, Modifier.FINAL)
         .setBody(l -> l.add("System.out.println(\"Hallo Welt!\");").newline());
     simple
-        .addMethodDeclaration(new TypeVariable().setName("N"), "calc")
+        .declareMethod(new TypeVariable().setName("N"), "calc")
         .addModifier(Modifier.STATIC)
         .addTypeParameter(new TypeParameter("N").addBounds(JavaType.of(Number.class)))
         .addParameter(int.class, "i")
@@ -143,8 +143,8 @@ public class JavaUnitTest {
     JavaUnit unit = new JavaUnit("uss");
     ClassDeclaration enterprise = unit.declareClass("Enterprise").addModifier(Modifier.PUBLIC);
     enterprise.addInterface(ClassType.of(Supplier.class, String.class));
-    enterprise.addFieldDeclaration(String.class, "text").addModifier("private", "final");
-    enterprise.addFieldDeclaration(Number.class, "number").addModifier("private", "final");
+    enterprise.declareField(String.class, "text").addModifier("private", "final");
+    enterprise.declareField(Number.class, "number").addModifier("private", "final");
     enterprise
         .declareConstructor()
         .addModifier(Modifier.PUBLIC)
@@ -153,7 +153,7 @@ public class JavaUnitTest {
         .addStatement("this.text = text")
         .addStatement("this.number = number");
     enterprise
-        .addMethodDeclaration(String.class, "get")
+        .declareMethod(String.class, "get")
         .addAnnotation(Override.class)
         .addModifier(Modifier.PUBLIC)
         .addStatement("return text + '-' + number");
@@ -169,8 +169,8 @@ public class JavaUnitTest {
   public void processed() throws Exception {
     JavaUnit unit = new JavaUnit("test");
     ClassDeclaration enterprise = unit.declareClass("Class").addModifier(Modifier.PUBLIC);
-    enterprise.addFieldDeclaration(Object.class, "field1").addAnnotation(Counter.Mark.class);
-    enterprise.addFieldDeclaration(Object.class, "field2").addAnnotation(Counter.Mark.class);
+    enterprise.declareField(Object.class, "field1").addAnnotation(Counter.Mark.class);
+    enterprise.declareField(Object.class, "field2").addAnnotation(Counter.Mark.class);
     Text.assertEquals(getClass(), "processed", unit);
 
     Counter counter = new Counter();

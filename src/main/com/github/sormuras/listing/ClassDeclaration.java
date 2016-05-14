@@ -36,37 +36,9 @@ public class ClassDeclaration extends TypeDeclaration<ClassDeclaration> {
     this.classBodyElements = new ArrayList<>();
   }
 
-  public FieldDeclaration addFieldDeclaration(Class<?> type, String name) {
-    return addFieldDeclaration(JavaType.of(type), name);
-  }
-
-  public FieldDeclaration addFieldDeclaration(JavaType<?> type, String name) {
-    FieldDeclaration declaration = new FieldDeclaration();
-    declaration.setUnit(getUnit().orElse(null));
-    declaration.setEnclosingType(this);
-    declaration.setType(type);
-    declaration.setName(name);
-    classBodyElements.add(declaration);
-    return declaration;
-  }
-
   public ClassDeclaration addInterface(JavaType<?> interfaceType) {
     interfaces.add((ClassType) interfaceType);
     return this;
-  }
-
-  public MethodDeclaration addMethodDeclaration(Class<?> type, String name) {
-    return addMethodDeclaration(JavaType.of(type), name);
-  }
-
-  public MethodDeclaration addMethodDeclaration(JavaType<?> type, String name) {
-    MethodDeclaration declaration = new MethodDeclaration();
-    declaration.setUnit(getUnit().orElse(null));
-    declaration.setEnclosingType(this);
-    declaration.setReturnType(type);
-    declaration.setName(name);
-    classBodyElements.add(declaration);
-    return declaration;
   }
 
   public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
@@ -109,6 +81,34 @@ public class ClassDeclaration extends TypeDeclaration<ClassDeclaration> {
     declaration.setUnit(getUnit().orElse(null));
     declaration.setEnclosingType(this);
     declaration.setName("<init>");
+    classBodyElements.add(declaration);
+    return declaration;
+  }
+
+  public FieldDeclaration declareField(Class<?> type, String name) {
+    return declareField(JavaType.of(type), name);
+  }
+
+  public FieldDeclaration declareField(JavaType<?> type, String name) {
+    FieldDeclaration declaration = new FieldDeclaration();
+    declaration.setUnit(getUnit().orElse(null));
+    declaration.setEnclosingType(this);
+    declaration.setType(type);
+    declaration.setName(name);
+    classBodyElements.add(declaration);
+    return declaration;
+  }
+
+  public MethodDeclaration declareMethod(Class<?> type, String name) {
+    return declareMethod(JavaType.of(type), name);
+  }
+
+  public MethodDeclaration declareMethod(JavaType<?> type, String name) {
+    MethodDeclaration declaration = new MethodDeclaration();
+    declaration.setUnit(getUnit().orElse(null));
+    declaration.setEnclosingType(this);
+    declaration.setReturnType(type);
+    declaration.setName(name);
     classBodyElements.add(declaration);
     return declaration;
   }
