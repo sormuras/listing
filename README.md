@@ -1,4 +1,4 @@
-# javaunit [![Build Status](https://travis-ci.org/sormuras/javaunit.svg?branch=master)](https://travis-ci.org/sormuras/javaunit)
+# listing [![Build Status](https://travis-ci.org/sormuras/listing.svg?branch=master)](https://travis-ci.org/sormuras/listing)
 Java compilation unit source listing tool.
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE project>
 
-<project basedir="." name="sormuras/javaunit" default="test">
+<project basedir="." name="sormuras/listing" default="test">
 
   <tstamp>
     <format property="timestamp" pattern="yyyyMMddHHmm" />
@@ -18,7 +18,7 @@
   </target>
 
   <target name="init" depends="clean">
-    <echo>Creating javaunit-${version.number}.jar</echo>
+    <echo>Creating listing-${version.number}.jar</echo>
     <mkdir dir="${dir.out}" />
   </target>
 
@@ -61,15 +61,15 @@
       <src path="${dir.src}/type" />
       <src path="${dir.src}/main" />
     </javac>
-    <jar destfile="${dir.out}/javaunit-${version.number}.jar">
+    <jar destfile="${dir.out}/listing-${version.number}.jar">
       <fileset dir="${dir.out}/main/classes" />
       <fileset dir="${dir.src}/main" />
       <manifest>
-        <section name="com/github/sormuras/javaunit/">
-          <attribute name="Specification-Title" value="javaunit" />
+        <section name="com/github/sormuras/listing/">
+          <attribute name="Specification-Title" value="listing" />
           <attribute name="Specification-Version" value="1.0" />
           <attribute name="Specification-Vendor" value="Christian Stein" />
-          <attribute name="Implementation-Title" value="com.github.sormuras.javaunit" />
+          <attribute name="Implementation-Title" value="com.github.sormuras.listing" />
           <attribute name="Implementation-Version" value="${version.number}" />
           <attribute name="Implementation-Vendor" value="Christian Stein" />
         </section>
@@ -80,7 +80,7 @@
   <target name="test" depends="compile" description="execute all tests">
     <path id="junit.class.path">
       <pathelement path="${dir.out}/test/classes" />
-      <pathelement path="${dir.out}/javaunit-${version.number}.jar" />
+      <pathelement path="${dir.out}/listing-${version.number}.jar" />
       <fileset dir="${dir.lib}/test">
         <include name="**/*.jar" />
       </fileset>

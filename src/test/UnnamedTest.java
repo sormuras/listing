@@ -1,7 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.sormuras.javaunit.Tool;
+import com.github.sormuras.listing.Tool;
 
 public class UnnamedTest {
 
