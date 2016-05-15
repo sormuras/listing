@@ -1,8 +1,10 @@
 package com.github.sormuras.listing;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.beans.Transient;
+import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
@@ -23,6 +25,27 @@ import org.junit.Test;
   r = {Float.class, Double.class}
 )
 public class JavaAnnotationTest {
+
+  class IllegalAnnotation implements Annotation {
+    public void fail() {
+      throw new AssertionError("illegal annotation implementation is illegal");
+    }
+
+    @Override
+    public Class<? extends Annotation> annotationType() {
+      return IllegalAnnotation.class;
+    }
+  }
+
+  @Test
+  public void illegalAnnotationFails() {
+    try {
+      JavaAnnotation.of(new IllegalAnnotation());
+      fail("reflected illegal annotation implementation?!");
+    } catch (AssertionError e) {
+      assertEquals(true, e.toString().contains("IllegalAnnotation"));
+    }
+  }
 
   @Test
   public void reflect() {

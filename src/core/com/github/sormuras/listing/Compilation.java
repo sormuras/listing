@@ -13,10 +13,8 @@
  */
 package com.github.sormuras.listing;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -61,11 +59,6 @@ interface Compilation {
     }
 
     @Override
-    public CharSequence getCharContent(boolean ignoreErrors) throws IOException {
-      return new String(getBytes(), StandardCharsets.UTF_8.name());
-    }
-
-    @Override
     public OutputStream openOutputStream() throws IOException {
       this.stream = new ByteArrayOutputStream(2000);
       return stream;
@@ -91,11 +84,6 @@ interface Compilation {
     @Override
     public long getLastModified() {
       return lastModified;
-    }
-
-    @Override
-    public InputStream openInputStream() throws IOException {
-      return new ByteArrayInputStream(getCharContent(true).getBytes());
     }
   }
 

@@ -68,7 +68,7 @@ public class JavaAnnotation implements Listable {
         object.addObject(method.getName(), value);
       }
     } catch (Exception e) {
-      throw new AssertionError("reflecting " + annotation + " failed", e);
+      throw new AssertionError("reflecting " + annotation + " failed: " + e.getCause(), e);
     }
     return object;
   }
