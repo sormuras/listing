@@ -99,6 +99,7 @@
     <!-- JUnit4 -->
     <junit printsummary="yes"
            fork="yes"
+           forkmode="once"
            haltonfailure="no"
            showoutput="yes"
            failureproperty="test.failed">
