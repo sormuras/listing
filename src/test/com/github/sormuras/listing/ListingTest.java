@@ -12,6 +12,10 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 import org.junit.Test;
 
 public class ListingTest {
@@ -97,5 +101,15 @@ public class ListingTest {
     assertEquals("BEGIN\n\nEND.\n\n", listing.toString());
     assertEquals(0, listing.getCurrentLine().length());
     assertEquals(asList("BEGIN", "", "END.", ""), listing.getCollectedLines());
+  }
+
+  @Test
+  public void script() throws Exception {
+    Listing listing = new Listing();
+    listing.add("var fun1 = function(name) { return \"Hi \" + name; };").newline();
+    ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+    engine.eval(listing.toString());
+    Invocable invocable = (Invocable) engine;
+    assertEquals("Hi Bob", invocable.invokeFunction("fun1", "Bob"));
   }
 }
