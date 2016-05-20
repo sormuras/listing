@@ -107,7 +107,7 @@ public class ListingTest {
   public void script() throws Exception {
     Listing listing = new Listing();
     listing.add("var fun1 = function(name) { return \"Hi \" + name; };").newline();
-    ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+    ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
     engine.eval(listing.toString());
     Invocable invocable = (Invocable) engine;
     assertEquals("Hi Bob", invocable.invokeFunction("fun1", "Bob"));

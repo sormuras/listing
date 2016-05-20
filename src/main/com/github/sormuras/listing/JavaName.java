@@ -164,6 +164,10 @@ public class JavaName implements Listable {
     return "java.lang.Object".equals(canonicalName);
   }
 
+  public boolean isLocatedInJavaLangPackage() {
+    return "java.lang".equals(packageName);
+  }
+
   public boolean isStatic() {
     return getModifiers().contains(Modifier.STATIC);
   }
