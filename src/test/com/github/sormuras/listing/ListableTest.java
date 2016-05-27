@@ -67,6 +67,7 @@ public class ListableTest {
   @Test
   public void of() {
     assertEquals("int.class", Listable.of(int.class).list());
+    assertEquals("java.lang.Thread.State.class", Listable.of(Thread.State.class).list());
     assertEquals("java.lang.Thread.State.NEW", Listable.of(Thread.State.NEW).list());
     assertEquals("\"a\"", Listable.of("a").list());
     assertEquals("2.718282F", Listable.of((float) Math.E).list());
