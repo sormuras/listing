@@ -133,4 +133,17 @@ public class ToolTest {
     assertEquals(asList("Character", "Subset"), Tool.simpleNames(Character.Subset.class));
     assertEquals(asList("Thread", "State"), Tool.simpleNames(Thread.State.class));
   }
+
+  @Test
+  public void trimTest(){
+    assertEquals(null, Tool.trimRight(null));
+    assertEquals("   a", Tool.trimRight("   a"));
+    assertEquals("a", Tool.trimRight("a    "));
+    assertEquals("a", Tool.trimRight("a    \n"));
+    assertEquals("a", Tool.trimRight("a    \r"));
+    assertEquals("a", Tool.trimRight("a    \r\n"));
+    assertEquals("", Tool.trimRight(""));
+    assertEquals("", Tool.trimRight("        "));
+    assertEquals("", Tool.trimRight(" "));
+  }
 }
