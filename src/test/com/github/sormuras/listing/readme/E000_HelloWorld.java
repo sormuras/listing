@@ -11,6 +11,7 @@ import com.github.sormuras.listing.JavaName;
 import com.github.sormuras.listing.JavaUnit;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.MethodDeclaration;
+import com.github.sormuras.listing.Text;
 
 public class E000_HelloWorld {
 
@@ -19,7 +20,7 @@ public class E000_HelloWorld {
     JavaUnit unit = new JavaUnit("com.example.helloworld");
 
     ClassDeclaration helloClass = unit.declareClass("HelloWorld");
-    helloClass.addModifier(Modifier.PUBLIC, Modifier.FINAL);
+    helloClass.addModifier(Modifier.PUBLIC);
 
     MethodDeclaration psvm = helloClass.declareMethod(void.class, "main");
     psvm.addModifier(Modifier.PUBLIC, Modifier.STATIC);
@@ -33,5 +34,6 @@ public class E000_HelloWorld {
                 .newline());
 
     assertEquals("com.example.helloworld.HelloWorld", unit.compile().getCanonicalName());
+    Text.assertEquals(getClass(), "hello", unit);
   }
 }
