@@ -94,6 +94,24 @@ public class JavaName implements Listable {
     return javaName;
   }
 
+  public static JavaName of(TypeDeclaration<?> declaration) {
+    String packageName = "";
+    if (declaration.getUnit().isPresent()) {
+      packageName =
+          declaration.getUnit().get().getPackageDeclaration().getPackageName().getCanonicalName();
+    }
+    List<String> simpleNames = new ArrayList<>();
+    TypeDeclaration<?> current = declaration;
+    while (current != null) {
+      simpleNames.add(0, current.getName());
+      current = current.getEnclosingType().orElse(null);
+    }
+    JavaName javaName = new JavaName(packageName, simpleNames);
+    javaName.getModifiers().addAll(declaration.getModifiers());
+    javaName.setTarget(ElementType.TYPE);
+    return javaName;
+  }
+
   private final String canonicalName;
   private final Set<Modifier> modifiers;
   private final String packageName;
@@ -164,7 +182,7 @@ public class JavaName implements Listable {
     return "java.lang.Object".equals(canonicalName);
   }
 
-  public boolean isLocatedInJavaLangPackage() {
+  public boolean isJavaLangPackage() {
     return "java.lang".equals(packageName);
   }
 

@@ -73,6 +73,20 @@ public class JavaNameTest {
   }
 
   @Test
+  public void isJavaLangObject() throws Exception {
+    assertEquals(true, of(Object.class).isJavaLangObject());
+    assertEquals(false, of(Optional.class).isJavaLangObject());
+    assertEquals(false, of("", "A").isJavaLangObject());
+  }
+
+  @Test
+  public void isJavaLangPackage() throws Exception {
+    assertEquals(true, of(Object.class).isJavaLangPackage());
+    assertEquals(false, of(Optional.class).isJavaLangPackage());
+    assertEquals(false, of("", "A").isJavaLangPackage());
+  }
+
+  @Test
   public void isStatic() throws Exception {
     assertEquals(false, of(Object.class).isStatic());
     assertEquals(false, of(Object.class.getDeclaredConstructor()).isStatic());
@@ -122,6 +136,8 @@ public class JavaNameTest {
         "java.lang.Thread.State.NEW",
         ElementType.FIELD,
         "public, static, final");
+    testToString(of(new ClassDeclaration().setName("Abc")), "Abc", "");
+    testToString(of(new JavaUnit("abc").declareClass("Abc")), "abc.Abc", "");
   }
 
   void testToString(JavaName name, String canonical, String modifiers) {
