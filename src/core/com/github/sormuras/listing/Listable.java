@@ -22,7 +22,7 @@ import java.util.function.UnaryOperator;
 @FunctionalInterface
 public interface Listable extends UnaryOperator<Listing>, Comparable<Listable> {
 
-  public static Listable of(Object o) {
+  static Listable of(Object o) {
     if (o instanceof Class) return listing -> listing.add(JavaName.of((Class<?>) o)).add(".class");
     if (o instanceof Enum) return listing -> listing.add(JavaName.of((Enum<?>) o));
     if (o instanceof String) return listing -> listing.add(escape((String) o));
