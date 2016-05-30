@@ -51,7 +51,7 @@ interface Compilation {
     private ByteArrayOutputStream stream;
 
     public ByteArrayFileObject(String canonical, Kind kind) {
-      super(URI.create("javaunit:///" + canonical.replace('.', '/') + kind.extension), kind);
+      super(URI.create("listing:///" + canonical.replace('.', '/') + kind.extension), kind);
     }
 
     public byte[] getBytes() {
