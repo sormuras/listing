@@ -35,7 +35,7 @@ import javax.lang.model.element.Modifier;
  *
  * @author Christian Stein
  */
-public interface Tool {
+interface Tool {
 
   static Pattern TRIM_RIGHT_PATTERN = Pattern.compile("^\\s+$");
 
