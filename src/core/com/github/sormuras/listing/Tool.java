@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.lang.model.element.Modifier;
 
@@ -36,8 +35,6 @@ import javax.lang.model.element.Modifier;
  * @author Christian Stein
  */
 interface Tool {
-
-  static Pattern TRIM_RIGHT_PATTERN = Pattern.compile("^\\s+$");
 
   static void assume(boolean condition, String format, Object... args) {
     if (!condition) throw new IllegalArgumentException(String.format(format, args));
@@ -189,9 +186,5 @@ interface Tool {
     reverse(names);
     addAll(names, additionalNames);
     return names;
-  }
-
-  static String trimRight(String text) {
-    return TRIM_RIGHT_PATTERN.matcher(text).replaceAll("");
   }
 }

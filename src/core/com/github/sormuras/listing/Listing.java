@@ -127,7 +127,7 @@ public class Listing {
   }
 
   public Listing newline() {
-    String newline = Tool.trimRight(currentLine.toString());
+    String newline = currentLine.toString(); // Tool.trimRight(currentLine.toString());
     currentLine.setLength(0);
     // trivial case: empty line (only add it if last line is not empty)
     if (newline.isEmpty()) {
