@@ -11,9 +11,9 @@ import org.junit.Test;
 public class JavaMirrorsTest {
 
   @Test
-  public void mirrors() throws Exception {
+  public void primitives() throws Exception {
     JavaUnit unit = new JavaUnit("test");
-    ClassDeclaration type = unit.declareClass("Class").addModifier(Modifier.PUBLIC);
+    ClassDeclaration type = unit.declareClass("PrimitiveFields").addModifier(Modifier.PUBLIC);
     type.declareField(boolean.class, "field1").addAnnotation(Counter.Mark.class);
     type.declareField(byte.class, "field2").addAnnotation(Counter.Mark.class);
     type.declareField(char.class, "field3").addAnnotation(Counter.Mark.class);
