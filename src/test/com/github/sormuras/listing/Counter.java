@@ -1,8 +1,10 @@
 package com.github.sormuras.listing;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -16,6 +18,7 @@ public class Counter extends AbstractProcessor {
   public static @interface Mark {}
 
   public final List<Element> listOfElements = new ArrayList<>();
+  public final Map<String, JavaType<?>> map = new HashMap<>();
 
   @Override
   public SourceVersion getSupportedSourceVersion() {
@@ -32,6 +35,9 @@ public class Counter extends AbstractProcessor {
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
     roundEnv.getElementsAnnotatedWith(Mark.class).forEach(listOfElements::add);
+    for (Element e : listOfElements) {
+      map.put(e.getSimpleName().toString(), JavaMirrors.of(e.asType()));
+    }
     return true;
   }
 }
