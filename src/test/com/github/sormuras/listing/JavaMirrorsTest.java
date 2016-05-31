@@ -5,7 +5,10 @@ import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 
 import javax.lang.model.element.Modifier;
+import javax.lang.model.type.PrimitiveType;
+import javax.lang.model.type.TypeKind;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class JavaMirrorsTest {
@@ -35,5 +38,15 @@ public class JavaMirrorsTest {
     assertEquals(JavaType.of(int.class), counter.map.get("field6"));
     assertEquals(JavaType.of(long.class), counter.map.get("field7"));
     assertEquals(JavaType.of(short.class), counter.map.get("field8"));
+  }
+
+  @Test
+  public void unknownPrimitiveFails() {
+    try {
+      JavaMirrors.of(Text.proxy(PrimitiveType.class, (p, m, a) -> TypeKind.ERROR));
+      Assert.fail();
+    } catch (AssertionError e) {
+      Assert.assertTrue(e.toString().contains("Unsupported primitive type"));
+    }
   }
 }

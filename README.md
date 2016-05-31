@@ -1,11 +1,11 @@
 # listing
 [![travis](https://travis-ci.org/sormuras/listing.svg?branch=master)](https://travis-ci.org/sormuras/listing)
-[![codecov](https://codecov.io/gh/sormuras/listing/branch/master/graph/badge.svg)](https://codecov.io/gh/sormuras/listing)
+[![jacoco](https://codecov.io/gh/sormuras/listing/branch/master/graph/badge.svg)](https://codecov.io/gh/sormuras/listing)
 
 Java compilation unit source listing tool.
 
 
-## License
+## license
 
 ```text
 Copyright 2016 Christian Stein

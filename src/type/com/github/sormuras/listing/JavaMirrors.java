@@ -54,7 +54,7 @@ public interface JavaMirrors {
       case DOUBLE:
         return JavaType.of(double.class);
       default:
-        throw new AssertionError();
+        throw new AssertionError("Unsupported primitive type: " + type.getKind());
     }
   }
 

@@ -139,6 +139,12 @@
       <html destdir="${dir.out}/jacoco" />
       <csv destfile="${dir.out}/report.csv" />
       <xml destfile="${dir.out}/report.xml" />
+      <check>
+        <rule element="PACKAGE">
+          <limit counter="LINE" value="COVEREDRATIO" minimum="0.90" />
+          <limit counter="CLASS" value="MISSEDCOUNT" maximum="0" />
+        </rule>
+      </check>
     </jacoco:report>
   </target>
 
