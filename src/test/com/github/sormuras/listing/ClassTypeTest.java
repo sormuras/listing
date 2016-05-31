@@ -36,4 +36,9 @@ public class ClassTypeTest {
     assertEquals(ClassType.of(Thread.class), state.getEnclosingClassType().get());
     assertEquals(Optional.empty(), ClassType.of(Thread.class).getEnclosingClassType());
   }
+
+  @Test
+  public void unnamedPackage() {
+    assertEquals("A", ClassType.of("", "A").toClassName());
+  }
 }

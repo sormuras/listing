@@ -73,11 +73,13 @@ public abstract class JavaType<T extends JavaType<T>> implements Listable, Annot
       return new PrimitiveType(c);
     }
     if (c.isArray()) {
-      for (int dimensions = 1; c.isArray(); dimensions++) {
+      int dimensions = 1;
+      while (true) {
         c = c.getComponentType();
         if (!c.isArray()) {
           return new ArrayType(of(c), dimensions);
         }
+        dimensions++;
       }
     }
     return new ClassType(JavaName.of(c));
