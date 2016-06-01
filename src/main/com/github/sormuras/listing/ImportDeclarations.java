@@ -121,6 +121,10 @@ public class ImportDeclarations implements Listable {
 
   @Override
   public Listing apply(Listing listing) {
+    if (isEmpty()) {
+      return listing;
+    }
+    listing.newline();
     if (!onDemandStaticImports.isEmpty()) {
       onDemandStaticImports.forEach(
           n -> listing.add("import static ").add(n.getCanonicalName()).add(".*;").newline());

@@ -58,13 +58,7 @@ public class JavaUnit implements Container {
   @Override
   public Listing apply(Listing listing) {
     listing.add(packageDeclaration);
-    if (!listing.isLastLineEmpty() && !importDeclarations.isEmpty()) {
-      listing.newline();
-    }
     listing.add(importDeclarations);
-    if (!listing.isLastLineEmpty() && !getDeclaredTypes().isEmpty()) {
-      listing.newline();
-    }
     getDeclaredTypes().forEach(listing::add);
     return listing;
   }
