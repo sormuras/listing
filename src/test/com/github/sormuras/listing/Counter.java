@@ -11,6 +11,7 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 
 public class Counter extends AbstractProcessor {
@@ -36,6 +37,11 @@ public class Counter extends AbstractProcessor {
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
     roundEnv.getElementsAnnotatedWith(Mark.class).forEach(listOfElements::add);
     for (Element e : listOfElements) {
+      if (e instanceof ExecutableElement) {
+        map.put(
+            e.getSimpleName().toString(), JavaMirrors.of(((ExecutableElement) e).getReturnType()));
+        continue;
+      }
       map.put(e.getSimpleName().toString(), JavaMirrors.of(e.asType()));
     }
     return true;

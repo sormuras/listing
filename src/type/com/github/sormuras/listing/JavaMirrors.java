@@ -16,7 +16,9 @@ package com.github.sormuras.listing;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.lang.model.type.NoType;
 import javax.lang.model.type.PrimitiveType;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.SimpleTypeVisitor8;
 
@@ -30,9 +32,19 @@ public interface JavaMirrors {
   class Visitor extends SimpleTypeVisitor8<JavaType<?>, Map<?, ?>> {
 
     @Override
+    public JavaType<?> visitNoType(NoType t, Map<?, ?> p) {
+      return of(t);
+    }
+
+    @Override
     public JavaType<?> visitPrimitive(PrimitiveType t, Map<?, ?> p) {
       return of(t);
     }
+  }
+
+  static JavaType<?> of(NoType type) {
+    if (type.getKind() == TypeKind.VOID) return new VoidType();
+    throw new AssertionError("Unsupported no type: " + type.getKind());
   }
 
   static JavaType<?> of(PrimitiveType type) {
