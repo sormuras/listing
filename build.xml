@@ -28,7 +28,7 @@
 
   <target name="format" depends="init" description="apply google-java-format">
     <!-- <property name="format.jar" value="google-java-format-1.0-all-deps.jar" /> -->
-    <property name="format.jar" value="google-java-format-1.1-20160505.013913-6-all-deps.jar" />
+    <property name="format.jar" value="google-java-format-1.1-SNAPSHOT-all-deps.jar" />
     <copy file="${dir.lib}/build/${format.jar}" todir="${basedir}/bin" />
     <!-- <get dest="${basedir}/bin" verbose="true" usetimestamp="true"> -->
     <!-- <url url="https://github.com/google/google-java-format/releases/download/google-java-format-1.0/${format.jar}" /> -->
