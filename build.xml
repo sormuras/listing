@@ -61,6 +61,8 @@
   <target name="compile" depends="format" description="compile and jar sources">
     <mkdir dir="${dir.out}/main/classes" />
     <javac destdir="${dir.out}/main/classes" encoding="UTF-8" includeantruntime="no" debug="on">
+      <src path="${dir.src}/api" />
+      <src path="${dir.src}/impl" />
       <src path="${dir.src}/core" />
       <src path="${dir.src}/type" />
       <src path="${dir.src}/main" />

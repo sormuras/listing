@@ -4,6 +4,8 @@
 	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="src/type"/>
 	<classpathentry kind="src" path="src/core"/>
+	<classpathentry kind="src" path="src/api"/>
+	<classpathentry kind="src" path="src/impl"/>
 	<classpathentry kind="lib" path="lib/test/java-hamcrest-2.0.0.0.jar" sourcepath="lib/test/java-hamcrest-2.0.0.0-sources.jar"/>
 	<classpathentry kind="lib" path="lib/test/junit-4.12.jar" sourcepath="lib/test/junit-4.12-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
