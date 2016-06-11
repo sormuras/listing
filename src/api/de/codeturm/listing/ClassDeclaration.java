@@ -13,4 +13,10 @@
  */
 package de.codeturm.listing;
 
-public class ClassDeclaration extends TypeDeclaration {}
+public class ClassDeclaration extends TypeDeclaration {
+
+  @Override
+  public String getKeyword() {
+    return "class";
+  }
+}

@@ -1,0 +1,11 @@
+class Alpha {
+}
+
+class Beta {
+}
+
+class Gamma {
+
+  class Ray {
+  }
+}

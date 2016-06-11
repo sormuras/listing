@@ -5,12 +5,8 @@ import org.junit.Test;
 
 public class CompilationUnitTest {
 
-  private CompilationUnit unit = new CompilationUnit();
-
   @Test
   public void topLevelClasses() {
-    unit.declareClass("A");
-    unit.declareClass("B");
-    Assert.assertEquals(2, unit.getDeclarations().size());
+    Assert.assertEquals(3, Fixtures.simple().getDeclarations().size());
   }
 }

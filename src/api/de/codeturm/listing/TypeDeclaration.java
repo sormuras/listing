@@ -20,9 +20,7 @@ import java.util.Optional;
 public abstract class TypeDeclaration implements DeclarationContainer {
 
   private CompilationUnit compilationUnit;
-
   private List<TypeDeclaration> declarations;
-
   private TypeDeclaration enclosingDeclaration;
   private String name;
 
@@ -63,6 +61,8 @@ public abstract class TypeDeclaration implements DeclarationContainer {
   public Optional<TypeDeclaration> getEnclosingDeclaration() {
     return Optional.ofNullable(enclosingDeclaration);
   }
+
+  public abstract String getKeyword();
 
   public String getName() {
     return name;
