@@ -13,12 +13,23 @@
  */
 package de.codeturm.listing;
 
-public interface CompilationUnit extends DeclarationContainer {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CompilationUnit implements DeclarationContainer {
+
+  private List<TypeDeclaration> declarations = new ArrayList<>();
+
   @Override
-  default <T extends TypeDeclaration> T declare(T declaration, String name) {
+  public <T extends TypeDeclaration> T declare(T declaration, String name) {
     DeclarationContainer.super.declare(declaration, name);
     declaration.setEnclosingDeclaration(null);
     declaration.setCompilationUnit(this);
     return declaration;
+  }
+
+  @Override
+  public List<TypeDeclaration> getDeclarations() {
+    return declarations;
   }
 }

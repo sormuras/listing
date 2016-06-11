@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class CompilationUnitTest {
 
-  private CompilationUnit unit = new CompilationUnitImpl();
+  private CompilationUnit unit = new CompilationUnit();
 
   @Test
   public void topLevelClasses() {

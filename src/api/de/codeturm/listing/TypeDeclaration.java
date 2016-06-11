@@ -13,12 +13,21 @@
  */
 package de.codeturm.listing;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-public interface TypeDeclaration extends DeclarationContainer {
+public abstract class TypeDeclaration implements DeclarationContainer {
+
+  private CompilationUnit compilationUnit;
+
+  private List<TypeDeclaration> declarations;
+
+  private TypeDeclaration enclosingDeclaration;
+  private String name;
 
   @Override
-  default void assertValidNestedDeclarationName(String name) {
+  public void assertValidNestedDeclarationName(String name) {
     DeclarationContainer.super.assertValidNestedDeclarationName(name);
     TypeDeclaration enclosing = this;
     if (enclosing.getEnclosingDeclaration().isPresent()) {
@@ -32,22 +41,42 @@ public interface TypeDeclaration extends DeclarationContainer {
   }
 
   @Override
-  default <T extends TypeDeclaration> T declare(T declaration, String name) {
+  public <T extends TypeDeclaration> T declare(T declaration, String name) {
     DeclarationContainer.super.declare(declaration, name);
     declaration.setEnclosingDeclaration(this);
     declaration.setCompilationUnit(getCompilationUnit());
     return declaration;
   }
 
-  CompilationUnit getCompilationUnit();
+  public CompilationUnit getCompilationUnit() {
+    return compilationUnit;
+  }
 
-  Optional<TypeDeclaration> getEnclosingDeclaration();
+  @Override
+  public List<TypeDeclaration> getDeclarations() {
+    if (declarations == null) {
+      declarations = new ArrayList<>();
+    }
+    return declarations;
+  }
 
-  String getName();
+  public Optional<TypeDeclaration> getEnclosingDeclaration() {
+    return Optional.ofNullable(enclosingDeclaration);
+  }
 
-  void setCompilationUnit(CompilationUnit unit);
+  public String getName() {
+    return name;
+  }
 
-  void setEnclosingDeclaration(TypeDeclaration declaration);
+  public void setCompilationUnit(CompilationUnit compilationUnit) {
+    this.compilationUnit = compilationUnit;
+  }
 
-  void setName(String name);
+  public void setEnclosingDeclaration(TypeDeclaration enclosingDeclaration) {
+    this.enclosingDeclaration = enclosingDeclaration;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

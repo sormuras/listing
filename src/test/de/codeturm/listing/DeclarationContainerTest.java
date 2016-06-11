@@ -14,8 +14,8 @@ public class DeclarationContainerTest {
 
   @Parameters(name = "{index}: {0}")
   public static Iterable<Object[]> implementations() {
-    Supplier<DeclarationContainer> unitSupplier = () -> new CompilationUnitImpl();
-    Supplier<DeclarationContainer> classSupplier = () -> new ClassDeclarationImpl();
+    Supplier<DeclarationContainer> unitSupplier = () -> new CompilationUnit();
+    Supplier<DeclarationContainer> classSupplier = () -> new ClassDeclaration();
     return Arrays.asList(
         new Object[][] { //
           {unitSupplier}, {classSupplier} //

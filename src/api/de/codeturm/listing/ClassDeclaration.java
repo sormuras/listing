@@ -13,4 +13,4 @@
  */
 package de.codeturm.listing;
 
-public interface ClassDeclaration extends TypeDeclaration {}
+public class ClassDeclaration extends TypeDeclaration {}

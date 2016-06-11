@@ -36,7 +36,7 @@ public interface DeclarationContainer {
   }
 
   default ClassDeclaration declareClass(String name) {
-    return declare(new ClassDeclarationImpl(), name);
+    return declare(new ClassDeclaration(), name);
   }
 
   List<TypeDeclaration> getDeclarations();

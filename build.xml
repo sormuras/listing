@@ -62,7 +62,6 @@
     <mkdir dir="${dir.out}/main/classes" />
     <javac destdir="${dir.out}/main/classes" encoding="UTF-8" includeantruntime="no" debug="on">
       <src path="${dir.src}/api" />
-      <src path="${dir.src}/impl" />
       <src path="${dir.src}/core" />
       <src path="${dir.src}/type" />
       <src path="${dir.src}/main" />
@@ -133,6 +132,7 @@
           <fileset dir="${dir.out}/main/classes" />
         </classfiles>
         <sourcefiles encoding="UTF-8">
+          <fileset dir="${dir.src}/api" />
           <fileset dir="${dir.src}/core" />
           <fileset dir="${dir.src}/type" />
           <fileset dir="${dir.src}/main" />
