@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.lang.model.SourceVersion;
 
-public interface DeclarationContainer {
+public interface DeclarationContainer extends Listable {
 
   default void assertValidNestedDeclarationName(String name) {
     if (!SourceVersion.isName(name)) {

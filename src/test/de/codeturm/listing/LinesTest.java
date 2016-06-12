@@ -1,5 +1,8 @@
 package de.codeturm.listing;
 
+import static de.codeturm.listing.Listable.IDENTITY;
+import static de.codeturm.listing.Listable.NEWLINE;
+import static de.codeturm.listing.Listable.SPACE;
 import static java.lang.Math.PI;
 import static java.util.Arrays.asList;
 import static java.util.Locale.GERMAN;
@@ -26,6 +29,13 @@ public class LinesTest {
     assertEquals("abc", new Lines().add("abc", new Object[0]).toString());
     assertEquals("3,14159", new Lines().add(GERMAN, "%.5f", PI).toString());
     assertEquals("3,14159", new Lines().add(GERMAN, "3,14159").toString());
+  }
+
+  @Test
+  public void addListable() {
+    assertEquals("", new Lines().add(IDENTITY).toString());
+    assertEquals("α\n", new Lines().add('α').add(NEWLINE).toString());
+    assertEquals(" ", new Lines().add(SPACE).toString());
   }
 
   @Test

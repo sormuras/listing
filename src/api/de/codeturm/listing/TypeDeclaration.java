@@ -62,10 +62,12 @@ public abstract class TypeDeclaration implements DeclarationContainer {
     return Optional.ofNullable(enclosingDeclaration);
   }
 
-  public abstract String getKeyword();
-
   public String getName() {
     return name;
+  }
+
+  public boolean isDeclarationsEmpty() {
+    return declarations == null || declarations.isEmpty();
   }
 
   public void setCompilationUnit(CompilationUnit compilationUnit) {

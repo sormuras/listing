@@ -10,8 +10,11 @@ public interface Fixtures {
   static CompilationUnit simple() {
     CompilationUnit unit = new CompilationUnit();
     unit.declareClass("Alpha");
-    unit.declareClass("Beta");
-    unit.declareClass("Gamma").declareClass("Ray");
+    unit.declareClass("Beta").declareInitializer(true).add("// init ${declaration}");
+    unit.declareClass("Gamma")
+        .declareClass("Ray")
+        .declareInitializer(false)
+        .declareLocalClass("XXX");
     return unit;
   }
 

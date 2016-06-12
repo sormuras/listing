@@ -32,4 +32,10 @@ public class CompilationUnit implements DeclarationContainer {
   public List<TypeDeclaration> getDeclarations() {
     return declarations;
   }
+
+  @Override
+  public Lines apply(Lines lines) {
+    getDeclarations().forEach(declaration -> declaration.apply(lines));
+    return lines;
+  }
 }

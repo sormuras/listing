@@ -13,12 +13,13 @@
  */
 package de.codeturm.listing;
 
-public class Listing {
+import java.util.function.UnaryOperator;
 
-  public String toString(CompilationUnit unit) {
-    Lines lines = new Lines();
-    lines.getBinding().put("${unit}", unit);
-    unit.apply(lines);
-    return lines.toString();
-  }
+public interface Listable extends UnaryOperator<Lines> {
+
+  Listable IDENTITY = lines -> lines;
+
+  Listable NEWLINE = Lines::newline;
+
+  Listable SPACE = lines -> lines.add(' ');
 }
