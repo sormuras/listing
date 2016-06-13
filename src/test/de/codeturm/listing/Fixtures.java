@@ -9,12 +9,22 @@ public interface Fixtures {
 
   static CompilationUnit simple() {
     CompilationUnit unit = new CompilationUnit();
-    unit.declareClass("Alpha");
-    unit.declareClass("Beta").declareInitializer(true).add("// init ${declaration}");
-    unit.declareClass("Gamma")
-        .declareClass("Ray")
-        .declareInitializer(false)
-        .declareLocalClass("XXX");
+
+    ClassDeclaration alpha = unit.declareClass("Alpha");
+    alpha.declareClass("Removed");
+    alpha.declareInitializer(true);
+    alpha.getDeclarations().clear();
+    alpha.getInitializers().clear();
+
+    ClassDeclaration beta = unit.declareClass("Beta");
+    beta.declareInitializer(true).add(l -> l.add("// init of ").add(beta.getName()).newline());
+
+    ClassDeclaration gamma = unit.declareClass("Gamma");
+    ClassDeclaration ray = gamma.declareClass("Ray");
+    Initializer rayInit = ray.declareInitializer(false);
+
+    ClassDeclaration xxx = rayInit.declareLocalClass("XXX");
+    rayInit.add(xxx.getName() + ".class.getName();");
     return unit;
   }
 

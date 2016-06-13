@@ -14,15 +14,12 @@
 package de.codeturm.listing;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Lines {
 
-  private final Map<String, Object> binding = new HashMap<>();
   private final List<String> collectedLines = new ArrayList<>(512);
   private final StringBuilder currentLine = new StringBuilder(512);
   private int indentationDepth = 0;
@@ -52,18 +49,12 @@ public class Lines {
   }
 
   public Lines add(String text) {
-    // text = text.replace("${unit}", getBinding().get("${unit}").toString());
-    // text = text.replace("${declaration}", getBinding().get("${declaration}").toString());
     currentLine.append(text);
     return this;
   }
 
   public Lines add(String format, Object... args) {
     return add(args.length == 0 ? format : String.format(format, args));
-  }
-
-  public Map<String, Object> getBinding() {
-    return binding;
   }
 
   public List<String> getCollectedLines() {

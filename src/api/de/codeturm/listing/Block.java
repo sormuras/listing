@@ -31,6 +31,11 @@ public class Block implements Listable {
   // { LocalVariableDeclarationStatement, Statement, ClassDeclaration }
   private List<Listable> sequence = new ArrayList<>();
 
+  public Block add(Listable listable) {
+    sequence.add(listable);
+    return this;
+  }
+
   public Block add(String... lines) {
     for (String line : lines) {
       sequence.add(l -> l.add(line).newline());

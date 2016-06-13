@@ -25,7 +25,6 @@ public class ClassDeclaration extends TypeDeclaration {
 
   @Override
   public Lines apply(Lines lines) {
-    Object previouslyBoundDeclaration = lines.getBinding().put("${declaration}", this);
     if (!isLocal()) {
       lines.newline();
     }
@@ -39,7 +38,6 @@ public class ClassDeclaration extends TypeDeclaration {
       getInitializers().forEach(lines::add);
     }
     lines.indent(-1).add('}').newline();
-    lines.getBinding().put("${declaration}", previouslyBoundDeclaration);
     return lines;
   }
 
@@ -70,10 +68,5 @@ public class ClassDeclaration extends TypeDeclaration {
 
   public void setLocal(boolean local) {
     this.local = local;
-  }
-
-  @Override
-  public String toString() {
-    return getName();
   }
 }

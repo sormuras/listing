@@ -17,7 +17,6 @@ public class Listing {
 
   public String toString(CompilationUnit unit) {
     Lines lines = new Lines();
-    lines.getBinding().put("${unit}", unit);
     unit.apply(lines);
     return lines.toString();
   }
