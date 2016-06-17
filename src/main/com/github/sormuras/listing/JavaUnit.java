@@ -105,7 +105,7 @@ public class JavaUnit implements Container {
     TypeDeclaration<?> declaration = types.get(0);
     // if multiple types are present, look find first public one
     if (types.size() > 1) {
-      declaration = types.stream().filter(t -> t.isPublic()).findFirst().get();
+      declaration = types.stream().filter(TypeDeclaration::isPublic).findFirst().get();
     }
     return Optional.of(declaration);
   }
