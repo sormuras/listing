@@ -61,14 +61,11 @@
   <target name="compile" depends="format" description="compile and jar sources">
     <mkdir dir="${dir.out}/main/classes" />
     <javac destdir="${dir.out}/main/classes" encoding="UTF-8" includeantruntime="no" debug="on">
-      <src path="${dir.src}/api" />
-      <src path="${dir.src}/core" />
-      <src path="${dir.src}/type" />
-      <src path="${dir.src}/main" />
+      <src path="${dir.src}/java" />
     </javac>
     <jar destfile="${dir.out}/listing-${version.number}.jar">
       <fileset dir="${dir.out}/main/classes" />
-      <fileset dir="${dir.src}/main" />
+      <fileset dir="${dir.src}/java" />
       <manifest>
         <section name="com/github/sormuras/listing/">
           <attribute name="Specification-Title" value="listing" />
@@ -102,25 +99,17 @@
 
     <mkdir dir="${dir.out}/test-result" />
     <!-- JUnit4 -->
+    <echo>Running JUnit5 tests</echo>
     <jacoco:coverage destfile="${dir.out}/jacoco.exec">
-      <junit printsummary="yes"
-             fork="yes"
-             forkmode="once"
-             haltonfailure="no"
-             showoutput="yes"
-             failureproperty="test.failed">
-        <jvmarg value="-Dfile.encoding=UTF-8" />
-        <jvmarg value="-Dant.running=true" />
-        <jvmarg value="-Djava.util.logging.config.file=${dir.src}/test/logging.properties" />
+      <java classname="org.junit.gen5.console.ConsoleRunner" fork="yes" failonerror="on">
         <classpath refid="junit.class.path" />
-        <formatter type="xml" />
-        <assertions enablesystemassertions="true" />
-        <batchtest todir="${dir.out}/test-result">
-          <fileset dir="${dir.src}/test">
-            <include name="**/*Test.java" />
-          </fileset>
-        </batchtest>
-      </junit>
+        <jvmarg value="-Dfile.encoding=UTF-8" />
+        <jvmarg value="-Djava.util.logging.config.file=${dir.src}/test/logging.properties" />
+        <arg value="--all" />
+        <arg value="--hide-details" />
+        <arg value="--enable-exit-code" />
+        <arg line="--xml-reports-dir bin/junit5/test-reports" />
+      </java>
     </jacoco:coverage>
     <fail message="Test failure detected, check test results." if="test.failed" />
     <jacoco:report>
@@ -132,10 +121,7 @@
           <fileset dir="${dir.out}/main/classes" />
         </classfiles>
         <sourcefiles encoding="UTF-8">
-          <fileset dir="${dir.src}/api" />
-          <fileset dir="${dir.src}/core" />
-          <fileset dir="${dir.src}/type" />
-          <fileset dir="${dir.src}/main" />
+          <fileset dir="${dir.src}/java" />
         </sourcefiles>
       </structure>
       <html destdir="${dir.out}/jacoco" />

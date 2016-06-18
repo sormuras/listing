@@ -1,4 +1,0 @@
-@java.lang.Override
-public void run(com.github.sormuras.listing.MethodDeclarationTest this) throws java.lang.RuntimeException, X {
-  java.lang.System.out.println("Running!");
-}

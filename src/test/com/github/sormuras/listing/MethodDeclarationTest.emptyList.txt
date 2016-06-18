@@ -1,4 +1,0 @@
-@java.lang.SuppressWarnings("unchecked")
-public static final <T> java.util.List<T> emptyList() {
-  return (List<T>) EMPTY_LIST;
-}
