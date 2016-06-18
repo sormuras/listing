@@ -39,5 +39,4 @@ public final class Name {
   public String toString() {
     return "Name[" + getQualified() + "]";
   }
-
 }
