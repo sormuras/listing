@@ -31,17 +31,17 @@ import javax.lang.model.element.Modifier;
 
 /**
  * Names are used to refer to entities declared in a program.
- * <p>
- * A declared entity (§6.1) is a package, class type (normal or enum), interface type (normal or
+ *
+ * <p>A declared entity (§6.1) is a package, class type (normal or enum), interface type (normal or
  * annotation type), member (class, interface, field, or method) of a reference type, type parameter
  * (of a class, interface, method or constructor), parameter (to a method, constructor, or exception
  * handler), or local variable.
- * <p>
- * Names in programs are either simple, consisting of a single identifier, or qualified, consisting
- * of a sequence of identifiers separated by "." tokens (§6.2).
- * <p>
- * JavaName also stores an optional set of modifiers and an optional target element type describing
- * the purpose of the name.
+ *
+ * <p>Names in programs are either simple, consisting of a single identifier, or qualified,
+ * consisting of a sequence of identifiers separated by "." tokens (§6.2).
+ *
+ * <p>JavaName also stores an optional set of modifiers and an optional target element type
+ * describing the purpose of the name.
  *
  * @see JLS: <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-6.html">Names</a>
  */

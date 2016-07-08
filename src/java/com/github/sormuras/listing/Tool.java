@@ -79,11 +79,11 @@ interface Tool {
   /**
    * Escape Sequences for Character and String Literals.
    *
-   * The character and string escape sequences allow for the representation of some nongraphic
+   * <p>The character and string escape sequences allow for the representation of some nongraphic
    * characters without using Unicode escapes, as well as the single quote, double quote, and
    * backslash characters, in character literals (§3.10.4) and string literals (§3.10.5).
    *
-   * https://docs.oracle.com/javase/specs/jls/se8/html/jls-3.html#jls-3.10.6
+   * <p>https://docs.oracle.com/javase/specs/jls/se8/html/jls-3.html#jls-3.10.6
    */
   static String escape(char c) {
     switch (c) {
