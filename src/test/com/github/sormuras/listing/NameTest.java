@@ -1,14 +1,14 @@
 package com.github.sormuras.listing;
 
 import static com.github.sormuras.listing.Name.of;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.lang.annotation.ElementType;
 import java.util.Optional;
 
-import org.junit.gen5.api.Assertions;
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class NameTest {
 

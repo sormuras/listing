@@ -3,15 +3,15 @@ package com.github.sormuras.listing;
 import static com.github.sormuras.listing.Listable.IDENTITY;
 import static com.github.sormuras.listing.Listable.NEWLINE;
 import static com.github.sormuras.listing.Listable.SPACE;
-import static org.junit.gen5.api.Assertions.assertArrayEquals;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertFalse;
-import static org.junit.gen5.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.Test;
 
 class ListableTest {
 

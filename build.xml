@@ -98,16 +98,15 @@
     </copy>
 
     <mkdir dir="${dir.out}/test-result" />
-    <!-- JUnit4 -->
-    <echo>Running JUnit5 tests</echo>
+    <!-- JUnit5 -->
+    <echo>Running JUnit Platform tests</echo>
     <jacoco:coverage destfile="${dir.out}/jacoco.exec">
-      <java classname="org.junit.gen5.console.ConsoleRunner" fork="yes" failonerror="on">
+      <java classname="org.junit.platform.console.ConsoleLauncher" fork="yes" failonerror="on">
         <classpath refid="junit.class.path" />
         <jvmarg value="-Dfile.encoding=UTF-8" />
         <jvmarg value="-Djava.util.logging.config.file=${dir.src}/test/logging.properties" />
         <arg value="--all" />
         <arg value="--hide-details" />
-        <arg value="--enable-exit-code" />
         <arg line="--xml-reports-dir bin/junit5/test-reports" />
       </java>
     </jacoco:coverage>

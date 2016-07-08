@@ -1,14 +1,15 @@
 package com.github.sormuras.listing;
 
 import static java.util.Arrays.asList;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertTrue;
-import static org.junit.gen5.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.expectThrows;
+
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 
-import org.junit.gen5.api.Executable;
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.Executable;
+import org.junit.jupiter.api.Test;
 
 public class ToolTest {
 

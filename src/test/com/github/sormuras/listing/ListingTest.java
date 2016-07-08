@@ -6,7 +6,7 @@ import static com.github.sormuras.listing.Listable.SPACE;
 import static java.lang.Math.PI;
 import static java.util.Arrays.asList;
 import static java.util.Locale.GERMAN;
-import static org.junit.gen5.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.Test;
 
 public class ListingTest {
 
