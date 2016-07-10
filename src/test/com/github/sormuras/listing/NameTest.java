@@ -3,11 +3,12 @@ package com.github.sormuras.listing;
 import static com.github.sormuras.listing.Name.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import java.lang.annotation.ElementType;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class NameTest {
@@ -65,13 +66,13 @@ class NameTest {
 
   @Test
   void invalidIdentifier() {
-    Assertions.expectThrows(IllegalArgumentException.class, () -> of());
+    expectThrows(AssertionError.class, () -> of());
   }
 
   @Test
   void invalidIdentifierName() {
-    Exception e = Assertions.expectThrows(IllegalArgumentException.class, () -> of("test", "123"));
-    Assertions.assertTrue(e.toString().contains("123"));
+    AssertionError e = expectThrows(AssertionError.class, () -> of("test", "123"));
+    assertTrue(e.toString().contains("123"));
   }
 
   @Test

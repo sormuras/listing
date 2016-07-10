@@ -16,15 +16,8 @@ public class ToolTest {
   @Test
   void canonicalOfEmptyFails() {
     Executable executable = () -> Tool.canonical("", Collections.emptyList());
-    Exception exception = expectThrows(IllegalArgumentException.class, executable);
-    assertTrue(exception.toString().contains("empty"));
-  }
-
-  @Test
-  void check() {
-    Executable executable = () -> Tool.check(null, "<null>");
-    Exception exception = expectThrows(NullPointerException.class, executable);
-    assertTrue(exception.toString().contains("<null>"));
+    AssertionError e = expectThrows(AssertionError.class, executable);
+    assertTrue(e.toString().contains("empty"));
   }
 
   @Test

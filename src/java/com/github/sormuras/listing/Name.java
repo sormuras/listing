@@ -14,6 +14,7 @@
 package com.github.sormuras.listing;
 
 import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.requireNonNull;
 
 import java.lang.annotation.ElementType;
 import java.lang.reflect.Member;
@@ -48,7 +49,7 @@ import javax.lang.model.element.Modifier;
 public class Name implements Listable {
 
   public static Name of(Class<?> type) {
-    Tool.check(type, "type");
+    requireNonNull(type, "type");
     String packageName = Tool.packageOf(type);
     List<String> names = Tool.simpleNames(type);
     return new Name(packageName, names)
@@ -57,7 +58,7 @@ public class Name implements Listable {
   }
 
   public static Name of(Enum<?> constant) {
-    Tool.check(constant, "constant");
+    requireNonNull(constant, "constant");
     String packageName = Tool.packageOf(constant.getDeclaringClass());
     List<String> names = Tool.simpleNames(constant.getDeclaringClass(), constant.name());
     return new Name(packageName, names)
@@ -66,7 +67,7 @@ public class Name implements Listable {
   }
 
   public static Name of(Member member) {
-    Tool.check(member, "member");
+    requireNonNull(member, "member");
     Class<?> type = member.getDeclaringClass();
     String packageName = Tool.packageOf(type);
     List<String> names = Tool.simpleNames(type, member.getName());
@@ -80,12 +81,13 @@ public class Name implements Listable {
   }
 
   public static Name of(Modifier modifier, String... names) {
-    Tool.assume(names.length > 0, "non-empty names array expected");
+    assert names.length > 0 : "non-empty names array expected";
     List<String> simpleNames = new ArrayList<>(Arrays.asList(names));
     Iterator<String> iterator = simpleNames.iterator();
     String packageName = iterator.next();
     iterator.remove();
-    simpleNames.forEach(n -> Tool.assume(SourceVersion.isIdentifier(n), "non identifier %s", n));
+    assert simpleNames.stream().allMatch(SourceVersion::isIdentifier)
+        : "non identifier found in: " + simpleNames;
     Name javaName = new Name(packageName, simpleNames);
     if (names.length == 1) javaName.setTarget(ElementType.PACKAGE);
     if (names.length == 2) javaName.setTarget(ElementType.TYPE);
@@ -118,8 +120,8 @@ public class Name implements Listable {
   private ElementType target;
 
   protected Name(String packageName, List<String> simpleNames) {
-    this.packageName = Tool.check(packageName, "packageName");
-    this.simpleNames = unmodifiableList(Tool.check(simpleNames, "simpleNames"));
+    this.packageName = requireNonNull(packageName, "packageName");
+    this.simpleNames = unmodifiableList(requireNonNull(simpleNames, "simpleNames"));
     this.modifiers = EnumSet.noneOf(Modifier.class);
     this.canonicalName = Tool.canonical(packageName, simpleNames);
     this.target = null;

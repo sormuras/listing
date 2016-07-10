@@ -16,6 +16,7 @@ package com.github.sormuras.listing;
 import static java.lang.Character.isISOControl;
 import static java.util.Collections.addAll;
 import static java.util.Collections.reverse;
+import static java.util.Objects.requireNonNull;
 
 import java.lang.annotation.ElementType;
 import java.lang.reflect.Constructor;
@@ -36,10 +37,6 @@ import javax.lang.model.element.Modifier;
  */
 interface Tool {
 
-  static void assume(boolean condition, String format, Object... args) {
-    if (!condition) throw new IllegalArgumentException(String.format(format, args));
-  }
-
   /**
    * Creates a joined name string for the given components.
    *
@@ -48,9 +45,9 @@ interface Tool {
    * @return all names joined to a single string
    */
   static String canonical(String packageName, List<String> names) {
-    check(packageName, "packageName");
-    check(names, "names");
-    assume(!(packageName.isEmpty() && names.isEmpty()), "packageName and names are empty");
+    requireNonNull(packageName, "packageName");
+    requireNonNull(names, "names");
+    assert !(packageName.isEmpty() && names.isEmpty()) : "packageName and names are empty";
     if (names.isEmpty()) {
       return packageName;
     }
@@ -62,11 +59,6 @@ interface Tool {
       return builder.append(names.get(0)).toString();
     }
     return builder.append(String.join(".", names)).toString();
-  }
-
-  static <T> T check(T reference, String referenceName) {
-    if (reference == null) throw new NullPointerException(referenceName + " must not be null");
-    return reference;
   }
 
   static ElementType elementOf(Member member) {
@@ -148,7 +140,7 @@ interface Tool {
   }
 
   static String packageOf(Class<?> type) {
-    check(type, "type");
+    requireNonNull(type, "type");
     // trivial case: package is attached to the type
     Package packageOfType = type.getPackage();
     if (packageOfType != null) {
@@ -177,7 +169,7 @@ interface Tool {
   }
 
   static List<String> simpleNames(Class<?> type, String... additionalNames) {
-    check(type, "type");
+    requireNonNull(type, "type");
     List<String> names = new ArrayList<>();
     while (type != null) {
       names.add(type.getSimpleName());

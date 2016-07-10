@@ -103,6 +103,7 @@
     <jacoco:coverage destfile="${dir.out}/jacoco.exec">
       <java classname="org.junit.platform.console.ConsoleLauncher" fork="yes" failonerror="on">
         <classpath refid="junit.class.path" />
+        <jvmarg value="-ea" />
         <jvmarg value="-Dfile.encoding=UTF-8" />
         <jvmarg value="-Djava.util.logging.config.file=${dir.src}/test/logging.properties" />
         <arg value="--all" />
