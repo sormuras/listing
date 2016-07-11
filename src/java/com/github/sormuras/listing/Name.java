@@ -20,7 +20,6 @@ import java.lang.annotation.ElementType;
 import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -46,24 +45,26 @@ import javax.lang.model.element.Modifier;
  *
  * @see JLS: <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-6.html">Names</a>
  */
-public class Name implements Listable {
+public class Name implements Listable, Modifiable {
 
   public static Name of(Class<?> type) {
     requireNonNull(type, "type");
     String packageName = Tool.packageOf(type);
     List<String> names = Tool.simpleNames(type);
-    return new Name(packageName, names)
-        .setTarget(ElementType.TYPE)
-        .setModifiers(type.getModifiers());
+    Name name = new Name(packageName, names);
+    name.setTarget(ElementType.TYPE);
+    name.setModifiers(type.getModifiers());
+    return name;
   }
 
   public static Name of(Enum<?> constant) {
     requireNonNull(constant, "constant");
     String packageName = Tool.packageOf(constant.getDeclaringClass());
     List<String> names = Tool.simpleNames(constant.getDeclaringClass(), constant.name());
-    return new Name(packageName, names)
-        .setTarget(ElementType.FIELD)
-        .setModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
+    Name name = new Name(packageName, names);
+    name.setTarget(ElementType.FIELD);
+    name.setModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
+    return name;
   }
 
   public static Name of(Member member) {
@@ -71,9 +72,10 @@ public class Name implements Listable {
     Class<?> type = member.getDeclaringClass();
     String packageName = Tool.packageOf(type);
     List<String> names = Tool.simpleNames(type, member.getName());
-    return new Name(packageName, names)
-        .setTarget(Tool.elementOf(member))
-        .setModifiers(member.getModifiers());
+    Name name = new Name(packageName, names);
+    name.setTarget(Tool.elementOf(member));
+    name.setModifiers(member.getModifiers());
+    return name;
   }
 
   public static Name of(String... names) {
@@ -82,17 +84,16 @@ public class Name implements Listable {
 
   public static Name of(Modifier modifier, String... names) {
     assert names.length > 0 : "non-empty names array expected";
-    List<String> simpleNames = new ArrayList<>(Arrays.asList(names));
-    Iterator<String> iterator = simpleNames.iterator();
+    List<String> simples = new ArrayList<>(Arrays.asList(names));
+    Iterator<String> iterator = simples.iterator();
     String packageName = iterator.next();
     iterator.remove();
-    assert simpleNames.stream().allMatch(SourceVersion::isIdentifier)
-        : "non identifier found in: " + simpleNames;
-    Name javaName = new Name(packageName, simpleNames);
-    if (names.length == 1) javaName.setTarget(ElementType.PACKAGE);
-    if (names.length == 2) javaName.setTarget(ElementType.TYPE);
-    if (modifier != null) javaName.setModifiers(modifier);
-    return javaName;
+    assert simples.stream().allMatch(SourceVersion::isIdentifier) : "non-name in: " + simples;
+    Name name = new Name(packageName, simples);
+    if (names.length == 1) name.setTarget(ElementType.PACKAGE);
+    if (names.length == 2) name.setTarget(ElementType.TYPE);
+    if (modifier != null) name.setModifiers(modifier);
+    return name;
   }
 
   //  public static Name of(TypeDeclaration declaration) {
@@ -185,22 +186,6 @@ public class Name implements Listable {
 
   public boolean isJavaLangPackage() {
     return "java.lang".equals(packageName);
-  }
-
-  public boolean isStatic() {
-    return getModifiers().contains(Modifier.STATIC);
-  }
-
-  public Name setModifiers(int mod) {
-    this.modifiers.clear();
-    this.modifiers.addAll(Tool.modifiers(mod));
-    return this;
-  }
-
-  public Name setModifiers(Modifier... modifiers) {
-    this.modifiers.clear();
-    Collections.addAll(this.modifiers, modifiers);
-    return this;
   }
 
   public Name setTarget(ElementType target) {
