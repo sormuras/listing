@@ -62,7 +62,7 @@ public class Name implements Listable, Modifiable {
     String packageName = Tool.packageOf(constant.getDeclaringClass());
     List<String> names = Tool.simpleNames(constant.getDeclaringClass(), constant.name());
     Name name = new Name(packageName, names);
-    name.setTarget(ElementType.FIELD);
+    name.setTarget(ElementType.FIELD); // Field declaration (includes enum constants)
     name.setModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
     return name;
   }
@@ -95,24 +95,6 @@ public class Name implements Listable, Modifiable {
     if (modifier != null) name.setModifiers(modifier);
     return name;
   }
-
-  //  public static Name of(TypeDeclaration declaration) {
-  //    String packageName = "";
-  //    if (declaration.getUnit().isPresent()) {
-  //      packageName =
-  //          declaration.getUnit().get().getPackageDeclaration().getPackageName().getCanonicalName();
-  //    }
-  //    List<String> simpleNames = new ArrayList<>();
-  //    TypeDeclaration current = declaration;
-  //    while (current != null) {
-  //      simpleNames.add(0, current.getName());
-  //      current = current.getEnclosingType().orElse(null);
-  //    }
-  //    Name name = new Name(packageName, simpleNames);
-  //    name.getModifiers().addAll(declaration.getModifiers());
-  //    name.setTarget(ElementType.TYPE);
-  //    return name;
-  //  }
 
   private final String canonicalName;
   private final Set<Modifier> modifiers;
