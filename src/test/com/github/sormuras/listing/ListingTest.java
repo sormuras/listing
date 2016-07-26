@@ -17,13 +17,13 @@ import javax.script.ScriptEngineManager;
 
 import org.junit.jupiter.api.Test;
 
-public class ListingTest {
+class ListingTest {
 
   @Test
   void addChar() {
     assertEquals("\0", new Listing().add('\0').toString());
-    assertEquals("'0'", new Listing().add(Listable.of('0')).toString());
-    assertEquals("'\\u0000'", new Listing().add(Listable.of('\0')).toString());
+    assertEquals("'0'", new Listing().add(Annotation.value('0')).toString());
+    assertEquals("'\\u0000'", new Listing().add(Annotation.value('\0')).toString());
   }
 
   @Test
@@ -45,9 +45,9 @@ public class ListingTest {
   void addListOfListables() {
     List<Listable> list = new ArrayList<>();
     assertEquals("", new Listing().add(list).toString());
-    list.add(Listable.of('a'));
+    list.add(Annotation.value('a'));
     assertEquals("'a'", new Listing().add(list).toString());
-    list.add(Listable.of('z'));
+    list.add(Annotation.value('z'));
     assertEquals("'a'\n'z'", new Listing().add(list).toString());
     assertEquals("'a'-'z'", new Listing().add(list, "-").toString());
   }

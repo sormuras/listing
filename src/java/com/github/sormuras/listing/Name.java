@@ -20,6 +20,7 @@ import java.lang.annotation.ElementType;
 import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -97,7 +98,7 @@ public class Name implements Listable, Modifiable {
   }
 
   private final String canonicalName;
-  private final Set<Modifier> modifiers;
+  private Set<Modifier> modifiers;
   private final String packageName;
   private final List<String> simpleNames;
   private ElementType target;
@@ -105,7 +106,7 @@ public class Name implements Listable, Modifiable {
   protected Name(String packageName, List<String> simpleNames) {
     this.packageName = requireNonNull(packageName, "packageName");
     this.simpleNames = unmodifiableList(requireNonNull(simpleNames, "simpleNames"));
-    this.modifiers = EnumSet.noneOf(Modifier.class);
+    this.modifiers = Collections.emptySet();
     this.canonicalName = Tool.canonical(packageName, simpleNames);
     this.target = null;
   }
@@ -135,7 +136,10 @@ public class Name implements Listable, Modifiable {
     return Optional.empty();
   }
 
-  public Set<Modifier> getModifiers() {
+  public Set<Modifier> getModifiers(boolean readonly) {
+    if (!readonly && modifiers == Collections.EMPTY_SET) {
+      modifiers = EnumSet.noneOf(Modifier.class);
+    }
     return modifiers;
   }
 

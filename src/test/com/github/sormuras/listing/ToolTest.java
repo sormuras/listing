@@ -11,7 +11,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Executable;
 import org.junit.jupiter.api.Test;
 
-public class ToolTest {
+class ToolTest {
 
   @Test
   void canonicalOfEmptyFails() {

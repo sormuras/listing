@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.math.BigInteger;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -62,18 +61,5 @@ class ListableTest {
     assertTrue(IDENTITY.isEmpty());
     assertTrue(NEWLINE.isEmpty());
     assertFalse(SPACE.isEmpty());
-  }
-
-  @Test
-  void of() {
-    assertEquals("int.class", Listable.of(int.class).list());
-    assertEquals("java.lang.Thread.State.class", Listable.of(Thread.State.class).list());
-    assertEquals("java.lang.Thread.State.NEW", Listable.of(Thread.State.NEW).list());
-    assertEquals("\"a\"", Listable.of("a").list());
-    assertEquals("2.718282F", Listable.of((float) Math.E).list());
-    assertEquals("9223372036854775807L", Listable.of(Long.MAX_VALUE).list());
-    assertEquals("'!'", Listable.of('!').list());
-    assertEquals("null", Listable.of(null).list());
-    assertEquals("0", Listable.of(BigInteger.ZERO).list());
   }
 }

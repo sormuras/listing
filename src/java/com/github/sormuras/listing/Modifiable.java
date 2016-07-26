@@ -42,12 +42,16 @@ public interface Modifiable {
     getModifiers().addAll(Arrays.asList(modifiers));
   }
 
+  Set<Modifier> getModifiers(boolean readonly);
+
   /**
    * Returns all applied modifiers.
    *
    * @return Applied modifiers.
    */
-  Set<Modifier> getModifiers();
+  default Set<Modifier> getModifiers() {
+    return getModifiers(false);
+  }
 
   /**
    * Returns all modifiers that are applicable to this element kind.
@@ -59,11 +63,11 @@ public interface Modifiable {
   }
 
   default boolean isModified() {
-    return !getModifiers().isEmpty();
+    return !getModifiers(true).isEmpty();
   }
 
   default boolean isStatic() {
-    return getModifiers().contains(Modifier.STATIC);
+    return getModifiers(true).contains(Modifier.STATIC);
   }
 
   default void setModifiers(int mod) {
