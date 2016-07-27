@@ -89,7 +89,7 @@ public class Annotation implements Listable {
     if (o instanceof String) return listing -> listing.add(escape((String) o));
     if (o instanceof Float) return listing -> listing.add(Locale.US, "%fF", o);
     if (o instanceof Long) return listing -> listing.add(Locale.US, "%dL", o);
-    if (o instanceof Character) return listing -> listing.add('\'').add(escape((char) o)).add('\'');
+    if (o instanceof Character) return listing -> listing.add("'").add(escape((char) o)).add("'");
     return listing -> listing.add(Objects.toString(o));
   }
 
@@ -107,7 +107,7 @@ public class Annotation implements Listable {
     List<Listable> values = getMembers().get(name);
     if (values == null) {
       values = new ArrayList<>();
-      members.put(name, values);
+      getMembers().put(name, values);
     }
     values.add(listable);
     return this;
@@ -126,6 +126,7 @@ public class Annotation implements Listable {
   public Listing apply(Listing listing) {
     // always emit "@" and the typename
     listing.add('@').add(getTypeName());
+    Map<String, List<Listable>> members = getMembers(true);
     // trivival case: marker annotation w/o members
     if (members.isEmpty()) {
       return listing;
@@ -147,7 +148,11 @@ public class Annotation implements Listable {
   }
 
   public Map<String, List<Listable>> getMembers() {
-    if (members == Collections.EMPTY_MAP) {
+    return getMembers(false);
+  }
+
+  public Map<String, List<Listable>> getMembers(boolean readonly) {
+    if (members == Collections.EMPTY_MAP && !readonly) {
       members = new LinkedHashMap<>();
     }
     return members;
@@ -159,7 +164,7 @@ public class Annotation implements Listable {
 
   @Override
   public String toString() {
-    return "JavaAnnotation{" + getTypeName() + ", members=" + members + "}";
+    return "JavaAnnotation{" + getTypeName() + ", members=" + getMembers(true) + "}";
   }
 
   /** Annotation array-aware value(s) appender. */
