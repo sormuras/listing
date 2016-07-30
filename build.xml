@@ -130,7 +130,7 @@
       <check>
         <rule element="PACKAGE">
           <limit counter="LINE" value="COVEREDRATIO" minimum="0.90" />
-          <limit counter="CLASS" value="MISSEDCOUNT" maximum="0" />
+          <limit counter="CLASS" value="MISSEDCOUNT" maximum="1" />
         </rule>
       </check>
     </jacoco:report>
