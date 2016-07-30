@@ -66,12 +66,13 @@ class NameTest {
 
   @Test
   void invalidIdentifier() {
-    expectThrows(AssertionError.class, () -> of());
+    Exception e = expectThrows(IllegalArgumentException.class, () -> of());
+    assertTrue(e.toString().contains("non-empty names array expected"));
   }
 
   @Test
   void invalidIdentifierName() {
-    AssertionError e = expectThrows(AssertionError.class, () -> of("test", "123"));
+    Exception e = expectThrows(IllegalArgumentException.class, () -> of("test", "123"));
     assertTrue(e.toString().contains("123"));
   }
 

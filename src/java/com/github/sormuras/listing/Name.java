@@ -80,12 +80,14 @@ public class Name implements Listable, Modifiable {
   }
 
   public static Name of(String... names) {
-    assert names.length > 0 : "non-empty names array expected";
+    requireNonNull(names, "names");
+    if (names.length == 0) throw new IllegalArgumentException("non-empty names array expected");
     List<String> simples = new ArrayList<>(Arrays.asList(names));
     Iterator<String> iterator = simples.iterator();
     String packageName = iterator.next();
     iterator.remove();
-    assert simples.stream().allMatch(SourceVersion::isIdentifier) : "non-name in: " + simples;
+    if (!simples.stream().allMatch(SourceVersion::isIdentifier))
+      throw new IllegalArgumentException("non-name in: " + simples);
     Name name = new Name(packageName, simples);
     if (names.length == 1) name.setTarget(ElementType.PACKAGE);
     if (names.length == 2) name.setTarget(ElementType.TYPE);
