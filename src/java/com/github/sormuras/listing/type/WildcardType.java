@@ -19,7 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.sormuras.listing.*;
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listing;
 
 /**
  * Wildcards are useful in situations where only partial knowledge about the type parameter is
@@ -28,7 +29,7 @@ import com.github.sormuras.listing.*;
  * @author Christian Stein
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-Wildcard
  */
-public class Wildcard extends JavaType {
+public class WildcardType extends JavaType {
 
   private List<Annotation> annotations = Collections.emptyList();
   private ReferenceType boundExtends = ClassType.of(Object.class);
@@ -69,14 +70,14 @@ public class Wildcard extends JavaType {
   }
 
   /** upper bound */
-  public Wildcard setBoundExtends(ReferenceType boundExtends) {
+  public WildcardType setBoundExtends(ReferenceType boundExtends) {
     this.boundExtends = boundExtends;
     this.boundSuper = null;
     return this;
   }
 
   /** lower bound */
-  public Wildcard setBoundSuper(ReferenceType boundSuper) {
+  public WildcardType setBoundSuper(ReferenceType boundSuper) {
     this.boundExtends = ClassType.of(Object.class);
     this.boundSuper = boundSuper;
     return this;

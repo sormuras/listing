@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import com.github.sormuras.listing.*;
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listing;
 
 /**
  * A primitive type is predefined by the Java language and named by its reserved keyword.
@@ -39,10 +40,6 @@ public class PrimitiveType extends JavaType {
 
   public Class<?> getType() {
     return type;
-  }
-
-  public void setAnnotations(List<Annotation> annotations) {
-    this.annotations = annotations;
   }
 
   @Override

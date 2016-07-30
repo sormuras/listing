@@ -17,12 +17,13 @@ import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-import java.lang.annotation.ElementType;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.sormuras.listing.*;
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listing;
+import com.github.sormuras.listing.Name;
 
 public class ClassType extends ReferenceType {
 
@@ -62,11 +63,6 @@ public class ClassType extends ReferenceType {
   @Override
   public List<Annotation> getAnnotations(boolean readonly) {
     return names.get(names.size() - 1).getAnnotations(readonly);
-  }
-
-  @Override
-  public ElementType getAnnotationTarget() {
-    return ElementType.TYPE_USE;
   }
 
   public Optional<ClassType> getEnclosingClassType() {

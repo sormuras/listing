@@ -22,8 +22,6 @@ import java.lang.reflect.AnnotatedTypeVariable;
 import java.lang.reflect.AnnotatedWildcardType;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +72,7 @@ public interface JavaTypes {
   }
 
   static JavaType of(AnnotatedWildcardType annotatedType) {
-    Wildcard result = new Wildcard();
+    WildcardType result = new WildcardType();
     for (AnnotatedType bound : annotatedType.getAnnotatedLowerBounds()) { // ? super lower bound
       result.setBoundSuper((ReferenceType) JavaType.of(bound));
     }
@@ -87,7 +85,7 @@ public interface JavaTypes {
 
   static JavaType of(GenericArrayType type) {
     List<ArrayDimension> dimensions = new ArrayList<>();
-    Type component = type;
+    java.lang.reflect.Type component = type;
     while (component instanceof GenericArrayType) {
       ArrayDimension dimension = new ArrayDimension();
       dimensions.add(dimension);
@@ -98,7 +96,7 @@ public interface JavaTypes {
 
   static JavaType of(ParameterizedType type) {
     List<TypeArgument> arguments = new ArrayList<>();
-    for (Type actual : type.getActualTypeArguments()) {
+    for (java.lang.reflect.Type actual : type.getActualTypeArguments()) {
       arguments.add(new TypeArgument(JavaType.of(actual)));
     }
     ClassType result = (ClassType) JavaType.of(type.getRawType());
@@ -112,13 +110,15 @@ public interface JavaTypes {
     return result;
   }
 
-  static JavaType of(WildcardType type) {
-    Wildcard result = new Wildcard();
-    for (Type bound : type.getLowerBounds()) { // ? super lower bound
+  static JavaType of(java.lang.reflect.WildcardType type) {
+    WildcardType result = new WildcardType();
+    // ? super lower bound
+    for (java.lang.reflect.Type bound : type.getLowerBounds()) {
       result.setBoundSuper((ReferenceType) JavaType.of(bound));
       return result;
     }
-    for (Type bound : type.getUpperBounds()) { // ? extends upper bound
+    // ? extends upper bound
+    for (java.lang.reflect.Type bound : type.getUpperBounds()) {
       result.setBoundExtends((ReferenceType) JavaType.of(bound));
     }
     return result;

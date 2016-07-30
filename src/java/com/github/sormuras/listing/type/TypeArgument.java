@@ -13,7 +13,8 @@
  */
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.*;
+import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Listing;
 
 /**
  * Type arguments may be either reference types or wildcards.
@@ -24,14 +25,14 @@ import com.github.sormuras.listing.*;
 public class TypeArgument implements Listable {
 
   private ReferenceType reference;
-  private Wildcard wildcard;
+  private WildcardType wildcard;
 
   public TypeArgument(Class<?> argument) {
     this(JavaType.of(argument));
   }
 
   public TypeArgument(JavaType argument) {
-    if (argument instanceof Wildcard) setWildcard((Wildcard) argument);
+    if (argument instanceof WildcardType) setWildcard((WildcardType) argument);
     if (argument instanceof ReferenceType) setReference((ReferenceType) argument);
     if (getReference() == null && getWildcard() == null) {
       throw new AssertionError("neither reference nor wildcard set");
@@ -50,7 +51,7 @@ public class TypeArgument implements Listable {
     return reference;
   }
 
-  public Wildcard getWildcard() {
+  public WildcardType getWildcard() {
     return wildcard;
   }
 
@@ -60,7 +61,7 @@ public class TypeArgument implements Listable {
     return this;
   }
 
-  public TypeArgument setWildcard(Wildcard wildcard) {
+  public TypeArgument setWildcard(WildcardType wildcard) {
     this.wildcard = wildcard;
     this.reference = null;
     return this;

@@ -21,11 +21,13 @@ import java.lang.reflect.AnnotatedTypeVariable;
 import java.lang.reflect.AnnotatedWildcardType;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 
-import com.github.sormuras.listing.*;
+import com.github.sormuras.listing.Annotatable;
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Name;
 
 /**
  * The Java programming language is a statically typed language, which means that every variable and
@@ -84,7 +86,7 @@ public abstract class JavaType implements Listable, Annotatable {
     return new ClassType(Name.of(c));
   }
 
-  public static JavaType of(Type type) {
+  public static JavaType of(java.lang.reflect.Type type) {
     if (type instanceof GenericArrayType) {
       return JavaTypes.of((GenericArrayType) type);
     }
