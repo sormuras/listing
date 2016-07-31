@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.lang.reflect.Method;
-import java.net.URI;
 
 import javax.tools.JavaFileObject;
 
@@ -16,7 +15,7 @@ class CompilationTest {
   @Test
   void hi() throws Exception {
     String code = "public class Hi { public String greet(String who) { return \"Hi \" + who;}}";
-    JavaFileObject file = Compilation.source(URI.create("Hi.java"), code);
+    JavaFileObject file = Compilation.source("Hi.java", code);
     ClassLoader loader = Compilation.compile(file);
     Class<?> hiClass = loader.loadClass("Hi");
     Object hiInstance = hiClass.newInstance();
@@ -27,7 +26,7 @@ class CompilationTest {
 
   @Test
   void lastModified() {
-    JavaFileObject jfo = new Compilation.CharContentFileObject(URI.create("abc"), "abc");
+    JavaFileObject jfo = new Compilation.CharContentFileObject("abc", "abc");
     assertNotEquals(0L, jfo.getLastModified());
   }
 
@@ -39,15 +38,14 @@ class CompilationTest {
     // b.declareClass("B").setSuperClass(ClassType.of("a", "A"));
     String codeA = "package a; public class A {}";
     String codeB = "package b; class B extends a.A {}";
-    JavaFileObject a = Compilation.source(URI.create("listing/A.java"), codeA);
-    JavaFileObject b = Compilation.source(URI.create("listing/B.java"), codeB);
-    Compilation.compile(a, b);
+    JavaFileObject fileA = Compilation.source("listing/A.java", codeA);
+    JavaFileObject fileB = Compilation.source("listing/B.java", codeB);
+    Compilation.compile(fileA, fileB);
   }
 
   @Test
   void syntaxError() {
     assertThrows(
-        RuntimeException.class,
-        () -> Compilation.compile(Compilation.source(URI.create("F.java"), "class 1F {}")));
+        Exception.class, () -> Compilation.compile(Compilation.source("F.java", "class 1F {}")));
   }
 }

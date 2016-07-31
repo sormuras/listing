@@ -68,6 +68,10 @@ public interface Compilation {
     private final String charContent;
     private final long lastModified;
 
+    public CharContentFileObject(String uri, String charContent) {
+      this(URI.create(uri), charContent);
+    }
+
     public CharContentFileObject(URI uri, String charContent) {
       super(uri, JavaFileObject.Kind.SOURCE);
       this.charContent = charContent;
@@ -168,6 +172,10 @@ public interface Compilation {
   //    URI uri = unit.getPackageDeclaration().toURI(declaration.getName() + ".java");
   //    return source(uri, unit.list());
   //  }
+
+  static JavaFileObject source(String uri, String charContent) {
+    return source(URI.create(uri), charContent);
+  }
 
   static JavaFileObject source(URI uri, String charContent) {
     return new CharContentFileObject(uri, charContent);
