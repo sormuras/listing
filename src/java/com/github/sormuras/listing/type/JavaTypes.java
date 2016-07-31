@@ -29,8 +29,6 @@ import com.github.sormuras.listing.Annotation;
 
 /**
  * Common <code>JavaType</code> factory collection.
- *
- * @author Christian Stein
  */
 public interface JavaTypes {
 

@@ -25,7 +25,6 @@ import com.github.sormuras.listing.Listing;
  * A type variable is an unqualified identifier used as a type in class, interface, method, and
  * constructor bodies.
  *
- * @author Christian Stein
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.4
  */
 public class TypeVariable extends ReferenceType {

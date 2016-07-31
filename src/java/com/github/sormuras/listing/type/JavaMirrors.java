@@ -24,8 +24,6 @@ import javax.lang.model.util.SimpleTypeVisitor8;
 
 /**
  * Common {@link JavaType} factory collection parsing {@link javax.lang.model.type.TypeMirror}s.
- *
- * @author Christian Stein
  */
 public interface JavaMirrors {
 

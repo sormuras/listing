@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 /**
  * An annotation object denotes a specific invocation of an annotation type.
  *
- * @author Christian Stein
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.7
  */
 public class Annotation implements Listable {

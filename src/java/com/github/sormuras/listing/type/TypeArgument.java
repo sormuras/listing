@@ -19,7 +19,6 @@ import com.github.sormuras.listing.Listing;
 /**
  * Type arguments may be either reference types or wildcards.
  *
- * @author Christian Stein
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1
  */
 public class TypeArgument implements Listable {

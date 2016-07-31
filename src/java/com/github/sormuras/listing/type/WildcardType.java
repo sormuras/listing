@@ -26,7 +26,6 @@ import com.github.sormuras.listing.Listing;
  * Wildcards are useful in situations where only partial knowledge about the type parameter is
  * required.
  *
- * @author Christian Stein
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-Wildcard
  */
 public class WildcardType extends JavaType {
