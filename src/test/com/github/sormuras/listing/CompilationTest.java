@@ -1,9 +1,8 @@
 package com.github.sormuras.listing;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.lang.reflect.Method;
 import java.net.URI;
@@ -15,15 +14,15 @@ import org.junit.jupiter.api.Test;
 class CompilationTest {
 
   @Test
-  void hello() throws Exception {
-    String code =
-        "public class Hello { public String greet(String name) { return \"Hello \" + name;}}";
-    JavaFileObject file = Compilation.source(URI.create("Hello.java"), code);
+  void hi() throws Exception {
+    String code = "public class Hi { public String greet(String who) { return \"Hi \" + who;}}";
+    JavaFileObject file = Compilation.source(URI.create("Hi.java"), code);
     ClassLoader loader = Compilation.compile(file);
-    Class<?> helloClass = loader.loadClass("Hello");
-    Object helloInstance = helloClass.newInstance();
-    Method greetMethod = helloClass.getMethod("greet", String.class);
-    assertEquals("Hello world", greetMethod.invoke(helloInstance, "world"));
+    Class<?> hiClass = loader.loadClass("Hi");
+    Object hiInstance = hiClass.newInstance();
+    Method greetMethod = hiClass.getMethod("greet", String.class);
+    assertEquals("Hi world", greetMethod.invoke(hiInstance, "world"));
+    assertThrows(ClassNotFoundException.class, () -> loader.loadClass("Hello"));
   }
 
   @Test
@@ -42,6 +41,13 @@ class CompilationTest {
     String codeB = "package b; class B extends a.A {}";
     JavaFileObject a = Compilation.source(URI.create("listing/A.java"), codeA);
     JavaFileObject b = Compilation.source(URI.create("listing/B.java"), codeB);
-    Compilation.compile(getClass().getClassLoader(), emptyList(), emptyList(), asList(a, b));
+    Compilation.compile(a, b);
+  }
+
+  @Test
+  void syntaxError() {
+    assertThrows(
+        RuntimeException.class,
+        () -> Compilation.compile(Compilation.source(URI.create("F.java"), "class 1F {}")));
   }
 }
