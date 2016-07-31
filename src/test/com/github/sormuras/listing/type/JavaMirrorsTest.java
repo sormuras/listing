@@ -1,11 +1,14 @@
 package com.github.sormuras.listing.type;
 
+import static com.github.sormuras.listing.Tests.proxy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import javax.lang.model.type.NoType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeVisitor;
 
 import org.junit.jupiter.api.Test;
 
@@ -56,5 +59,12 @@ class JavaMirrorsTest {
             AssertionError.class,
             () -> JavaMirrors.of(Tests.proxy(NoType.class, (p, m, a) -> TypeKind.ERROR)));
     assertTrue(e.toString().contains("Unsupported no type"));
+  }
+
+  @Test
+  void visitor() {
+    TypeVisitor<JavaType, ?> visitor = new JavaMirrors.Visitor();
+    NoType voidType = proxy(NoType.class, (p, m, a) -> TypeKind.VOID);
+    assertEquals(JavaType.of(void.class), visitor.visitNoType(voidType, null));
   }
 }
