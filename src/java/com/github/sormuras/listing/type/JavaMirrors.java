@@ -22,9 +22,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.SimpleTypeVisitor8;
 
-/**
- * Common {@link JavaType} factory collection parsing {@link javax.lang.model.type.TypeMirror}s.
- */
+/** Common {@link JavaType} factory collection parsing {@link javax.lang.model.type.TypeMirror}s. */
 public interface JavaMirrors {
 
   class Visitor extends SimpleTypeVisitor8<JavaType, Map<?, ?>> {

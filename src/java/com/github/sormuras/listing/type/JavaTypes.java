@@ -27,9 +27,7 @@ import java.util.List;
 
 import com.github.sormuras.listing.Annotation;
 
-/**
- * Common <code>JavaType</code> factory collection.
- */
+/** Common <code>JavaType</code> factory collection. */
 public interface JavaTypes {
 
   static JavaType of(AnnotatedArrayType annotatedType) {

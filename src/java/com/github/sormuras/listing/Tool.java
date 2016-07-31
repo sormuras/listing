@@ -30,9 +30,7 @@ import java.util.Set;
 
 import javax.lang.model.element.Modifier;
 
-/**
- * Common tools.
- */
+/** Common tools. */
 interface Tool {
 
   /**
