@@ -2,8 +2,10 @@ package com.github.sormuras.listing;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.lang.reflect.Method;
 import java.net.URI;
 
 import javax.tools.JavaFileObject;
@@ -11,6 +13,18 @@ import javax.tools.JavaFileObject;
 import org.junit.jupiter.api.Test;
 
 class CompilationTest {
+
+  @Test
+  void hello() throws Exception {
+    String code =
+        "public class Hello { public String greet(String name) { return \"Hello \" + name;}}";
+    JavaFileObject file = Compilation.source(URI.create("Hello.java"), code);
+    ClassLoader loader = Compilation.compile(file);
+    Class<?> helloClass = loader.loadClass("Hello");
+    Object helloInstance = helloClass.newInstance();
+    Method greetMethod = helloClass.getMethod("greet", String.class);
+    assertEquals("Hello world", greetMethod.invoke(helloInstance, "world"));
+  }
 
   @Test
   void lastModified() {

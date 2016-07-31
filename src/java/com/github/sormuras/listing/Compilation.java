@@ -13,6 +13,9 @@
  */
 package com.github.sormuras.listing;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -128,6 +131,10 @@ public interface Compilation {
       byte[] b = object.getBytes();
       return super.defineClass(className, b, 0, b.length);
     }
+  }
+
+  static ClassLoader compile(JavaFileObject... units) {
+    return compile(null, emptyList(), emptyList(), asList(units));
   }
 
   static ClassLoader compile(
