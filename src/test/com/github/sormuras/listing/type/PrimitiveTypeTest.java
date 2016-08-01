@@ -2,6 +2,7 @@ package com.github.sormuras.listing.type;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Name;
@@ -19,6 +20,8 @@ class PrimitiveTypeTest {
     assertEquals("int", JavaType.of(int.class).list());
     assertEquals("long", JavaType.of(long.class).list());
     assertEquals("short", JavaType.of(short.class).list());
+    assertThrows(AssertionError.class, () -> new PrimitiveType(void.class));
+    assertThrows(AssertionError.class, () -> new PrimitiveType(Byte.class));
   }
 
   @Test

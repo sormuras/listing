@@ -42,7 +42,9 @@ interface Tool {
   static String canonical(String packageName, List<String> names) {
     requireNonNull(packageName, "packageName");
     requireNonNull(names, "names");
-    assert !(packageName.isEmpty() && names.isEmpty()) : "packageName and names are empty";
+    if (packageName.isEmpty() && names.isEmpty()) {
+      throw new AssertionError("packageName and names are empty");
+    }
     if (names.isEmpty()) {
       return packageName;
     }
