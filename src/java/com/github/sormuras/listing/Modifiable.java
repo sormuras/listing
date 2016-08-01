@@ -90,8 +90,7 @@ public interface Modifiable {
     for (Modifier modifier : modifiers) {
       if (!set.contains(modifier)) {
         String message = "Modifier %s not allowed at instance of %s, valid modifier(s): %s";
-        throw new IllegalArgumentException(
-            String.format(message, modifier.name(), getClass(), set));
+        throw new IllegalArgumentException(String.format(message, modifier, getClass(), set));
       }
     }
   }

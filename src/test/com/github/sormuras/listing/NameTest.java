@@ -101,6 +101,7 @@ class NameTest {
     assertTrue(of(Object.class).isModified()); // public
     assertTrue(of(Thread.State.NEW).isModified()); // public static final
     assertFalse(of(getClass().getDeclaredMethod("modified")).isModified()); // <empty>
+    expectThrows(IllegalArgumentException.class, () -> of("", "A").addModifier(null));
   }
 
   @Test

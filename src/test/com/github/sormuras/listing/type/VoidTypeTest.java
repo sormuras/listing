@@ -2,14 +2,22 @@ package com.github.sormuras.listing.type;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Name;
 import org.junit.jupiter.api.Test;
 
 class VoidTypeTest {
+
+  @Test
+  void annotationTargetIsNull() {
+    assertNull(new VoidType().getAnnotationTarget());
+    assertEquals(Listable.NEWLINE, new VoidType().getAnnotationSeparator());
+  }
 
   @Test
   void annotationsAreImmutable() {
