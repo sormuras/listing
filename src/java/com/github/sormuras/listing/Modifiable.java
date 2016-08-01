@@ -13,6 +13,8 @@
  */
 package com.github.sormuras.listing;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -88,6 +90,7 @@ public interface Modifiable {
   default void validateModifiers(Modifier... modifiers) {
     Set<Modifier> set = getModifierValidationSet();
     for (Modifier modifier : modifiers) {
+      requireNonNull(modifier, "null is not a valid modifier");
       if (!set.contains(modifier)) {
         String message = "Modifier %s not allowed at instance of %s, valid modifier(s): %s";
         throw new IllegalArgumentException(String.format(message, modifier, getClass(), set));

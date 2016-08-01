@@ -105,7 +105,7 @@ class NameTest {
     assertFalse(name.isModified()); // <empty>
     name.addModifier(Modifier.SYNCHRONIZED);
     assertTrue(name.isModified()); // synchronized
-    expectThrows(IllegalArgumentException.class, () -> of("", "A").addModifier(null));
+    expectThrows(NullPointerException.class, () -> of("", "A").addModifier(null));
   }
 
   @Test
