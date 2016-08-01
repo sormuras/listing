@@ -13,7 +13,9 @@
  */
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.*;
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Listing;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
