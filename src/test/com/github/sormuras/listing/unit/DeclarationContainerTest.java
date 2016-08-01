@@ -4,12 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import java.util.function.Supplier;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class DeclarationContainerTest {
 
-  @Disabled
   @Test
   void compilationUnit() {
     test(CompilationUnit::new);
@@ -26,9 +24,9 @@ class DeclarationContainerTest {
   }
 
   void test(Supplier<DeclarationContainer> supplier) {
-    duplicateNestedNameFails(supplier.get());
-    duplicateSiblingNameFails(supplier.get());
     illegalJavaNameFails(supplier.get());
+    duplicateSiblingNameFails(supplier.get());
+    duplicateNestedNameFails(supplier.get());
   }
 
   void duplicateNestedNameFails(DeclarationContainer container) {

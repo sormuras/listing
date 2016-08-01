@@ -28,14 +28,13 @@ public abstract class TypeDeclaration implements DeclarationContainer {
   @Override
   public void assertValidNestedDeclarationName(String name) {
     DeclarationContainer.super.assertValidNestedDeclarationName(name);
-    TypeDeclaration enclosing = this;
-    if (enclosing.getEnclosingDeclaration().isPresent()) {
-      while (enclosing.getEnclosingDeclaration().isPresent()) {
-        if (enclosing.getName().equals(name)) {
-          throw new IllegalArgumentException("nested " + name + " hides an enclosing type");
-        }
-        enclosing = enclosing.getEnclosingDeclaration().get();
+    Optional<TypeDeclaration> enclosing = Optional.of(this);
+    while (enclosing.isPresent()) {
+      TypeDeclaration parent = enclosing.get();
+      if (name.equals(parent.getName())) {
+        throw new IllegalArgumentException("nested " + name + " hides an enclosing type");
       }
+      enclosing = parent.getEnclosingDeclaration();
     }
   }
 
