@@ -132,6 +132,7 @@ public class Name implements Listable, Modifiable {
     return Optional.empty();
   }
 
+  @Override
   public Set<Modifier> getModifiers(boolean readonly) {
     if (!readonly && modifiers == Collections.EMPTY_SET) {
       modifiers = EnumSet.noneOf(Modifier.class);

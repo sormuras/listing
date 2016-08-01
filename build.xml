@@ -98,8 +98,8 @@
     </copy>
 
     <mkdir dir="${dir.out}/test-result" />
-    <!-- JUnit5 -->
-    <echo>Running JUnit Platform tests</echo>
+    <!-- JUnit5 + JaCoCo -->
+    <echo>Running JUnit 5 tests with coverage info</echo>
     <jacoco:coverage destfile="${dir.out}/jacoco.exec">
       <java classname="org.junit.platform.console.ConsoleLauncher" fork="yes" failonerror="on">
         <classpath refid="junit.class.path" />
@@ -134,6 +134,18 @@
         </rule>
       </check>
     </jacoco:report>
+  	<!-- Error Prone -->
+  	<echo>Running Error Prone static analysis</echo>
+  	<mkdir dir="${dir.out}/errorprone"/>
+  	<javac destdir="${dir.out}/errorprone"
+  	  compiler="com.google.errorprone.ErrorProneAntCompilerAdapter"
+  	  encoding="UTF-8" debug="true"
+  	  includeantruntime="false">
+        <src path="${dir.src}/java" />
+  	    <compilerclasspath>
+  	      <pathelement location="${dir.lib}/build/error_prone_ant-2.0.11.jar"/>
+  	    </compilerclasspath>
+  	</javac>
   </target>
 
 </project>
