@@ -67,7 +67,7 @@ class NameTest {
   @Test
   void packageName() {
     assertEquals("", of("", "Empty").getPackageName());
-    assertEquals("", of(compile("Nopack", "public class Nopack {}")).getPackageName());
+    assertEquals("", of(compile("public class Nopack {}")).getPackageName());
   }
 
   @Test

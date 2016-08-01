@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.processing.Processor;
 import javax.tools.DiagnosticCollector;
 import javax.tools.FileObject;
@@ -136,10 +138,26 @@ public interface Compilation {
     }
   }
 
+  static Class<?> compile(String charContent) {
+    String packageName = "";
+    Pattern packagePattern = Pattern.compile("package\\s+([\\w\\.]+);");
+    Matcher packageMatcher = packagePattern.matcher(charContent);
+    if (packageMatcher.find()) {
+      packageName = packageMatcher.group(1) + ".";
+    }
+    Pattern namePattern = Pattern.compile(".*(class|interface|enum)\\s+(\\w*)\\s+.*");
+    Matcher nameMatcher = namePattern.matcher(charContent);
+    if (!nameMatcher.find()) {
+      throw new IllegalArgumentException("Expected Java type source, but got: " + charContent);
+    }
+    String className = nameMatcher.group(2);
+    return compile(packageName + className, charContent);
+  }
+
   static Class<?> compile(String className, String charContent) {
+    ClassLoader loader = compile(source(className.replace('.', '/') + ".java", charContent));
     try {
-      return compile(source(className.replace('.', '/') + ".java", charContent))
-          .loadClass(className);
+      return loader.loadClass(className);
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Class '" + className + "' not found?!", e);
     }
