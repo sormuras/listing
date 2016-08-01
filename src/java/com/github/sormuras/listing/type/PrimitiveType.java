@@ -13,13 +13,12 @@
  */
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listing;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
-import com.github.sormuras.listing.Annotation;
-import com.github.sormuras.listing.Listing;
 
 /**
  * A primitive type is predefined by the Java language and named by its reserved keyword.

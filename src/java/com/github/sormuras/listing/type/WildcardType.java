@@ -13,14 +13,13 @@
  */
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import com.github.sormuras.listing.Annotation;
-import com.github.sormuras.listing.Listing;
 
 /**
  * Wildcards are useful in situations where only partial knowledge about the type parameter is

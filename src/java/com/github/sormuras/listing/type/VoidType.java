@@ -13,11 +13,10 @@
  */
 package com.github.sormuras.listing.type;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
+import java.util.Collections;
+import java.util.List;
 
 public class VoidType extends JavaType {
 

@@ -15,7 +15,6 @@ package com.github.sormuras.listing.type;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.lang.model.type.NoType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;

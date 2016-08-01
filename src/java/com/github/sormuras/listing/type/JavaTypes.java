@@ -15,6 +15,7 @@ package com.github.sormuras.listing.type;
 
 import static java.util.Arrays.stream;
 
+import com.github.sormuras.listing.Annotation;
 import java.lang.reflect.AnnotatedArrayType;
 import java.lang.reflect.AnnotatedParameterizedType;
 import java.lang.reflect.AnnotatedType;
@@ -24,8 +25,6 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.sormuras.listing.Annotation;
 
 /** Common <code>JavaType</code> factory collection. */
 public interface JavaTypes {

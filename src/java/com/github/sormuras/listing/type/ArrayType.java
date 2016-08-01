@@ -13,13 +13,12 @@
  */
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
-
-import com.github.sormuras.listing.*;
 
 public class ArrayType extends ReferenceType {
 

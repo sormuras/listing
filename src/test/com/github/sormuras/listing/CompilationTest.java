@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.lang.reflect.Method;
-
 import javax.tools.JavaFileObject;
-
 import org.junit.jupiter.api.Test;
 
 class CompilationTest {

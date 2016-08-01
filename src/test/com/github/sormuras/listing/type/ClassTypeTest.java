@@ -3,12 +3,10 @@ package com.github.sormuras.listing.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.github.sormuras.listing.Annotation;
 import java.lang.annotation.ElementType;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
-
-import com.github.sormuras.listing.Annotation;
 
 class ClassTypeTest {
 

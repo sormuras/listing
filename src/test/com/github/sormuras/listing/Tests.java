@@ -1,13 +1,12 @@
 package com.github.sormuras.listing;
 
-import org.junit.jupiter.api.Assertions;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.junit.jupiter.api.Assertions;
 
 public interface Tests {
 

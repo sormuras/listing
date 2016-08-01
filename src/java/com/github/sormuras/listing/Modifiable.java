@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
-
 import javax.lang.model.element.Modifier;
 
 /** Default {@link Modifier} support. */

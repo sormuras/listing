@@ -7,18 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
+import com.github.sormuras.listing.Compilation;
+import com.github.sormuras.listing.Tests;
 import java.net.URI;
-
 import javax.lang.model.type.NoType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeVisitor;
 import javax.tools.JavaFileObject;
-
 import org.junit.jupiter.api.Test;
-
-import com.github.sormuras.listing.Compilation;
-import com.github.sormuras.listing.Tests;
 
 class JavaMirrorsTest {
 

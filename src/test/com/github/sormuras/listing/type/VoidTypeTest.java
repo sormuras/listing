@@ -2,13 +2,12 @@ package com.github.sormuras.listing.type;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Name;
+import org.junit.jupiter.api.Test;
 
 class VoidTypeTest {
 

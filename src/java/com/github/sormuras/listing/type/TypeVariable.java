@@ -13,13 +13,12 @@
  */
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.github.sormuras.listing.Annotation;
-import com.github.sormuras.listing.Listing;
 
 /**
  * A type variable is an unqualified identifier used as a type in class, interface, method, and

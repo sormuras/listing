@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Modifier;
 

@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import java.lang.annotation.ElementType;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 
 class NameTest {

@@ -13,6 +13,10 @@
  */
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.Annotatable;
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Name;
 import java.lang.annotation.ElementType;
 import java.lang.reflect.AnnotatedArrayType;
 import java.lang.reflect.AnnotatedParameterizedType;
@@ -23,11 +27,6 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
-
-import com.github.sormuras.listing.Annotatable;
-import com.github.sormuras.listing.Annotation;
-import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Name;
 
 /**
  * The Java programming language is a statically typed language, which means that every variable and

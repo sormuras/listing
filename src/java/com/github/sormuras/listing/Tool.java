@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.lang.model.element.Modifier;
 
 /** Common tools. */

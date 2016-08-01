@@ -13,12 +13,11 @@
  */
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.*;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.github.sormuras.listing.*;
 
 public class ArrayDimension implements Listable, Annotatable {
 

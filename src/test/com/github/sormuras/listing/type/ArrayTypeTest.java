@@ -3,10 +3,9 @@ package com.github.sormuras.listing.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.junit.jupiter.api.Test;
-
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Name;
+import org.junit.jupiter.api.Test;
 
 class ArrayTypeTest {
 
