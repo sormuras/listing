@@ -136,6 +136,15 @@ public interface Compilation {
     }
   }
 
+  static Class<?> compile(String className, String charContent) {
+    try {
+      return compile(source(className.replace('.', '/') + ".java", charContent))
+          .loadClass(className);
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException("Class '" + className + "' not found?!", e);
+    }
+  }
+
   static ClassLoader compile(JavaFileObject... units) {
     return compile(null, emptyList(), emptyList(), asList(units));
   }

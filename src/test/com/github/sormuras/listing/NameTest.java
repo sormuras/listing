@@ -1,5 +1,6 @@
 package com.github.sormuras.listing;
 
+import static com.github.sormuras.listing.Compilation.compile;
 import static com.github.sormuras.listing.Name.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -61,6 +62,12 @@ class NameTest {
 
   private String simpleNamesJoined(Name name) {
     return String.join(".", name.getSimpleNames());
+  }
+
+  @Test
+  void packageName() {
+    assertEquals("", of("", "Empty").getPackageName());
+    assertEquals("", of(compile("Nopack", "public class Nopack {}")).getPackageName());
   }
 
   @Test
