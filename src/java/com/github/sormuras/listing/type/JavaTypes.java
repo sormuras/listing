@@ -60,9 +60,9 @@ public interface JavaTypes {
     // for (AnnotatedType bound : atv.getAnnotatedBounds()) {
     // bounds.add(new TypeArgument(of(bound)));
     // }
-    TypeVariable result = new TypeVariable();
+    String name = ((java.lang.reflect.TypeVariable<?>) annotatedType.getType()).getName();
+    TypeVariable result = new TypeVariable(name);
     result.getAnnotations().addAll(Annotation.of(annotatedType.getAnnotations()));
-    result.setName(((java.lang.reflect.TypeVariable<?>) annotatedType.getType()).getName());
     return result;
   }
 
@@ -100,9 +100,7 @@ public interface JavaTypes {
   }
 
   static JavaType of(java.lang.reflect.TypeVariable<?> type) {
-    TypeVariable result = new TypeVariable();
-    result.setName(type.getName());
-    return result;
+    return new TypeVariable(type.getName());
   }
 
   static JavaType of(java.lang.reflect.WildcardType type) {

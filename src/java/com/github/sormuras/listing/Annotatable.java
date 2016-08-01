@@ -26,7 +26,7 @@ public interface Annotatable {
   }
 
   default void addAnnotations(Annotation... annotations) {
-    getAnnotations().addAll(Arrays.asList(annotations));
+    addAnnotations(Arrays.asList(annotations));
   }
 
   default void addAnnotations(Collection<Annotation> annotations) {

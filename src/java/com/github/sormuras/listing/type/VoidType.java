@@ -15,6 +15,7 @@ package com.github.sormuras.listing.type;
 
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
+import java.lang.annotation.ElementType;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +29,11 @@ public class VoidType extends JavaType {
   @Override
   public List<Annotation> getAnnotations(boolean readonly) {
     return Collections.emptyList();
+  }
+
+  @Override
+  public ElementType getAnnotationTarget() {
+    return null;
   }
 
   @Override

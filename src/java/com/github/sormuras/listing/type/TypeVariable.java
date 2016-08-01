@@ -13,6 +13,8 @@
  */
 package com.github.sormuras.listing.type;
 
+import static java.util.Objects.requireNonNull;
+
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
@@ -29,7 +31,11 @@ import java.util.List;
 public class TypeVariable extends ReferenceType {
 
   private List<Annotation> annotations = Collections.emptyList();
-  private String name;
+  private String name = "*";
+
+  public TypeVariable(String name) {
+    setName(name);
+  }
 
   @Override
   public Listing apply(Listing listing) {
@@ -54,6 +60,10 @@ public class TypeVariable extends ReferenceType {
   }
 
   public TypeVariable setName(String name) {
+    requireNonNull(name, "name");
+    if (name.isEmpty()) {
+      throw new IllegalArgumentException("TypeVariable name must not be empty!");
+    }
     this.name = name;
     return this;
   }
