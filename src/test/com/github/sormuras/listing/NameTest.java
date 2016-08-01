@@ -133,7 +133,7 @@ class NameTest {
 
   @Test
   void testToString() {
-    assertEquals("JavaName{a.b.X, target=Optional[TYPE], modifiers=[]}", of("a.b", "X").toString());
+    assertEquals("Name{a.b.X, target=Optional[TYPE], modifiers=[]}", of("a.b", "X").toString());
     testToString(of(Object.class), "java.lang.Object", "public");
     testToString(of(byte.class), "byte", "public, abstract, final");
     testToString(of(Object[].class), "Object[]", "public, abstract, final");
@@ -156,7 +156,7 @@ class NameTest {
 
   private void testToString(Name name, String canonical, ElementType type, String modifiers) {
     assertEquals(
-        "JavaName{" + canonical + ", target=Optional[" + type + "], modifiers=[" + modifiers + "]}",
+        "Name{" + canonical + ", target=Optional[" + type + "], modifiers=[" + modifiers + "]}",
         name.toString());
   }
 }

@@ -163,7 +163,7 @@ public class Annotation implements Listable {
 
   @Override
   public String toString() {
-    return "JavaAnnotation{" + getTypeName() + ", members=" + getMembers(true) + "}";
+    return "Annotation{" + getTypeName() + ", members=" + getMembers(true) + "}";
   }
 
   /** Annotation array-aware value(s) appender. */

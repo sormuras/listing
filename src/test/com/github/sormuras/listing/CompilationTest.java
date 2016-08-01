@@ -23,6 +23,8 @@ class CompilationTest {
     assertEquals("a.b.c.A", compile("package a.b.c; interface A {}").getName());
     assertEquals("a.b.c.d.A", compile("package a.b.c.d; @interface A {}").getName());
     assertThrows(IllegalArgumentException.class, () -> compile(""));
+    assertThrows(IllegalArgumentException.class, () -> compile("package abc;"));
+    assertThrows(RuntimeException.class, () -> compile("A", "enum E {}"));
   }
 
   @Test

@@ -137,7 +137,7 @@ class AnnotationTest {
     Annotation marker = Annotation.of(Test.class);
     assertEquals("@" + Test.class.getCanonicalName(), marker.list());
     assertEquals(
-        "JavaAnnotation{JavaName{"
+        "Annotation{Name{"
             + Test.class.getCanonicalName()
             + ", target=Optional[TYPE], modifiers=[public, abstract]}, members={}}",
         String.format("%s", marker));

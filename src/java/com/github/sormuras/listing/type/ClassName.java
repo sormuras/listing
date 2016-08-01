@@ -13,7 +13,10 @@
  */
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.*;
+import com.github.sormuras.listing.Annotatable;
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +28,7 @@ public class ClassName implements Listable, Annotatable {
 
   private List<Annotation> annotations = Collections.emptyList();
   private final String name;
-  private final List<TypeArgument> typeArguments = new ArrayList<>();
+  private List<TypeArgument> typeArguments = Collections.emptyList();
 
   public ClassName(String name, Annotation... annotations) {
     this(name, Arrays.asList(annotations));
@@ -66,6 +69,9 @@ public class ClassName implements Listable, Annotatable {
   }
 
   public List<TypeArgument> getTypeArguments() {
+    if (typeArguments == Collections.EMPTY_LIST) {
+      typeArguments = new ArrayList<>();
+    }
     return typeArguments;
   }
 }

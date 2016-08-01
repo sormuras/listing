@@ -32,7 +32,7 @@ public class PrimitiveType extends JavaType {
 
   public PrimitiveType(Class<?> type) {
     Objects.requireNonNull(type, "type");
-    assert type.isPrimitive() : "expected primitive type, got " + type;
+    if (!type.isPrimitive()) throw new AssertionError("expected primitive type, got " + type);
     this.type = type;
   }
 

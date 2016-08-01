@@ -177,7 +177,7 @@ public class Name implements Listable, Modifiable {
 
   @Override
   public String toString() {
-    return "JavaName{"
+    return "Name{"
         + getCanonicalName()
         + ", target="
         + getTarget()
