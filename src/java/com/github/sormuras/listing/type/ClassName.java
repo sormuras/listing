@@ -34,7 +34,9 @@ public class ClassName implements Listable, Annotatable {
 
   public ClassName(String name, List<Annotation> annotations) {
     this.name = name;
-    getAnnotations().addAll(annotations);
+    if (!annotations.isEmpty()) {
+      getAnnotations().addAll(annotations);
+    }
   }
 
   @Override

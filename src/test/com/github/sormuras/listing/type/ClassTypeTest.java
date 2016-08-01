@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import com.github.sormuras.listing.Annotation;
+
 class ClassTypeTest {
 
   @Test
@@ -16,11 +18,22 @@ class ClassTypeTest {
   }
 
   @Test
+  void annotated() {
+    String expected = "java.lang.@com.github.sormuras.listing.type.U Comparable<java.lang.String>";
+    ClassType type = ClassType.of(Comparable.class, String.class);
+    type.addAnnotation(Annotation.of(U.class));
+    assertEquals(expected, type.list());
+  }
+
+  @Test
   void constructor() {
     assertEquals("Unnamed", ClassType.of("", "Unnamed").list());
     assertEquals("a.b.c.D", ClassType.of("a.b.c", "D").list());
     assertEquals("a.b.c.D.E", ClassType.of("a.b.c", "D", "E").list());
-    assertThrows(AssertionError.class, () -> ClassType.of("pack.age"));
+    assertEquals(
+        "java.lang.Comparable<java.lang.String>",
+        ClassType.of(Comparable.class, String.class).list());
+    assertThrows(IllegalArgumentException.class, () -> ClassType.of("pack.age"));
   }
 
   @Test
