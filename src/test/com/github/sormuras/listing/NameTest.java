@@ -97,6 +97,13 @@ class NameTest {
   }
 
   @Test
+  void modified() throws Exception {
+    assertTrue(of(Object.class).isModified()); // public
+    assertTrue(of(Thread.State.NEW).isModified()); // public static final
+    assertFalse(of(getClass().getDeclaredMethod("modified")).isModified()); // <empty>
+  }
+
+  @Test
   void isStatic() throws Exception {
     assertEquals(false, of(Object.class).isStatic());
     assertEquals(false, of(Object.class.getDeclaredConstructor()).isStatic());
