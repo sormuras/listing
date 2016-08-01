@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import java.lang.annotation.ElementType;
 import java.util.Optional;
+import javax.lang.model.element.Modifier;
 import org.junit.jupiter.api.Test;
 
 class NameTest {
@@ -100,7 +101,10 @@ class NameTest {
   void modified() throws Exception {
     assertTrue(of(Object.class).isModified()); // public
     assertTrue(of(Thread.State.NEW).isModified()); // public static final
-    assertFalse(of(getClass().getDeclaredMethod("modified")).isModified()); // <empty>
+    Name name = of(getClass().getDeclaredMethod("modified"));
+    assertFalse(name.isModified()); // <empty>
+    name.addModifier(Modifier.SYNCHRONIZED);
+    assertTrue(name.isModified()); // synchronized
     expectThrows(IllegalArgumentException.class, () -> of("", "A").addModifier(null));
   }
 
