@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.github.sormuras.listing.type;
 
 import java.util.HashMap;
@@ -27,13 +28,13 @@ public interface JavaMirrors {
   class Visitor extends SimpleTypeVisitor8<JavaType, Map<?, ?>> {
 
     @Override
-    public JavaType visitNoType(NoType t, Map<?, ?> p) {
-      return of(t);
+    public JavaType visitNoType(NoType type, Map<?, ?> map) {
+      return of(type);
     }
 
     @Override
-    public JavaType visitPrimitive(PrimitiveType t, Map<?, ?> p) {
-      return of(t);
+    public JavaType visitPrimitive(PrimitiveType type, Map<?, ?> pap) {
+      return of(type);
     }
   }
 

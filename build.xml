@@ -16,6 +16,10 @@
     <classpath path="${dir.lib}/test/jacocoant.jar" />
   </taskdef>
 
+  <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties">
+    <classpath path="${dir.lib}/build/checkstyle-7.1-all.jar" />
+  </taskdef>
+
   <target name="clean">
     <echo>be*free</echo>
     <delete dir="${dir.out}" />
@@ -58,7 +62,20 @@
     <echo>Formatter ${format.jar} applied</echo>
   </target>
 
-  <target name="compile" depends="format" description="compile and jar sources">
+  <target name="checkstyle" description="report of code convention violations">
+    <checkstyle config="${dir.lib}/build/checkstyle-config-google.xml"
+                maxErrors="0"
+                maxWarnings="131"
+                failOnViolation="false"
+                failureProperty="checkstyle.failure.property">
+      <fileset dir="${dir.src}/java" includes="**/*.java" />
+      <formatter type="plain" />
+      <formatter type="xml" tofile="${dir.out}/checkstyle_report.xml" />
+    </checkstyle>
+    <fail if="checkstyle.failure.property">Checkstyle found code convention violation(s)</fail>
+  </target>
+
+  <target name="compile" depends="format, checkstyle" description="compile and jar sources">
     <mkdir dir="${dir.out}/main/classes" />
     <javac destdir="${dir.out}/main/classes" encoding="UTF-8" includeantruntime="no" debug="on">
       <src path="${dir.src}/java" />
@@ -134,18 +151,19 @@
         </rule>
       </check>
     </jacoco:report>
-  	<!-- Error Prone -->
-  	<echo>Running Error Prone static analysis</echo>
-  	<mkdir dir="${dir.out}/errorprone"/>
-  	<javac destdir="${dir.out}/errorprone"
-  	  compiler="com.google.errorprone.ErrorProneAntCompilerAdapter"
-  	  encoding="UTF-8" debug="true"
-  	  includeantruntime="false">
-        <src path="${dir.src}/java" />
-  	    <compilerclasspath>
-  	      <pathelement location="${dir.lib}/build/error_prone_ant-2.0.11.jar"/>
-  	    </compilerclasspath>
-  	</javac>
+    <!-- Error Prone -->
+    <echo>Running Error Prone static analysis</echo>
+    <mkdir dir="${dir.out}/errorprone" />
+    <javac destdir="${dir.out}/errorprone"
+           compiler="com.google.errorprone.ErrorProneAntCompilerAdapter"
+           encoding="UTF-8"
+           debug="true"
+           includeantruntime="false">
+      <src path="${dir.src}/java" />
+      <compilerclasspath>
+        <pathelement location="${dir.lib}/build/error_prone_ant-2.0.11.jar" />
+      </compilerclasspath>
+    </javac>
   </target>
 
 </project>
