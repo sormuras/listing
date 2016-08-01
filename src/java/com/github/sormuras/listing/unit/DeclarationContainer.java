@@ -35,7 +35,7 @@ public interface DeclarationContainer extends Listable {
     return declaration;
   }
 
-  default ClassDeclaration declareClass(String name) {
+  default NormalClassDeclaration declareClass(String name) {
     return declare(new NormalClassDeclaration(), name);
   }
 

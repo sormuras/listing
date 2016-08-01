@@ -20,6 +20,8 @@ public interface Units {
 
     ClassDeclaration xxx = rayInit.declareLocalEnum("XXX");
     rayInit.add(xxx.getName() + ".class.getName();");
+    rayInit.declareLocalClass("ZZZ");
+
     return unit;
   }
 }

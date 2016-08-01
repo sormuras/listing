@@ -14,6 +14,8 @@ class Gamma {
       enum XXX {
       }
       XXX.class.getName();
+      class ZZZ {
+      }
     }
   }
 }
