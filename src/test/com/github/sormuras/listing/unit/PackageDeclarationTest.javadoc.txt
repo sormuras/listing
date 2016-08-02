@@ -1,0 +1,7 @@
+/**
+ * Testing Javadoc on PackageDeclaration element.
+ *
+ * @since 1.0
+ */
+@abc.PackageAnnotation
+package abc.xyz;
