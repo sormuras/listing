@@ -7,7 +7,7 @@ class Beta {
   }
 }
 
-class Gamma {
+public class Gamma {
 
   class Ray {
     {

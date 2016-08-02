@@ -14,17 +14,16 @@
 
 package com.github.sormuras.listing.unit;
 
+import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class TypeDeclaration implements DeclarationContainer {
+public abstract class TypeDeclaration extends ClassMemberDeclaration
+    implements DeclarationContainer {
 
-  private CompilationUnit compilationUnit;
   private List<TypeDeclaration> declarations = Collections.emptyList();
-  private TypeDeclaration enclosingDeclaration;
-  private String name;
 
   @Override
   public void assertValidNestedDeclarationName(String name) {
@@ -43,12 +42,13 @@ public abstract class TypeDeclaration implements DeclarationContainer {
   public <T extends TypeDeclaration> T declare(T declaration, String name) {
     DeclarationContainer.super.declare(declaration, name);
     declaration.setEnclosingDeclaration(this);
-    declaration.setCompilationUnit(getCompilationUnit());
+    declaration.setCompilationUnit(getCompilationUnit().orElse(null));
     return declaration;
   }
 
-  public CompilationUnit getCompilationUnit() {
-    return compilationUnit;
+  @Override
+  public ElementType getAnnotationTarget() {
+    return ElementType.TYPE;
   }
 
   @Override
@@ -59,27 +59,7 @@ public abstract class TypeDeclaration implements DeclarationContainer {
     return declarations;
   }
 
-  public Optional<TypeDeclaration> getEnclosingDeclaration() {
-    return Optional.ofNullable(enclosingDeclaration);
-  }
-
-  public String getName() {
-    return name;
-  }
-
   public boolean isDeclarationsEmpty() {
     return declarations.isEmpty();
-  }
-
-  public void setCompilationUnit(CompilationUnit compilationUnit) {
-    this.compilationUnit = compilationUnit;
-  }
-
-  public void setEnclosingDeclaration(TypeDeclaration enclosingDeclaration) {
-    this.enclosingDeclaration = enclosingDeclaration;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 }

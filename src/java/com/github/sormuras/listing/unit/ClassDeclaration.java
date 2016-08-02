@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1
  */
-public abstract class ClassDeclaration extends TypeDeclaration {
+public class ClassDeclaration extends TypeDeclaration {
 
   private final String keyword;
 
@@ -42,7 +42,12 @@ public abstract class ClassDeclaration extends TypeDeclaration {
     if (!isLocal()) {
       listing.newline();
     }
-    listing.add(keyword).add(' ').add(getName());
+    applyDeclarationHead(listing);
+    applyDeclarationBody(listing);
+    return listing;
+  }
+
+  protected Listing applyDeclarationBody(Listing listing) {
     listing.add(' ').add('{').newline();
     listing.indent(1);
     if (!isDeclarationsEmpty()) {
@@ -52,6 +57,13 @@ public abstract class ClassDeclaration extends TypeDeclaration {
       getInitializers().forEach(listing::add);
     }
     listing.indent(-1).add('}').newline();
+    return listing;
+  }
+
+  protected Listing applyDeclarationHead(Listing listing) {
+    listing.add(toAnnotationsListable());
+    listing.add(toModifiersListable());
+    listing.add(getKeyword()).add(' ').add(getName());
     return listing;
   }
 
@@ -68,6 +80,10 @@ public abstract class ClassDeclaration extends TypeDeclaration {
       initializers = new ArrayList<>();
     }
     return initializers;
+  }
+
+  public String getKeyword() {
+    return keyword;
   }
 
   public boolean isInitializersEmpty() {

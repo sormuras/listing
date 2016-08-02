@@ -68,6 +68,10 @@ public interface Modifiable {
     return !getModifiers(true).isEmpty();
   }
 
+  default boolean isPublic() {
+    return getModifiers().contains(Modifier.PUBLIC);
+  }
+
   default boolean isStatic() {
     return getModifiers(true).contains(Modifier.STATIC);
   }
@@ -80,6 +84,13 @@ public interface Modifiable {
   default void setModifiers(Modifier... modifiers) {
     getModifiers().clear();
     addModifiers(modifiers);
+  }
+
+  default Listable toModifiersListable() {
+    return listing -> {
+      getModifiers().forEach(m -> listing.add(m.name().toLowerCase()).add(' '));
+      return listing;
+    };
   }
 
   /**

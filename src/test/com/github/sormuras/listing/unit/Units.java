@@ -1,5 +1,7 @@
 package com.github.sormuras.listing.unit;
 
+import javax.lang.model.element.Modifier;
+
 public interface Units {
 
   static CompilationUnit simple() {
@@ -15,6 +17,7 @@ public interface Units {
     beta.declareInitializer(true).add(l -> l.add("// init of ").add(beta.getName()).newline());
 
     ClassDeclaration gamma = unit.declareClass("Gamma");
+    gamma.addModifier(Modifier.PUBLIC);
     ClassDeclaration ray = gamma.declareClass("Ray");
     Initializer rayInit = ray.declareInitializer(false);
 

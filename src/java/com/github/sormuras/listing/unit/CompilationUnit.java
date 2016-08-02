@@ -17,15 +17,44 @@ package com.github.sormuras.listing.unit;
 import com.github.sormuras.listing.Listing;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+/**
+ * Java compilation unit.
+ *
+ * <pre>
+ * CompilationUnit:
+ *   [PackageDeclaration] {ImportDeclaration} {TypeDeclaration}
+ * </pre>
+ *
+ * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html#jls-7.3
+ */
 public class CompilationUnit implements DeclarationContainer {
 
-  private List<TypeDeclaration> declarations = new ArrayList<>();
+  private final List<TypeDeclaration> declarations;
+  private final ImportDeclarations importDeclarations;
+  private final PackageDeclaration packageDeclaration;
+
+  public CompilationUnit() {
+    this(new PackageDeclaration());
+  }
+
+  public CompilationUnit(PackageDeclaration packageDeclaration) {
+    this.packageDeclaration = packageDeclaration;
+    this.importDeclarations = new ImportDeclarations();
+    this.declarations = new ArrayList<>();
+  }
+
+  public CompilationUnit(String packageName) {
+    this(new PackageDeclaration(packageName));
+  }
 
   @Override
-  public Listing apply(Listing lines) {
-    getDeclarations().forEach(declaration -> declaration.apply(lines));
-    return lines;
+  public Listing apply(Listing listing) {
+    listing.add(getPackageDeclaration());
+    listing.add(getImportDeclarations());
+    getDeclarations().forEach(declaration -> declaration.apply(listing));
+    return listing;
   }
 
   @Override
@@ -39,5 +68,36 @@ public class CompilationUnit implements DeclarationContainer {
   @Override
   public List<TypeDeclaration> getDeclarations() {
     return declarations;
+  }
+
+  /**
+   * @return file name defining type declaration
+   * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html#jls-7.6-510
+   */
+  public Optional<TypeDeclaration> getEponymousDeclaration() {
+    List<TypeDeclaration> types = getDeclarations();
+    // trivial case: no type present
+    if (types.isEmpty()) {
+      return Optional.empty();
+    }
+    // trivial case: only one type present
+    TypeDeclaration declaration = types.get(0);
+    // if multiple types are present, find first public one
+    if (types.size() > 1) {
+      declaration = types.stream().filter(TypeDeclaration::isPublic).findFirst().get();
+    }
+    return Optional.of(declaration);
+  }
+
+  public ImportDeclarations getImportDeclarations() {
+    return importDeclarations;
+  }
+
+  public PackageDeclaration getPackageDeclaration() {
+    return packageDeclaration;
+  }
+
+  public String getPackageName() {
+    return getPackageDeclaration().getName().getPackageName();
   }
 }
