@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test;
 class CompilationUnitTest {
 
   @Test
-  void constructor() {
+  void packageName() {
+    assertEquals("", new CompilationUnit().getPackageName());
     assertEquals("a.b.c", new CompilationUnit("a.b.c").getPackageName());
   }
 

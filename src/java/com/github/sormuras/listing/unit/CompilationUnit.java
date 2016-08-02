@@ -98,6 +98,9 @@ public class CompilationUnit implements DeclarationContainer {
   }
 
   public String getPackageName() {
+    if (getPackageDeclaration().isUnnamed()) {
+      return "";
+    }
     return getPackageDeclaration().getName().getPackageName();
   }
 }
