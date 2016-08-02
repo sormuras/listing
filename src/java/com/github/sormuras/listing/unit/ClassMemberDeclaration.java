@@ -60,15 +60,18 @@ public abstract class ClassMemberDeclaration implements Annotatable, Listable, M
     return name;
   }
 
-  public void setCompilationUnit(CompilationUnit unit) {
+  public ClassMemberDeclaration setCompilationUnit(CompilationUnit unit) {
     this.compilationUnit = unit;
+    return this;
   }
 
-  public void setEnclosingDeclaration(TypeDeclaration enclosingType) {
+  public ClassMemberDeclaration setEnclosingDeclaration(TypeDeclaration enclosingType) {
     this.enclosingType = enclosingType;
+    return this;
   }
 
-  public void setName(String name) {
+  public ClassMemberDeclaration setName(String name) {
     this.name = name;
+    return this;
   }
 }
