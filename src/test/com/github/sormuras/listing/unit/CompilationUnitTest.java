@@ -54,7 +54,7 @@ class CompilationUnitTest {
   }
 
   @Test
-  public void processed() throws Exception {
+  void processed() throws Exception {
     CompilationUnit unit = new CompilationUnit("test");
     ClassDeclaration enterprise = unit.declareClass("Class");
     enterprise.addModifier(Modifier.PUBLIC);
@@ -72,7 +72,7 @@ class CompilationUnitTest {
   }
 
   @Test
-  public void unnamed() throws Exception {
+  void unnamed() throws Exception {
     CompilationUnit unnamed = new CompilationUnit(new PackageDeclaration());
     unnamed.declareClass("Unnamed").addModifier(Modifier.PUBLIC);
     assertEquals("Unnamed", unnamed.compile(Object.class).getClass().getTypeName());

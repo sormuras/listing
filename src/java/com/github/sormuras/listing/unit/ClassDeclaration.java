@@ -16,6 +16,7 @@ package com.github.sormuras.listing.unit;
 
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
+import com.github.sormuras.listing.type.ClassType;
 import com.github.sormuras.listing.type.JavaType;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,12 +31,25 @@ import java.util.List;
  */
 public class ClassDeclaration extends TypeDeclaration {
 
-  private boolean local = false;
-  private List<Initializer> initializers = Collections.emptyList();
   private List<Listable> classBodyElements = new ArrayList<>();
+  private List<Initializer> initializers = Collections.emptyList();
+  private List<ClassType> interfaces = Collections.emptyList();
+  private boolean local = false;
+  private ClassType superClass = null;
+  private List<TypeParameter> typeParameters = Collections.emptyList();
 
   public ClassDeclaration(String keyword) {
     super(keyword);
+  }
+
+  public ClassDeclaration addInterface(JavaType interfaceType) {
+    getInterfaces().add((ClassType) interfaceType);
+    return this;
+  }
+
+  public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
+    getTypeParameters().add(typeParameter);
+    return this;
   }
 
   @Override
@@ -45,6 +59,24 @@ public class ClassDeclaration extends TypeDeclaration {
     }
     applyDeclarationHead(listing);
     applyDeclarationBody(listing);
+    return listing;
+  }
+
+  @Override
+  protected Listing applyDeclarationHead(Listing listing) {
+    super.applyDeclarationHead(listing);
+    // [TypeParameters]
+    if (!isTypeParametersEmpty()) {
+      listing.add('<').add(typeParameters, ", ").add('>');
+    }
+    // [Superclass]
+    if (superClass != null) {
+      listing.add(" extends ").add(superClass);
+    }
+    // [Superinterfaces]
+    if (!isInterfacesEmpty()) {
+      listing.add(" implements ").add(interfaces, ", ");
+    }
     return listing;
   }
 
@@ -94,8 +126,30 @@ public class ClassDeclaration extends TypeDeclaration {
     return initializers;
   }
 
+  public List<ClassType> getInterfaces() {
+    if (interfaces == Collections.EMPTY_LIST) {
+      interfaces = new ArrayList<>();
+    }
+    return interfaces;
+  }
+
+  public List<TypeParameter> getTypeParameters() {
+    if (typeParameters == Collections.EMPTY_LIST) {
+      typeParameters = new ArrayList<>();
+    }
+    return typeParameters;
+  }
+
   public boolean isInitializersEmpty() {
     return initializers.isEmpty();
+  }
+
+  public boolean isInterfacesEmpty() {
+    return interfaces.isEmpty();
+  }
+
+  public boolean isTypeParametersEmpty() {
+    return typeParameters.isEmpty();
   }
 
   public boolean isLocal() {
@@ -104,5 +158,10 @@ public class ClassDeclaration extends TypeDeclaration {
 
   public void setLocal(boolean local) {
     this.local = local;
+  }
+
+  public ClassDeclaration setSuperClass(ClassType superClass) {
+    this.superClass = superClass;
+    return this;
   }
 }

@@ -14,13 +14,23 @@ class DeclarationContainerTest {
   }
 
   @Test
-  void normalClassDeclaration() {
+  void annotationDeclaration() {
+    test(AnnotationDeclaration::new);
+  }
+
+  @Test
+  void classDeclaration() {
     test(NormalClassDeclaration::new);
   }
 
   @Test
   void enumDeclaration() {
     test(EnumDeclaration::new);
+  }
+
+  @Test
+  void interfaceDeclaration() {
+    test(InterfaceDeclaration::new);
   }
 
   void test(Supplier<DeclarationContainer> supplier) {
