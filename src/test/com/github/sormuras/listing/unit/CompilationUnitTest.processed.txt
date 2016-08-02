@@ -1,0 +1,10 @@
+package test;
+
+public class Class {
+
+  @com.github.sormuras.listing.type.Counter.Mark
+  java.lang.Object field1;
+
+  @com.github.sormuras.listing.type.Counter.Mark
+  java.lang.Object field2;
+}

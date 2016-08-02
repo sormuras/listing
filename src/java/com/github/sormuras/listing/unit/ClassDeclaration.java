@@ -14,7 +14,9 @@
 
 package com.github.sormuras.listing.unit;
 
+import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
+import com.github.sormuras.listing.type.JavaType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,13 +30,12 @@ import java.util.List;
  */
 public class ClassDeclaration extends TypeDeclaration {
 
-  private final String keyword;
-
   private boolean local = false;
   private List<Initializer> initializers = Collections.emptyList();
+  private List<Listable> classBodyElements = new ArrayList<>();
 
   public ClassDeclaration(String keyword) {
-    this.keyword = keyword;
+    super(keyword);
   }
 
   @Override
@@ -47,12 +48,14 @@ public class ClassDeclaration extends TypeDeclaration {
     return listing;
   }
 
+  @Override
   protected Listing applyDeclarationBody(Listing listing) {
     listing.add(' ').add('{').newline();
     listing.indent(1);
     if (!isDeclarationsEmpty()) {
       getDeclarations().forEach(listing::add);
     }
+    listing.add(classBodyElements);
     if (!isInitializersEmpty()) {
       getInitializers().forEach(listing::add);
     }
@@ -60,11 +63,20 @@ public class ClassDeclaration extends TypeDeclaration {
     return listing;
   }
 
-  protected Listing applyDeclarationHead(Listing listing) {
-    listing.add(toAnnotationsListable());
-    listing.add(toModifiersListable());
-    listing.add(getKeyword()).add(' ').add(getName());
-    return listing;
+  /** Declare new field. */
+  public FieldDeclaration declareField(Class<?> type, String name) {
+    return declareField(JavaType.of(type), name);
+  }
+
+  /** Declare new field. */
+  public FieldDeclaration declareField(JavaType type, String name) {
+    FieldDeclaration declaration = new FieldDeclaration();
+    declaration.setCompilationUnit(getCompilationUnit().orElse(null));
+    declaration.setEnclosingDeclaration(this);
+    declaration.setType(type);
+    declaration.setName(name);
+    classBodyElements.add(declaration);
+    return declaration;
   }
 
   public Initializer declareInitializer(boolean staticInitializer) {
@@ -80,10 +92,6 @@ public class ClassDeclaration extends TypeDeclaration {
       initializers = new ArrayList<>();
     }
     return initializers;
-  }
-
-  public String getKeyword() {
-    return keyword;
   }
 
   public boolean isInitializersEmpty() {

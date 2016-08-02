@@ -1,0 +1,25 @@
+package top;
+
+@interface A {
+
+  class X {
+  }
+}
+
+enum E {
+
+  class X {
+  }
+}
+
+class C {
+
+  class X {
+  }
+}
+
+interface I {
+
+  class X {
+  }
+}

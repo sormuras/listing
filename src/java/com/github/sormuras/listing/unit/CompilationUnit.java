@@ -14,10 +14,14 @@
 
 package com.github.sormuras.listing.unit;
 
+import com.github.sormuras.listing.Compilation;
 import com.github.sormuras.listing.Listing;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
+import javax.tools.JavaFileObject;
 
 /**
  * Java compilation unit.
@@ -55,6 +59,33 @@ public class CompilationUnit implements DeclarationContainer {
     listing.add(getImportDeclarations());
     getDeclarations().forEach(declaration -> declaration.apply(listing));
     return listing;
+  }
+
+  /** Compile and return {@link Class} instance. */
+  public Class<?> compile() throws ClassNotFoundException {
+    ClassLoader loader = Compilation.compile(toJavaFileObject());
+    TypeDeclaration declaration = getEponymousDeclaration().get();
+    return loader.loadClass(getPackageDeclaration().resolve(declaration.getName()));
+  }
+
+  /** Compile and create new instance. */
+  @SuppressWarnings("unchecked")
+  public <T> T compile(Class<T> clazz, Object... args) {
+    try {
+      return (T) compile().getDeclaredConstructors()[0].newInstance(args);
+    } catch (Exception exception) {
+      throw new AssertionError("compiling or instantiating failed", exception);
+    }
+  }
+
+  /** Compile and create new instance. */
+  public <T> T compile(Class<T> clazz, Supplier<Class<?>[]> typesProvider, Object... args) {
+    try {
+      Class<? extends T> subClass = compile().asSubclass(clazz);
+      return subClass.getConstructor(typesProvider.get()).newInstance(args);
+    } catch (Exception exception) {
+      throw new AssertionError("compiling or instantiating failed", exception);
+    }
   }
 
   @Override
@@ -102,5 +133,11 @@ public class CompilationUnit implements DeclarationContainer {
       return "";
     }
     return getPackageDeclaration().getName().getPackageName();
+  }
+
+  public JavaFileObject toJavaFileObject() {
+    TypeDeclaration declaration = getEponymousDeclaration().get();
+    URI uri = getPackageDeclaration().toUri(declaration.getName() + ".java");
+    return Compilation.source(uri, list());
   }
 }

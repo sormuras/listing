@@ -38,9 +38,24 @@ public interface DeclarationContainer extends Listable {
     return declaration;
   }
 
+  /** Declare annotation as nested child. */
+  default AnnotationDeclaration declareAnnotation(String name) {
+    return declare(new AnnotationDeclaration(), name);
+  }
+
   /** Declare normal class as nested child. */
   default NormalClassDeclaration declareClass(String name) {
     return declare(new NormalClassDeclaration(), name);
+  }
+
+  /** Declare enum as nested child. */
+  default EnumDeclaration declareEnum(String name) {
+    return declare(new EnumDeclaration(), name);
+  }
+
+  /** Declare enum as nested child. */
+  default InterfaceDeclaration declareInterface(String name) {
+    return declare(new InterfaceDeclaration(), name);
   }
 
   List<TypeDeclaration> getDeclarations();
