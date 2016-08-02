@@ -30,6 +30,7 @@ import java.util.List;
 /** Common <code>JavaType</code> factory collection. */
 public interface JavaTypes {
 
+  /** Create {@link JavaType} based on {@link AnnotatedArrayType} instance. */
   static JavaType of(AnnotatedArrayType annotatedType) {
     List<ArrayDimension> dimensions = new ArrayList<>();
     AnnotatedType component = annotatedType;
@@ -42,6 +43,7 @@ public interface JavaTypes {
     return new ArrayType(JavaType.of(component), dimensions);
   }
 
+  /** Create {@link JavaType} based on {@link AnnotatedParameterizedType} instance. */
   static JavaType of(AnnotatedParameterizedType annotatedType) {
     List<TypeArgument> arguments = new ArrayList<>();
     for (AnnotatedType actual : annotatedType.getAnnotatedActualTypeArguments()) {
@@ -54,6 +56,7 @@ public interface JavaTypes {
     return result;
   }
 
+  /** Create {@link JavaType} based on {@link AnnotatedTypeVariable} instance. */
   static JavaType of(AnnotatedTypeVariable annotatedType) {
     // TODO consider/ignore bounds at type use location
     // AnnotatedTypeVariable atv = (AnnotatedTypeVariable) annotatedType;
@@ -67,6 +70,7 @@ public interface JavaTypes {
     return result;
   }
 
+  /** Create {@link JavaType} based on {@link AnnotatedWildcardType} instance. */
   static JavaType of(AnnotatedWildcardType annotatedType) {
     WildcardType result = new WildcardType();
     for (AnnotatedType bound : annotatedType.getAnnotatedLowerBounds()) { // ? super lower bound
@@ -79,6 +83,7 @@ public interface JavaTypes {
     return result;
   }
 
+  /** Create {@link JavaType} based on {@link AnnotatedWildcardType} instance. */
   static JavaType of(GenericArrayType type) {
     List<ArrayDimension> dimensions = new ArrayList<>();
     java.lang.reflect.Type component = type;
@@ -90,6 +95,7 @@ public interface JavaTypes {
     return new ArrayType(JavaType.of(component), dimensions);
   }
 
+  /** Create {@link JavaType} based on {@link AnnotatedWildcardType} instance. */
   static JavaType of(ParameterizedType type) {
     List<TypeArgument> arguments = new ArrayList<>();
     for (java.lang.reflect.Type actual : type.getActualTypeArguments()) {
@@ -100,10 +106,12 @@ public interface JavaTypes {
     return result;
   }
 
+  /** Create {@link JavaType} based on {@link java.lang.reflect.TypeVariable} instance. */
   static JavaType of(java.lang.reflect.TypeVariable<?> type) {
     return new TypeVariable(type.getName());
   }
 
+  /** Create {@link JavaType} based on {@link java.lang.reflect.WildcardType} instance. */
   static JavaType of(java.lang.reflect.WildcardType type) {
     WildcardType result = new WildcardType();
     // ? super lower bound

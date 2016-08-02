@@ -33,11 +33,7 @@
   <target name="format" depends="init" description="apply google-java-format">
     <!-- <property name="format.jar" value="google-java-format-1.0-all-deps.jar" /> -->
     <property name="format.jar" value="google-java-format-1.1-SNAPSHOT-all-deps.jar" />
-    <copy file="${dir.lib}/build/${format.jar}" todir="${basedir}/bin" />
-    <!-- <get dest="${basedir}/bin" verbose="true" usetimestamp="true"> -->
-    <!-- <url url="https://github.com/google/google-java-format/releases/download/google-java-format-1.0/${format.jar}" /> -->
-    <!-- <url url="https://oss.sonatype.org/content/repositories/snapshots/com/google/googlejavaformat/google-java-format/1.1-SNAPSHOT/${format.jar}" /> -->
-    <!-- </get> -->
+  	<echo>Running ${format.jar}</echo>
     <fileset dir="${dir.src}" id="src.files">
       <include name="**/*.java" />
       <exclude name="generated/**/*" />
@@ -46,7 +42,7 @@
       <fileset refid="src.files" />
     </concat>
     <pathconvert pathsep=" " property="javafiles" refid="src.files" />
-    <java jar="${basedir}/bin/${format.jar}" fork="yes">
+    <java jar="${dir.lib}/build/${format.jar}" fork="yes">
       <arg line="-replace" />
       <arg line="${javafiles}" />
     </java>
@@ -59,23 +55,35 @@
                   textfile="yes" />
     </condition>
     <fail unless="files.match">Formatter ${format.jar} changed at least one source file</fail>
-    <echo>Formatter ${format.jar} applied</echo>
-  </target>
 
-  <target name="checkstyle" description="report of code convention violations">
+  	<!-- CheckStyle -->
     <checkstyle config="${dir.lib}/build/checkstyle-config-google.xml"
                 maxErrors="0"
-                maxWarnings="65"
+                maxWarnings="0"
                 failOnViolation="false"
                 failureProperty="checkstyle.failure.property">
       <fileset dir="${dir.src}/java" includes="**/*.java" />
       <formatter type="plain" />
-      <formatter type="xml" tofile="${dir.out}/checkstyle_report.xml" />
+      <formatter type="xml" tofile="${dir.out}/checkstyle-report.xml" />
     </checkstyle>
-    <fail if="checkstyle.failure.property">Checkstyle found code convention violation(s)</fail>
+    <fail if="checkstyle.failure.property">Checkstyle found code convention violations</fail>
+
+    <!-- Error Prone -->
+    <echo>Running Error Prone static analysis</echo>
+    <mkdir dir="${dir.out}/errorprone" />
+    <javac destdir="${dir.out}/errorprone"
+           compiler="com.google.errorprone.ErrorProneAntCompilerAdapter"
+           encoding="UTF-8"
+           debug="true"
+           includeantruntime="false">
+      <src path="${dir.src}/java" />
+      <compilerclasspath>
+        <pathelement location="${dir.lib}/build/error_prone_ant-2.0.11.jar" />
+      </compilerclasspath>
+    </javac>
   </target>
 
-  <target name="compile" depends="format, checkstyle" description="compile and jar sources">
+  <target name="compile" depends="format" description="compile and jar sources">
     <mkdir dir="${dir.out}/main/classes" />
     <javac destdir="${dir.out}/main/classes" encoding="UTF-8" includeantruntime="no" debug="on">
       <src path="${dir.src}/java" />
@@ -125,7 +133,7 @@
         <jvmarg value="-Djava.util.logging.config.file=${dir.src}/test/logging.properties" />
         <arg value="--all" />
         <arg value="--hide-details" />
-        <arg line="--xml-reports-dir bin/junit5/test-reports" />
+        <arg line="--xml-reports-dir ${dir.out}/test-reports" />
       </java>
     </jacoco:coverage>
     <fail message="Test failure detected, check test results." if="test.failed" />
@@ -141,9 +149,7 @@
           <fileset dir="${dir.src}/java" />
         </sourcefiles>
       </structure>
-      <html destdir="${dir.out}/jacoco" />
-      <csv destfile="${dir.out}/report.csv" />
-      <xml destfile="${dir.out}/report.xml" />
+      <xml destfile="${dir.out}/jacoco-report.xml" />
       <check>
         <rule element="PACKAGE">
           <limit counter="LINE" value="COVEREDRATIO" minimum="0.90" />
@@ -151,19 +157,8 @@
         </rule>
       </check>
     </jacoco:report>
-    <!-- Error Prone -->
-    <echo>Running Error Prone static analysis</echo>
-    <mkdir dir="${dir.out}/errorprone" />
-    <javac destdir="${dir.out}/errorprone"
-           compiler="com.google.errorprone.ErrorProneAntCompilerAdapter"
-           encoding="UTF-8"
-           debug="true"
-           includeantruntime="false">
-      <src path="${dir.src}/java" />
-      <compilerclasspath>
-        <pathelement location="${dir.lib}/build/error_prone_ant-2.0.11.jar" />
-      </compilerclasspath>
-    </javac>
+
+  	<echo>Created and tested listing-${version.number}.jar</echo>
   </target>
 
 </project>

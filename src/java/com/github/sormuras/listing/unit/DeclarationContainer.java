@@ -20,6 +20,7 @@ import javax.lang.model.SourceVersion;
 
 public interface DeclarationContainer extends Listable {
 
+  /** Validate if the given name can be used a nested declaration name. */
   default void assertValidNestedDeclarationName(String name) {
     if (!SourceVersion.isName(name)) {
       throw new IllegalArgumentException("expected valid name, but got: \"" + name + "\"");
@@ -29,6 +30,7 @@ public interface DeclarationContainer extends Listable {
     }
   }
 
+  /** Declare type as nested child. */
   default <T extends TypeDeclaration> T declare(T declaration, String name) {
     assertValidNestedDeclarationName(name);
     declaration.setName(name);
@@ -36,6 +38,7 @@ public interface DeclarationContainer extends Listable {
     return declaration;
   }
 
+  /** Declare normal class as nested child. */
   default NormalClassDeclaration declareClass(String name) {
     return declare(new NormalClassDeclaration(), name);
   }

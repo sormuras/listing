@@ -51,6 +51,7 @@ public class Listing {
     return add(listables, listing -> listing.add(separator));
   }
 
+  /** Add list of listables using given listable separator. */
   public Listing add(List<? extends Listable> listables, Listable separator) {
     if (listables.isEmpty()) {
       return this;
@@ -131,6 +132,7 @@ public class Listing {
     return collectedLines.get(collectedLines.size() - 1).isEmpty();
   }
 
+  /** Carriage return and line feed. */
   public Listing newline() {
     String newline = currentLine.toString(); // Tool.trimRight(currentLine.toString());
     currentLine.setLength(0);

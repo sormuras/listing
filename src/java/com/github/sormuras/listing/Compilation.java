@@ -140,6 +140,7 @@ public interface Compilation {
     }
   }
 
+  /** Compile Java source, guess its type name return it as a Class instance. */
   static Class<?> compile(String charContent) {
     String packageName = "";
     Pattern packagePattern = Pattern.compile("package\\s+([\\w\\.]+);");
@@ -156,6 +157,7 @@ public interface Compilation {
     return compile(packageName + className, charContent);
   }
 
+  /** Compile Java source for the given class name, load and return it as a Class instance. */
   static Class<?> compile(String className, String charContent) {
     ClassLoader loader = compile(source(className.replace('.', '/') + ".java", charContent));
     try {
@@ -169,6 +171,7 @@ public interface Compilation {
     return compile(null, emptyList(), emptyList(), asList(units));
   }
 
+  /** Convenient JavaCompiler facade returning a ClassLoader with all compiled units. */
   static ClassLoader compile(
       ClassLoader parent,
       List<String> options,

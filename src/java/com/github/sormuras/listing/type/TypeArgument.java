@@ -31,6 +31,7 @@ public class TypeArgument implements Listable {
     this(JavaType.of(argument));
   }
 
+  /** Initializes this {@link TypeArgument} instance. */
   public TypeArgument(JavaType argument) {
     if (argument instanceof WildcardType) {
       setWildcard((WildcardType) argument);

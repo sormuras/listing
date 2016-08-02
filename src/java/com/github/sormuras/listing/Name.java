@@ -48,6 +48,7 @@ import javax.lang.model.element.Modifier;
  */
 public class Name implements Listable, Modifiable {
 
+  /** Create new Name based on the class type. */
   public static Name of(Class<?> type) {
     requireNonNull(type, "type");
     String packageName = Tool.packageOf(type);
@@ -58,6 +59,7 @@ public class Name implements Listable, Modifiable {
     return name;
   }
 
+  /** Create new Name based on the enum constant. */
   public static Name of(Enum<?> constant) {
     requireNonNull(constant, "constant");
     String packageName = Tool.packageOf(constant.getDeclaringClass());
@@ -68,6 +70,7 @@ public class Name implements Listable, Modifiable {
     return name;
   }
 
+  /** Create new Name based on the member instance. */
   public static Name of(Member member) {
     requireNonNull(member, "member");
     Class<?> type = member.getDeclaringClass();
@@ -79,6 +82,7 @@ public class Name implements Listable, Modifiable {
     return name;
   }
 
+  /** Create new Name based on the array of Strings, with the first denoting the package name. */
   public static Name of(String... names) {
     requireNonNull(names, "names");
     if (names.length == 0) {

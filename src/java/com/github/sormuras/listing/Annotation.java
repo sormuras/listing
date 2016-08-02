@@ -47,6 +47,7 @@ public class Annotation implements Listable {
     return Arrays.asList(annotations).stream().map(Annotation::of).collect(Collectors.toList());
   }
 
+  /** Create new Annotation instance by reflecting on the given annotation. */
   public static Annotation of(
       java.lang.annotation.Annotation annotation, boolean includeDefaultValues) {
     Annotation result = of(annotation.annotationType());
@@ -84,6 +85,7 @@ public class Annotation implements Listable {
     return new Annotation(Name.of(type), values);
   }
 
+  /** Converts an object to a listable representation usable as an annotation value literal. */
   public static Listable value(Object object) {
     if (object instanceof Class) {
       return listing -> listing.add(Name.of((Class<?>) object)).add(".class");
@@ -114,6 +116,7 @@ public class Annotation implements Listable {
     Arrays.asList(values).forEach(this::addValue);
   }
 
+  /** Add the listable to the member specified by its name. */
   public Annotation addMember(String name, Listable listable) {
     requireNonNull(name, "name");
     requireNonNull(listable, "listable");

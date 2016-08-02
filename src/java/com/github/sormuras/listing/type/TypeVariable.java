@@ -14,8 +14,6 @@
 
 package com.github.sormuras.listing.type;
 
-import static java.util.Objects.requireNonNull;
-
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
@@ -61,7 +59,6 @@ public class TypeVariable extends ReferenceType {
   }
 
   public TypeVariable setName(String name) {
-    requireNonNull(name, "name");
     if (name.isEmpty()) {
       throw new IllegalArgumentException("TypeVariable name must not be empty!");
     }

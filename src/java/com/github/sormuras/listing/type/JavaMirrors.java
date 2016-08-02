@@ -38,6 +38,7 @@ public interface JavaMirrors {
     }
   }
 
+  /** Create {@link JavaType} based on {@link NoType} instance. */
   static JavaType of(NoType type) {
     if (type.getKind() == TypeKind.VOID) {
       return new VoidType();
@@ -45,6 +46,7 @@ public interface JavaMirrors {
     throw new AssertionError("Unsupported no type: " + type.getKind());
   }
 
+  /** Create {@link JavaType} based on {@link PrimitiveType} instance. */
   static JavaType of(PrimitiveType type) {
     switch (type.getKind()) {
       case BOOLEAN:

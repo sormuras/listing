@@ -44,6 +44,7 @@ public class ClassType extends ReferenceType {
   private final String packageName;
   private final Name typeName;
 
+  /** Initialize this ClassType instance. */
   public ClassType(Name typeName, TypeArgument... typeArguments) {
     this.typeName = typeName;
     this.packageName = typeName.getPackageName();

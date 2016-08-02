@@ -46,6 +46,7 @@ import java.lang.reflect.WildcardType;
  */
 public abstract class JavaType implements Listable, Annotatable {
 
+  /** Create {@link JavaType} based on {@link AnnotatedType} instance. */
   public static JavaType of(AnnotatedType annotatedType) {
     if (annotatedType instanceof AnnotatedArrayType) {
       return JavaTypes.of((AnnotatedArrayType) annotatedType);
@@ -65,7 +66,11 @@ public abstract class JavaType implements Listable, Annotatable {
     return result;
   }
 
-  // raw (not annotated, not generic) class type factory
+  /**
+   * Create {@link JavaType} based on {@link Class} instance.
+   *
+   * @return raw (not annotated, not generic) JavaType
+   */
   public static JavaType of(Class<?> classType) {
     if (classType.isPrimitive()) {
       if (classType == void.class) {
@@ -86,6 +91,11 @@ public abstract class JavaType implements Listable, Annotatable {
     return new ClassType(Name.of(classType));
   }
 
+  /**
+   * Create {@link JavaType} based on {@link java.lang.reflect.Type} instance.
+   *
+   * @return potentially annotated and generic JavaType
+   */
   public static JavaType of(java.lang.reflect.Type type) {
     if (type instanceof GenericArrayType) {
       return JavaTypes.of((GenericArrayType) type);

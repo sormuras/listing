@@ -31,6 +31,7 @@ public class PrimitiveType extends JavaType {
   private List<Annotation> annotations = Collections.emptyList();
   private final Class<?> type;
 
+  /** Initializes this {@link PrimitiveType} instance. */
   public PrimitiveType(Class<?> type) {
     Objects.requireNonNull(type, "type");
     if (type == void.class) {
