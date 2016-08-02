@@ -31,7 +31,14 @@ import java.util.Set;
 import javax.lang.model.element.Modifier;
 
 /** Common tools. */
-interface Tool {
+public interface Tool {
+
+  static void assume(boolean condition, String format, Object... args) {
+    if (condition) {
+      return;
+    }
+    throw new AssertionError(String.format(format, args));
+  }
 
   /**
    * Creates a joined name string for the given components.
@@ -59,6 +66,7 @@ interface Tool {
     return builder.append(String.join(".", names)).toString();
   }
 
+  /** Return element type of the a class member. */
   static ElementType elementOf(Member member) {
     if (member instanceof Constructor) {
       return ElementType.CONSTRUCTOR;
@@ -129,6 +137,7 @@ interface Tool {
     return result.toString();
   }
 
+  /** Convert an integer consisting of modification bits into a set of {@link Modifier}s. */
   static Set<Modifier> modifiers(int mod) {
     Set<Modifier> modifiers = EnumSet.noneOf(Modifier.class);
     if (java.lang.reflect.Modifier.isAbstract(mod)) {
@@ -167,6 +176,7 @@ interface Tool {
     return modifiers;
   }
 
+  /** Return package name of the class as a String. */
   static String packageOf(Class<?> type) {
     requireNonNull(type, "type");
     // trivial case: package is attached to the type
@@ -182,7 +192,7 @@ interface Tool {
     return packageOf(type.getCanonicalName());
   }
 
-  // find last '.' and return first part
+  /** Find last dot {@code '.'} and return first part. */
   static String packageOf(String typeName) {
     String name = typeName;
     int lastDot = name.lastIndexOf('.');
@@ -196,6 +206,7 @@ interface Tool {
     return name;
   }
 
+  /** Return all simple names of the given class as a list of Strings. */
   static List<String> simpleNames(Class<?> type, String... additionalNames) {
     requireNonNull(type, "type");
     List<String> names = new ArrayList<>();

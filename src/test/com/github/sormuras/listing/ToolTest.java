@@ -13,6 +13,13 @@ import org.junit.jupiter.api.Test;
 class ToolTest {
 
   @Test
+  void assume() {
+    Executable executable = () -> Tool.assume(false, "detailed %s", "description");
+    Error error = expectThrows(AssertionError.class, executable);
+    assertTrue(error.toString().contains("detailed description"));
+  }
+
+  @Test
   void canonicalOfEmptyFails() {
     Executable executable = () -> Tool.canonical("", Collections.emptyList());
     AssertionError e = expectThrows(AssertionError.class, executable);
