@@ -81,16 +81,22 @@ public class Name implements Listable, Modifiable {
 
   public static Name of(String... names) {
     requireNonNull(names, "names");
-    if (names.length == 0) throw new IllegalArgumentException("non-empty names array expected");
+    if (names.length == 0) {
+      throw new IllegalArgumentException("non-empty names array expected");
+    }
     List<String> simples = new ArrayList<>(Arrays.asList(names));
     Iterator<String> iterator = simples.iterator();
     String packageName = iterator.next();
     iterator.remove();
-    if (!simples.stream().allMatch(SourceVersion::isIdentifier))
+    if (!simples.stream().allMatch(SourceVersion::isIdentifier)) {
       throw new IllegalArgumentException("non-name in: " + simples);
+    }
     Name name = new Name(packageName, simples);
-    if (names.length == 1) name.setTarget(ElementType.PACKAGE);
-    if (names.length == 2) name.setTarget(ElementType.TYPE);
+    if (names.length == 1) {
+      name.setTarget(ElementType.PACKAGE);
+    } else if (names.length == 2) {
+      name.setTarget(ElementType.TYPE);
+    }
     return name;
   }
 
@@ -115,12 +121,20 @@ public class Name implements Listable, Modifiable {
 
   @Override
   public boolean equals(Object other) {
-    if (this == other) return true;
-    if (other == null || getClass() != other.getClass()) return false;
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
     return hashCode() == other.hashCode();
   }
 
-  /** {@code "java.lang.Thread.State"} */
+  /**
+   * Return the canonical name as a String.
+   *
+   * @return For example: {@code "java.lang.Thread.State"}
+   */
   public String getCanonicalName() {
     return canonicalName;
   }
@@ -141,12 +155,20 @@ public class Name implements Listable, Modifiable {
     return modifiers;
   }
 
-  /** {@code "java.lang"} */
+  /**
+   * Return package name as a String.
+   *
+   * @return For example: {@code "java.lang"}
+   */
   public String getPackageName() {
     return packageName;
   }
 
-  /** {@code ["Thread", "State"]} */
+  /**
+   * Return list of simple names as Strings.
+   *
+   * @return For example: {@code ["Thread", "State"]}
+   */
   public List<String> getSimpleNames() {
     return simpleNames;
   }

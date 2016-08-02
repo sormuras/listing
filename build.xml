@@ -65,7 +65,7 @@
   <target name="checkstyle" description="report of code convention violations">
     <checkstyle config="${dir.lib}/build/checkstyle-config-google.xml"
                 maxErrors="0"
-                maxWarnings="131"
+                maxWarnings="65"
                 failOnViolation="false"
                 failureProperty="checkstyle.failure.property">
       <fileset dir="${dir.src}/java" includes="**/*.java" />

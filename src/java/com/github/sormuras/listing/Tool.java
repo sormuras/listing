@@ -60,9 +60,15 @@ interface Tool {
   }
 
   static ElementType elementOf(Member member) {
-    if (member instanceof Constructor) return ElementType.CONSTRUCTOR;
-    if (member instanceof Field) return ElementType.FIELD;
-    if (member instanceof Method) return ElementType.METHOD;
+    if (member instanceof Constructor) {
+      return ElementType.CONSTRUCTOR;
+    }
+    if (member instanceof Field) {
+      return ElementType.FIELD;
+    }
+    if (member instanceof Method) {
+      return ElementType.METHOD;
+    }
     throw new AssertionError("unexpected member: " + member);
   }
 
@@ -75,8 +81,8 @@ interface Tool {
    *
    * <p>https://docs.oracle.com/javase/specs/jls/se8/html/jls-3.html#jls-3.10.6
    */
-  static String escape(char c) {
-    switch (c) {
+  static String escape(char character) {
+    switch (character) {
       case '\b': /* \u0008: backspace (BS) */
         return "\\b";
       case '\t': /* \u0009: horizontal tab (HT) */
@@ -94,7 +100,9 @@ interface Tool {
       case '\\': /* \u005c: backslash (\) */
         return "\\\\";
       default:
-        return isISOControl(c) ? String.format("\\u%04x", (int) c) : Character.toString(c);
+        return isISOControl(character)
+            ? String.format("\\u%04x", (int) character)
+            : Character.toString(character);
     }
   }
 
@@ -103,19 +111,19 @@ interface Tool {
     StringBuilder result = new StringBuilder(value.length() + 2);
     result.append('"');
     for (int i = 0; i < value.length(); i++) {
-      char c = value.charAt(i);
+      char character = value.charAt(i);
       // trivial case: single quote must not be escaped
-      if (c == '\'') {
+      if (character == '\'') {
         result.append("'");
         continue;
       }
       // trivial case: double quotes must be escaped
-      if (c == '\"') {
+      if (character == '\"') {
         result.append("\\\"");
         continue;
       }
       // default case: just let character escaper do its work
-      result.append(escape(c));
+      result.append(escape(character));
     }
     result.append('"');
     return result.toString();
@@ -123,17 +131,39 @@ interface Tool {
 
   static Set<Modifier> modifiers(int mod) {
     Set<Modifier> modifiers = EnumSet.noneOf(Modifier.class);
-    if (java.lang.reflect.Modifier.isAbstract(mod)) modifiers.add(Modifier.ABSTRACT);
-    if (java.lang.reflect.Modifier.isFinal(mod)) modifiers.add(Modifier.FINAL);
-    if (java.lang.reflect.Modifier.isNative(mod)) modifiers.add(Modifier.NATIVE);
-    if (java.lang.reflect.Modifier.isPrivate(mod)) modifiers.add(Modifier.PRIVATE);
-    if (java.lang.reflect.Modifier.isProtected(mod)) modifiers.add(Modifier.PROTECTED);
-    if (java.lang.reflect.Modifier.isPublic(mod)) modifiers.add(Modifier.PUBLIC);
-    if (java.lang.reflect.Modifier.isStatic(mod)) modifiers.add(Modifier.STATIC);
-    if (java.lang.reflect.Modifier.isStrict(mod)) modifiers.add(Modifier.STRICTFP);
-    if (java.lang.reflect.Modifier.isSynchronized(mod)) modifiers.add(Modifier.SYNCHRONIZED);
-    if (java.lang.reflect.Modifier.isTransient(mod)) modifiers.add(Modifier.TRANSIENT);
-    if (java.lang.reflect.Modifier.isVolatile(mod)) modifiers.add(Modifier.VOLATILE);
+    if (java.lang.reflect.Modifier.isAbstract(mod)) {
+      modifiers.add(Modifier.ABSTRACT);
+    }
+    if (java.lang.reflect.Modifier.isFinal(mod)) {
+      modifiers.add(Modifier.FINAL);
+    }
+    if (java.lang.reflect.Modifier.isNative(mod)) {
+      modifiers.add(Modifier.NATIVE);
+    }
+    if (java.lang.reflect.Modifier.isPrivate(mod)) {
+      modifiers.add(Modifier.PRIVATE);
+    }
+    if (java.lang.reflect.Modifier.isProtected(mod)) {
+      modifiers.add(Modifier.PROTECTED);
+    }
+    if (java.lang.reflect.Modifier.isPublic(mod)) {
+      modifiers.add(Modifier.PUBLIC);
+    }
+    if (java.lang.reflect.Modifier.isStatic(mod)) {
+      modifiers.add(Modifier.STATIC);
+    }
+    if (java.lang.reflect.Modifier.isStrict(mod)) {
+      modifiers.add(Modifier.STRICTFP);
+    }
+    if (java.lang.reflect.Modifier.isSynchronized(mod)) {
+      modifiers.add(Modifier.SYNCHRONIZED);
+    }
+    if (java.lang.reflect.Modifier.isTransient(mod)) {
+      modifiers.add(Modifier.TRANSIENT);
+    }
+    if (java.lang.reflect.Modifier.isVolatile(mod)) {
+      modifiers.add(Modifier.VOLATILE);
+    }
     return modifiers;
   }
 

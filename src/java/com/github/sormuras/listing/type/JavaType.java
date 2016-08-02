@@ -66,24 +66,24 @@ public abstract class JavaType implements Listable, Annotatable {
   }
 
   // raw (not annotated, not generic) class type factory
-  public static JavaType of(Class<?> c) {
-    if (c.isPrimitive()) {
-      if (c == void.class) {
+  public static JavaType of(Class<?> classType) {
+    if (classType.isPrimitive()) {
+      if (classType == void.class) {
         return new VoidType();
       }
-      return new PrimitiveType(c);
+      return new PrimitiveType(classType);
     }
-    if (c.isArray()) {
+    if (classType.isArray()) {
       int dimensions = 1;
       while (true) {
-        c = c.getComponentType();
-        if (!c.isArray()) {
-          return new ArrayType(of(c), dimensions);
+        classType = classType.getComponentType();
+        if (!classType.isArray()) {
+          return new ArrayType(of(classType), dimensions);
         }
         dimensions++;
       }
     }
-    return new ClassType(Name.of(c));
+    return new ClassType(Name.of(classType));
   }
 
   public static JavaType of(java.lang.reflect.Type type) {
@@ -104,9 +104,15 @@ public abstract class JavaType implements Listable, Annotatable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
     return hashCode() == obj.hashCode();
   }
 
@@ -125,6 +131,9 @@ public abstract class JavaType implements Listable, Annotatable {
   }
 
   /**
+   * Returns the name of the type (class, interface, array class, primitive type, or void)
+   * represented by this object, as a String.
+   *
    * @see Class#getName()
    * @see Class#forName(String)
    * @return (binary) class name

@@ -36,12 +36,17 @@ public class Listing {
     this.lineSeparator = lineSeparator;
     this.indentationString = indentationString;
   }
-  /** newline separator */
+
+  /** Add list of listables using newline separator. */
   public Listing add(List<? extends Listable> listables) {
     return add(listables, Listable.NEWLINE);
   }
 
-  /** inline text separator: "{@code a, b, c}" or "{@code a & b & c}" or "{@code [][][]}" */
+  /**
+   * Add list of listables using given text separator inline.
+   *
+   * <p>For example: {@code "a, b, c"}, {@code "a & b & c"} or {@code "[][][]"}
+   */
   public Listing add(List<? extends Listable> listables, String separator) {
     return add(listables, listing -> listing.add(separator));
   }
@@ -68,8 +73,8 @@ public class Listing {
     return listable.apply(this);
   }
 
-  public Listing add(char c) {
-    currentLine.append(c);
+  public Listing add(char character) {
+    currentLine.append(character);
     return this;
   }
 

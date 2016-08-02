@@ -72,8 +72,9 @@ public class Annotation implements Listable {
         }
         result.addObject(method.getName(), value);
       }
-    } catch (Exception e) {
-      throw new AssertionError("reflecting " + annotation + " failed: " + e.getCause(), e);
+    } catch (Exception exception) {
+      String message = "reflecting " + annotation + " failed: " + exception.getCause();
+      throw new AssertionError(message, exception);
     }
     return result;
   }
@@ -83,14 +84,26 @@ public class Annotation implements Listable {
     return new Annotation(Name.of(type), values);
   }
 
-  public static Listable value(Object o) {
-    if (o instanceof Class) return listing -> listing.add(Name.of((Class<?>) o)).add(".class");
-    if (o instanceof Enum) return listing -> listing.add(Name.of((Enum<?>) o));
-    if (o instanceof String) return listing -> listing.add(escape((String) o));
-    if (o instanceof Float) return listing -> listing.add(Locale.US, "%fF", o);
-    if (o instanceof Long) return listing -> listing.add(Locale.US, "%dL", o);
-    if (o instanceof Character) return listing -> listing.add("'").add(escape((char) o)).add("'");
-    return listing -> listing.add(Objects.toString(o));
+  public static Listable value(Object object) {
+    if (object instanceof Class) {
+      return listing -> listing.add(Name.of((Class<?>) object)).add(".class");
+    }
+    if (object instanceof Enum) {
+      return listing -> listing.add(Name.of((Enum<?>) object));
+    }
+    if (object instanceof String) {
+      return listing -> listing.add(escape((String) object));
+    }
+    if (object instanceof Float) {
+      return listing -> listing.add(Locale.US, "%fF", object);
+    }
+    if (object instanceof Long) {
+      return listing -> listing.add(Locale.US, "%dL", object);
+    }
+    if (object instanceof Character) {
+      return listing -> listing.add("'").add(escape((char) object)).add("'");
+    }
+    return listing -> listing.add(Objects.toString(object));
   }
 
   private Map<String, List<Listable>> members = Collections.emptyMap();

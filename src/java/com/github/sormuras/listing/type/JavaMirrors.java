@@ -39,7 +39,9 @@ public interface JavaMirrors {
   }
 
   static JavaType of(NoType type) {
-    if (type.getKind() == TypeKind.VOID) return new VoidType();
+    if (type.getKind() == TypeKind.VOID) {
+      return new VoidType();
+    }
     throw new AssertionError("Unsupported no type: " + type.getKind());
   }
 

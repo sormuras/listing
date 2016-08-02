@@ -107,16 +107,17 @@ public interface Compilation {
     }
 
     @Override
-    public JavaFileObject getJavaFileForOutput(Location l, String name, Kind kind, FileObject s) {
-      isSameFile(s, s);
+    public JavaFileObject getJavaFileForOutput(
+        Location location, String name, Kind kind, FileObject sibling) {
+      isSameFile(sibling, sibling);
       ByteArrayFileObject object = new ByteArrayFileObject(name, kind);
       map.put(name, object);
       return object;
     }
 
     @Override
-    public boolean isSameFile(FileObject a, FileObject b) {
-      return a.toUri().equals(b.toUri());
+    public boolean isSameFile(FileObject fileA, FileObject fileB) {
+      return fileA.toUri().equals(fileB.toUri());
     }
   }
 
@@ -134,8 +135,8 @@ public interface Compilation {
       if (object == null) {
         throw new ClassNotFoundException(className);
       }
-      byte[] b = object.getBytes();
-      return super.defineClass(className, b, 0, b.length);
+      byte[] bytes = object.getBytes();
+      return super.defineClass(className, bytes, 0, bytes.length);
     }
   }
 
@@ -159,8 +160,8 @@ public interface Compilation {
     ClassLoader loader = compile(source(className.replace('.', '/') + ".java", charContent));
     try {
       return loader.loadClass(className);
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException("Class '" + className + "' not found?!", e);
+    } catch (ClassNotFoundException exception) {
+      throw new RuntimeException("Class '" + className + "' not found?!", exception);
     }
   }
 
@@ -188,9 +189,13 @@ public interface Compilation {
             null, // names of classes to be processed by annotation processing, null means none
             // Arrays.stream(units).map(Compilation::source).collect(Collectors.toList()));
             units);
-    if (!processors.isEmpty()) task.setProcessors(processors);
+    if (!processors.isEmpty()) {
+      task.setProcessors(processors);
+    }
     boolean success = task.call();
-    if (!success) throw new RuntimeException("compilation failed! " + diagnostics.getDiagnostics());
+    if (!success) {
+      throw new RuntimeException("compilation failed! " + diagnostics.getDiagnostics());
+    }
     return manager.getClassLoader(StandardLocation.CLASS_PATH);
   }
 

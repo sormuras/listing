@@ -32,9 +32,11 @@ public class TypeArgument implements Listable {
   }
 
   public TypeArgument(JavaType argument) {
-    if (argument instanceof WildcardType) setWildcard((WildcardType) argument);
-    if (argument instanceof ReferenceType) setReference((ReferenceType) argument);
-    if (getReference() == null && getWildcard() == null) {
+    if (argument instanceof WildcardType) {
+      setWildcard((WildcardType) argument);
+    } else if (argument instanceof ReferenceType) {
+      setReference((ReferenceType) argument);
+    } else {
       throw new AssertionError("neither reference nor wildcard set");
     }
   }
