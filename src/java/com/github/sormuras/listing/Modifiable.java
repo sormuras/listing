@@ -22,28 +22,33 @@ import java.util.EnumSet;
 import java.util.Set;
 import javax.lang.model.element.Modifier;
 
-/** Default {@link Modifier} support. */
+/** Default {@link Modifier} set support. */
 public interface Modifiable {
 
+  /** Add modifier to the set. */
   default void addModifier(Modifier modifier) {
     validateModifiers(modifier);
     getModifiers().add(modifier);
   }
 
+  /** Add collection of modifiers to the set. */
   default void addModifiers(Collection<Modifier> modifiers) {
     validateModifiers(modifiers.toArray(new Modifier[modifiers.size()]));
     getModifiers().addAll(modifiers);
   }
 
+  /** Add collection of modifiers to the set. */
   default void addModifiers(int mod) {
     addModifiers(Tool.modifiers(mod));
   }
 
+  /** Add variable array of modifiers to the set. */
   default void addModifiers(Modifier... modifiers) {
     validateModifiers(modifiers);
     getModifiers().addAll(Arrays.asList(modifiers));
   }
 
+  /** Return set of modifiers indicating if the caller will mutate the set. */
   Set<Modifier> getModifiers(boolean readonly);
 
   /**
@@ -64,28 +69,34 @@ public interface Modifiable {
     return EnumSet.allOf(Modifier.class);
   }
 
+  /** Return {@code true} if modifier set is not empty, else {@code false}. */
   default boolean isModified() {
     return !getModifiers(true).isEmpty();
   }
 
+  /** Return {@code true} if {@link Modifier#PUBLIC} is part of modifier set, else {@code false}. */
   default boolean isPublic() {
-    return getModifiers().contains(Modifier.PUBLIC);
+    return getModifiers(true).contains(Modifier.PUBLIC);
   }
 
+  /** Return {@code true} if {@link Modifier#STATIC} is part of modifier set, else {@code false}. */
   default boolean isStatic() {
     return getModifiers(true).contains(Modifier.STATIC);
   }
 
+  /** Replace current modifiers by with new ones. */
   default void setModifiers(int mod) {
     getModifiers().clear();
     addModifiers(mod);
   }
 
+  /** Replace current modifiers by with new ones. */
   default void setModifiers(Modifier... modifiers) {
     getModifiers().clear();
     addModifiers(modifiers);
   }
 
+  /** Return modifiers as an inline listable. */
   default Listable toModifiersListable() {
     return listing -> {
       getModifiers(true).forEach(m -> listing.add(m.name().toLowerCase()).add(' '));
