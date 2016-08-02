@@ -88,7 +88,7 @@ public interface Modifiable {
 
   default Listable toModifiersListable() {
     return listing -> {
-      getModifiers().forEach(m -> listing.add(m.name().toLowerCase()).add(' '));
+      getModifiers(true).forEach(m -> listing.add(m.name().toLowerCase()).add(' '));
       return listing;
     };
   }
