@@ -2,24 +2,27 @@ package top;
 
 @interface A {
 
-  class X {
+  @interface X {
   }
 }
 
 enum E {
 
-  class X {
+  enum X {
   }
 }
 
 class C {
 
   class X {
+
+    class Z {
+    }
   }
 }
 
 interface I {
 
-  class X {
+  interface X {
   }
 }

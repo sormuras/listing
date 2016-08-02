@@ -87,7 +87,7 @@ public class ClassDeclaration extends TypeDeclaration {
     if (!isDeclarationsEmpty()) {
       getDeclarations().forEach(listing::add);
     }
-    listing.add(classBodyElements);
+    listing.add(getClassBodyElements());
     if (!isInitializersEmpty()) {
       getInitializers().forEach(listing::add);
     }
@@ -107,7 +107,7 @@ public class ClassDeclaration extends TypeDeclaration {
     declaration.setEnclosingDeclaration(this);
     declaration.setType(type);
     declaration.setName(name);
-    classBodyElements.add(declaration);
+    getClassBodyElements().add(declaration);
     return declaration;
   }
 
@@ -117,6 +117,10 @@ public class ClassDeclaration extends TypeDeclaration {
     initializer.setStatic(staticInitializer);
     getInitializers().add(initializer);
     return initializer;
+  }
+
+  public List<Listable> getClassBodyElements() {
+    return classBodyElements;
   }
 
   public List<Initializer> getInitializers() {

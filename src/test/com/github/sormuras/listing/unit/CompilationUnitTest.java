@@ -40,10 +40,10 @@ class CompilationUnitTest {
   void top() {
     assertEquals(3, Units.simple().getDeclarations().size());
     CompilationUnit unit = new CompilationUnit("top");
-    unit.declareAnnotation("A").declareClass("X");
-    unit.declareEnum("E").declareClass("X");
-    unit.declareClass("C").declareClass("X");
-    unit.declareInterface("I").declareClass("X");
+    unit.declareAnnotation("A").declareAnnotation("X");
+    unit.declareEnum("E").declareEnum("X");
+    unit.declareClass("C").declareClass("X").declareClass("Z");
+    unit.declareInterface("I").declareInterface("X");
     assertEquals(4, unit.getDeclarations().size());
     assertEquals(Tests.load(CompilationUnitTest.class, "top"), unit.list());
   }
