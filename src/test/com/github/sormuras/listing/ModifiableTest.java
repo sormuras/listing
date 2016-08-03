@@ -23,12 +23,15 @@ class ModifiableTest implements Modifiable {
   void addModifiers() {
     addModifier(ABSTRACT);
     assertTrue(getModifiers().equals(EnumSet.of(ABSTRACT)));
+    assertFalse(isPublic());
     assertFalse(isStatic());
     addModifiers(PUBLIC, STATIC);
     assertTrue(getModifiers().equals(EnumSet.of(ABSTRACT, PUBLIC, STATIC)));
+    assertTrue(isPublic());
     assertTrue(isStatic());
     addModifiers(Arrays.asList(FINAL));
     assertTrue(getModifiers().equals(EnumSet.of(ABSTRACT, FINAL, PUBLIC, STATIC)));
+    assertTrue(isPublic());
     assertTrue(isStatic());
   }
 
