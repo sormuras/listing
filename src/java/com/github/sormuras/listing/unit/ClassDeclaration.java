@@ -70,8 +70,8 @@ public class ClassDeclaration extends TypeDeclaration {
       listing.add('<').add(typeParameters, ", ").add('>');
     }
     // [Superclass]
-    if (superClass != null) {
-      listing.add(" extends ").add(superClass);
+    if (getSuperClass() != null) {
+      listing.add(" extends ").add(getSuperClass());
     }
     // [Superinterfaces]
     if (!isInterfacesEmpty()) {
@@ -156,6 +156,10 @@ public class ClassDeclaration extends TypeDeclaration {
       interfaces = new ArrayList<>();
     }
     return interfaces;
+  }
+
+  public ClassType getSuperClass() {
+    return superClass;
   }
 
   public List<TypeParameter> getTypeParameters() {

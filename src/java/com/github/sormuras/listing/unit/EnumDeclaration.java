@@ -14,9 +14,46 @@
 
 package com.github.sormuras.listing.unit;
 
+import com.github.sormuras.listing.Listing;
+import com.github.sormuras.listing.type.ClassType;
+import java.util.Collections;
+import java.util.List;
+
 public class EnumDeclaration extends ClassDeclaration {
 
   public EnumDeclaration() {
     super("enum");
+  }
+
+  @Override
+  public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
+    throw new UnsupportedOperationException("Enum don't support type parameters!");
+  }
+
+  @Override
+  protected Listing applyDeclarationHead(Listing listing) {
+    listing.add(toAnnotationsListable());
+    listing.add(toModifiersListable());
+    listing.add(getKeyword()).add(' ').add(getName());
+    // [Superinterfaces]
+    if (!isInterfacesEmpty()) {
+      listing.add(" implements ").add(getInterfaces(), ", ");
+    }
+    return listing;
+  }
+
+  @Override
+  public ClassType getSuperClass() {
+    return ClassType.of(Enum.class);
+  }
+
+  @Override
+  public List<TypeParameter> getTypeParameters() {
+    return Collections.emptyList();
+  }
+
+  @Override
+  public ClassDeclaration setSuperClass(ClassType superClass) {
+    throw new UnsupportedOperationException("Super class of enum can't be set!");
   }
 }

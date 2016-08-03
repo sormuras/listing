@@ -51,6 +51,10 @@ public class TypeParameter implements Listable, Annotatable {
   private TypeVariable boundTypeVariable = null;
   private final String name;
 
+  public TypeParameter() {
+    this("T");
+  }
+
   public TypeParameter(String name) {
     this.name = requireNonNull(name, "name");
     Tool.assume(SourceVersion.isIdentifier(name), "expected legal identifier, but got: " + name);
