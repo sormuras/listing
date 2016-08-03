@@ -17,6 +17,11 @@ package com.github.sormuras.listing.unit;
 public class NormalClassDeclaration extends ClassDeclaration {
 
   public NormalClassDeclaration() {
+    this("Unnamed");
+  }
+
+  public NormalClassDeclaration(String name) {
     super("class");
+    setName(name);
   }
 }

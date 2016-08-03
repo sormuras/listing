@@ -60,7 +60,7 @@ class JavaMirrorsTest {
     String charContent = Tests.load(JavaMirrorsTest.class, "primitives");
     JavaFileObject source = Compilation.source(URI.create("test/Primitives.java"), charContent);
     Counter counter = new Counter();
-    Compilation.compile(null, emptyList(), asList(counter), asList(source));
+    Compilation.compile(getClass().getClassLoader(), emptyList(), asList(counter), asList(source));
     primitives(counter);
   }
 

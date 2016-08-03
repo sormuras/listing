@@ -110,7 +110,7 @@ public class Name implements Listable, Modifiable {
   private final List<String> simpleNames;
   private ElementType target;
 
-  protected Name(String packageName, List<String> simpleNames) {
+  public Name(String packageName, List<String> simpleNames) {
     this.packageName = requireNonNull(packageName, "packageName");
     this.simpleNames = unmodifiableList(requireNonNull(simpleNames, "simpleNames"));
     this.modifiers = Collections.emptySet();

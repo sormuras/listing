@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
+import com.github.sormuras.listing.unit.CompilationUnit;
+import com.github.sormuras.listing.unit.NormalClassDeclaration;
 import java.lang.annotation.ElementType;
 import java.util.Optional;
 import javax.lang.model.element.Modifier;
@@ -157,8 +159,8 @@ class NameTest {
         "java.lang.Thread.State.NEW",
         ElementType.FIELD,
         "public, static, final");
-    // TODO testToString(of(new ClassDeclaration().setName("Abc")), "Abc", "");
-    // TODO testToString(of(new JavaUnit("abc").declareClass("Abc")), "abc.Abc", "");
+    testToString(new NormalClassDeclaration("Abc").toName(), "Abc", "");
+    testToString(new CompilationUnit("abc").declareClass("Abc").toName(), "abc.Abc", "");
   }
 
   private void testToString(Name name, String canonical, String modifiers) {

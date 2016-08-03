@@ -15,6 +15,7 @@
 package com.github.sormuras.listing.unit;
 
 import com.github.sormuras.listing.Listing;
+import com.github.sormuras.listing.Name;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -102,5 +103,23 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
   public TypeDeclaration setName(String name) {
     super.setName(name);
     return this;
+  }
+
+  /** Return simple name representation of this type declaration. */
+  public Name toName() {
+    String packageName = "";
+    if (getCompilationUnit().isPresent()) {
+      packageName = getCompilationUnit().get().getPackageName();
+    }
+    List<String> simpleNames = new ArrayList<>();
+    TypeDeclaration current = this;
+    while (current != null) {
+      simpleNames.add(0, current.getName());
+      current = current.getEnclosingDeclaration().orElse(null);
+    }
+    Name name = new Name(packageName, simpleNames);
+    name.getModifiers().addAll(getModifiers());
+    name.setTarget(ElementType.TYPE);
+    return name;
   }
 }
