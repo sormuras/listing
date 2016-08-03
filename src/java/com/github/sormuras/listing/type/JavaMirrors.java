@@ -48,26 +48,32 @@ public interface JavaMirrors {
 
   /** Create {@link JavaType} based on {@link PrimitiveType} instance. */
   static JavaType of(PrimitiveType type) {
-    switch (type.getKind()) {
-      case BOOLEAN:
-        return JavaType.of(boolean.class);
-      case BYTE:
-        return JavaType.of(byte.class);
-      case SHORT:
-        return JavaType.of(short.class);
-      case INT:
-        return JavaType.of(int.class);
-      case LONG:
-        return JavaType.of(long.class);
-      case CHAR:
-        return JavaType.of(char.class);
-      case FLOAT:
-        return JavaType.of(float.class);
-      case DOUBLE:
-        return JavaType.of(double.class);
-      default:
-        throw new AssertionError("Unsupported primitive type: " + type.getKind());
+    TypeKind kind = type.getKind();
+    if (kind == TypeKind.BOOLEAN) {
+      return JavaType.of(boolean.class);
     }
+    if (kind == TypeKind.INT) {
+      return JavaType.of(int.class);
+    }
+    if (kind == TypeKind.LONG) {
+      return JavaType.of(long.class);
+    }
+    if (kind == TypeKind.CHAR) {
+      return JavaType.of(char.class);
+    }
+    if (kind == TypeKind.FLOAT) {
+      return JavaType.of(float.class);
+    }
+    if (kind == TypeKind.DOUBLE) {
+      return JavaType.of(double.class);
+    }
+    if (kind == TypeKind.BYTE) {
+      return JavaType.of(byte.class);
+    }
+    if (kind == TypeKind.SHORT) {
+      return JavaType.of(short.class);
+    }
+    throw new AssertionError("Unsupported primitive type: " + type.getKind());
   }
 
   static JavaType of(TypeMirror mirror) {
