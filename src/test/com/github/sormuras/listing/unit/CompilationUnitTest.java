@@ -2,16 +2,29 @@ package com.github.sormuras.listing.unit;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static org.junit.Assert.assertSame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
+import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Compilation;
+import com.github.sormuras.listing.Name;
 import com.github.sormuras.listing.Tests;
-import com.github.sormuras.listing.type.*;
+import com.github.sormuras.listing.Tool;
+import com.github.sormuras.listing.type.ClassType;
+import com.github.sormuras.listing.type.Counter;
+import com.github.sormuras.listing.type.JavaType;
+import com.github.sormuras.listing.type.TypeVariable;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
+import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 class CompilationUnitTest {
@@ -103,5 +116,64 @@ class CompilationUnitTest {
     assertEquals("Unnamed", unnamed.compile(Object.class, types0).getClass().getTypeName());
     Supplier<Class<?>[]> types1 = () -> new Class<?>[1];
     expectThrows(Error.class, () -> unnamed.compile(Object.class, types1));
+  }
+
+  @Test
+  void crazy() throws Exception {
+    Annotation tag = new Annotation(Name.of("", "Tag"));
+    ClassType taggedRunnable = ClassType.of(Runnable.class);
+    taggedRunnable.addAnnotation(tag);
+    ClassType taggedString = ClassType.of(String.class);
+    taggedString.addAnnotation(tag);
+    ClassType taggedThread = ClassType.of(Thread.class);
+    taggedThread.addAnnotation(tag);
+    ClassType listOfStrings = ClassType.of(List.class, String.class);
+
+    CompilationUnit unit = new CompilationUnit("abc.xyz");
+    unit.getPackageDeclaration()
+        .addAnnotation(Generated.class, "https://", "github.com/sormuras/listing");
+    unit.getImportDeclarations()
+        .addSingleTypeImport(Assert.class)
+        .addTypeImportOnDemand(Name.of("abc"))
+        .addSingleStaticImport(Name.of(Collections.class.getMethod("shuffle", List.class)))
+        .addStaticImportOnDemand(Name.of(Objects.class));
+    unit.declareAnnotation("TestAnno");
+    EnumDeclaration e1 = unit.declareEnum("TestEnum");
+    e1.addAnnotation(Generated.class, "An enum for testing");
+    e1.addModifier(Modifier.PROTECTED);
+    e1.addInterface(JavaType.of(Serializable.class));
+    // TODO e1.setBody(l -> l.add("A, B, C").newline());
+    unit.declareInterface("TestIntf");
+    NormalClassDeclaration simple = unit.declareClass("SimpleClass");
+    simple.addModifier("public", "final");
+    simple.addTypeParameter(new TypeParameter("S").addBounds(taggedRunnable));
+    simple.addTypeParameter(new TypeParameter("T").setBoundTypeVariable("S"));
+    simple.setSuperClass(taggedThread);
+    simple.addInterface(JavaType.of(Cloneable.class));
+    simple.addInterface(JavaType.of(Runnable.class));
+    FieldDeclaration i = simple.declareField(int.class, "i");
+    i.addModifier("private", "volatile");
+    i.setInitializer(l -> l.add("4711"));
+    simple
+        .declareField(taggedString, "s")
+        .setInitializer(l -> l.add(Tool.escape("The Story about \"Ping\"")));
+    simple
+        .declareField(listOfStrings, "l")
+        .setInitializer(l -> l.add("java.util.Collections.emptyList()"));
+    MethodDeclaration run = simple.declareMethod(void.class, "run");
+    run.addAnnotation(Override.class);
+    run.addModifiers(Modifier.PUBLIC, Modifier.FINAL);
+    run.setBody(l -> l.add("System.out.println(\"Hallo Welt!\");").newline());
+    MethodDeclaration calc = simple.declareMethod(new TypeVariable("N"), "calc");
+    calc.addModifier(Modifier.STATIC);
+    calc.addTypeParameter(new TypeParameter("N").addBounds(JavaType.of(Number.class)));
+    calc.addParameter(int.class, "i");
+    calc.addThrows(Exception.class);
+    calc.setBody(l -> l.add("return null;").newline());
+    // TODO simple.declareEnum("Innum").setBody(l -> l.add("X, Y, Z").newline());
+    // TODO simple.declareClass("Cinner").setBody(l -> l.add("// empty").newline());
+
+    assertSame(simple, i.getEnclosingDeclaration().get());
+    Tests.assertEquals(getClass(), "crazy", unit);
   }
 }
