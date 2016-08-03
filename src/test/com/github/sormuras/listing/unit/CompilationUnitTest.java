@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
-import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Compilation;
 import com.github.sormuras.listing.Tests;
 import com.github.sormuras.listing.type.*;
@@ -32,7 +31,7 @@ class CompilationUnitTest {
     constructor.addStatement("this.text = text");
     constructor.addStatement("this.number = number");
     MethodDeclaration getter = enterprise.declareMethod(String.class, "get");
-    getter.addAnnotation(Annotation.of(Override.class));
+    getter.addAnnotation(Override.class);
     getter.addModifier(Modifier.PUBLIC);
     getter.addStatement("return text + '-' + number");
 
@@ -84,12 +83,8 @@ class CompilationUnitTest {
     CompilationUnit unit = new CompilationUnit("test");
     ClassDeclaration enterprise = unit.declareClass("Class");
     enterprise.addModifier(Modifier.PUBLIC);
-    enterprise
-        .declareField(Object.class, "field1")
-        .addAnnotation(Annotation.of(Counter.Mark.class));
-    enterprise
-        .declareField(Object.class, "field2")
-        .addAnnotation(Annotation.of(Counter.Mark.class));
+    enterprise.declareField(Object.class, "field1").addAnnotation(Counter.Mark.class);
+    enterprise.declareField(Object.class, "field2").addAnnotation(Counter.Mark.class);
     Tests.assertEquals(getClass(), "processed", unit);
 
     Counter counter = new Counter();

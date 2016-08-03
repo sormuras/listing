@@ -78,7 +78,7 @@ class AnnotatableTest {
     assertFalse(a.isAnnotated());
     assertTrue(Collections.EMPTY_LIST != a.getAnnotations());
     assertFalse(a.isAnnotated());
-    a.addAnnotation(Annotation.of(U.class));
+    a.addAnnotation(U.class);
     assertTrue(a.isAnnotated());
     assertEquals(1, a.getAnnotations().size());
     a.setAnnotations();

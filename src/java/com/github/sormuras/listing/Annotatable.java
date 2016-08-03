@@ -26,6 +26,15 @@ public interface Annotatable {
     getAnnotations().add(annotation);
   }
 
+  default void addAnnotation(
+      Class<? extends java.lang.annotation.Annotation> annotation, Object... values) {
+    addAnnotation(Annotation.of(annotation, values));
+  }
+
+  default void addAnnotation(java.lang.annotation.Annotation annotation) {
+    addAnnotation(Annotation.of(annotation));
+  }
+
   default void addAnnotations(Annotation... annotations) {
     addAnnotations(Arrays.asList(annotations));
   }

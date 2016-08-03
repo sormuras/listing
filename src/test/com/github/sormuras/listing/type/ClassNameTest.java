@@ -12,7 +12,7 @@ class ClassNameTest {
   void annotated() {
     ClassName name = new ClassName("Name", new Annotation(Name.of("", "U")));
     assertEquals("@U Name", name.list());
-    name.addAnnotation(Annotation.of(V.class));
+    name.addAnnotation(V.class);
     assertEquals("@U @com.github.sormuras.listing.type.V Name", name.list());
   }
 }

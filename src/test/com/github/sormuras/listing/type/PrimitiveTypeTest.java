@@ -44,12 +44,12 @@ class PrimitiveTypeTest {
     uint.addAnnotation(u);
     assertEquals(U.USE + " int", uint.list());
     JavaType uvint = new PrimitiveType(int.class);
-    uvint.addAnnotation(Annotation.of(U.class));
-    uvint.addAnnotation(Annotation.of(V.class));
+    uvint.addAnnotation(U.class);
+    uvint.addAnnotation(V.class);
     assertEquals(U.USE + " " + V.USE + " int", uvint.list());
     U reflected = U.class.getDeclaredField("NUMBER").getAnnotatedType().getAnnotation(U.class);
     JavaType uint2 = JavaType.of(int.class);
-    uint2.addAnnotation(Annotation.of(reflected));
+    uint2.addAnnotation(reflected);
     assertEquals(U.USE + " int", uint2.list());
   }
 }

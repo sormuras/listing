@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
-import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Name;
 import com.github.sormuras.listing.Tests;
 import com.github.sormuras.listing.type.ClassType;
@@ -46,7 +45,7 @@ class MethodDeclarationTest {
   @Test
   void emptyList() {
     MethodDeclaration emptyList = new MethodDeclaration();
-    emptyList.addAnnotation(Annotation.of(SuppressWarnings.class, "unchecked"));
+    emptyList.addAnnotation(SuppressWarnings.class, "unchecked");
     emptyList.addModifier("public", "static", "final");
     emptyList.addTypeParameter(new TypeParameter("T"));
     emptyList.setReturnType(
@@ -59,7 +58,7 @@ class MethodDeclarationTest {
   @Test
   void runnable() {
     MethodDeclaration runnable = new MethodDeclaration();
-    runnable.addAnnotation(Annotation.of(Override.class));
+    runnable.addAnnotation(Override.class);
     runnable.addModifier("public");
     runnable.setName("run");
     runnable.addParameter(getClass(), "this");

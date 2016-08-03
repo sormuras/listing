@@ -3,7 +3,6 @@ package com.github.sormuras.listing.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
@@ -116,7 +115,7 @@ class JavaTypeTest<T> {
     assertEquals("long", JavaType.of(long.class).list());
     assertEquals("short", JavaType.of(short.class).list());
     JavaType uint = JavaType.of(int.class);
-    uint.addAnnotation(Annotation.of(U.class));
+    uint.addAnnotation(U.class);
     assertEquals(U.USE + " int", uint.list());
   }
 

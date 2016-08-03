@@ -36,7 +36,7 @@ public interface JavaTypes {
     AnnotatedType component = annotatedType;
     while (component instanceof AnnotatedArrayType) {
       ArrayDimension dimension = new ArrayDimension();
-      stream(component.getAnnotations()).forEach(a -> dimension.addAnnotation(Annotation.of(a)));
+      stream(component.getAnnotations()).forEach(a -> dimension.addAnnotation(a));
       dimensions.add(dimension);
       component = ((AnnotatedArrayType) component).getAnnotatedGenericComponentType();
     }
