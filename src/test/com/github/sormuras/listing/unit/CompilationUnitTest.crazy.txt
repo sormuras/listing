@@ -1,0 +1,44 @@
+@javax.annotation.Generated({"https://", "github.com/sormuras/listing"})
+package abc.xyz;
+
+import static java.util.Objects.*;
+import static java.util.Collections.shuffle;
+import abc.*;
+import org.junit.Assert;
+
+@interface TestAnno {
+}
+
+@javax.annotation.Generated("An enum for testing")
+protected enum TestEnum implements java.io.Serializable {
+  A, B, C
+}
+
+interface TestIntf {
+}
+
+public final class SimpleClass<S extends java.lang.@Tag Runnable, T extends S> extends java.lang.@Tag Thread implements java.lang.Cloneable, java.lang.Runnable {
+
+  enum Innum {
+    X, Y, Z
+  }
+
+  class Cinner {
+    // empty
+  }
+
+  private volatile int i = 4711;
+
+  java.lang.@Tag String s = "The Story about \"Ping\"";
+
+  java.util.List<java.lang.String> l = java.util.Collections.emptyList();
+
+  @java.lang.Override
+  public final void run() {
+    System.out.println("Hallo Welt!");
+  }
+
+  static <N extends java.lang.Number> N calc(int i) throws java.lang.Exception {
+    return null;
+  }
+}

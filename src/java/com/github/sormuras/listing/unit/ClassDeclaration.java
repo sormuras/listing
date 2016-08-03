@@ -95,6 +95,10 @@ public class ClassDeclaration extends TypeDeclaration {
     return listing;
   }
 
+  public MethodDeclaration declareConstructor() {
+    return declareMethod(void.class, "<init>");
+  }
+
   /** Declare new field. */
   public FieldDeclaration declareField(Class<?> type, String name) {
     return declareField(JavaType.of(type), name);
@@ -111,12 +115,29 @@ public class ClassDeclaration extends TypeDeclaration {
     return declaration;
   }
 
+  /** Declare new initializer block. */
   public Initializer declareInitializer(boolean staticInitializer) {
     Initializer initializer = new Initializer();
     initializer.setEnclosing(this);
     initializer.setStatic(staticInitializer);
     getInitializers().add(initializer);
     return initializer;
+  }
+
+  /** Declare new method. */
+  public MethodDeclaration declareMethod(Class<?> type, String name) {
+    return declareMethod(JavaType.of(type), name);
+  }
+
+  /** Declare new method. */
+  public MethodDeclaration declareMethod(JavaType type, String name) {
+    MethodDeclaration declaration = new MethodDeclaration();
+    declaration.setCompilationUnit(getCompilationUnit().orElse(null));
+    declaration.setEnclosingDeclaration(this);
+    declaration.setReturnType(type);
+    declaration.setName(name);
+    getClassBodyElements().add(declaration);
+    return declaration;
   }
 
   public List<Listable> getClassBodyElements() {

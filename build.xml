@@ -102,6 +102,7 @@
         </section>
       </manifest>
     </jar>
+  	<length file="${dir.out}/listing-${version.number}.jar" />
   </target>
 
   <target name="test" depends="compile" description="execute all tests">

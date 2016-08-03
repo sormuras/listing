@@ -10,12 +10,38 @@ import static org.junit.jupiter.api.Assertions.expectThrows;
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Compilation;
 import com.github.sormuras.listing.Tests;
-import com.github.sormuras.listing.type.Counter;
+import com.github.sormuras.listing.type.*;
 import java.util.function.Supplier;
 import javax.lang.model.element.Modifier;
 import org.junit.jupiter.api.Test;
 
 class CompilationUnitTest {
+
+  @Test
+  void enterprise() {
+    CompilationUnit unit = new CompilationUnit("uss");
+    ClassDeclaration enterprise = unit.declareClass("Enterprise");
+    enterprise.addModifier(Modifier.PUBLIC);
+    enterprise.addInterface(ClassType.of(Supplier.class, String.class));
+    enterprise.declareField(String.class, "text").addModifier("private", "final");
+    enterprise.declareField(Number.class, "number").addModifier("private", "final");
+    MethodDeclaration constructor = enterprise.declareConstructor();
+    constructor.addModifier(Modifier.PUBLIC);
+    constructor.addParameter(String.class, "text");
+    constructor.addParameter(Number.class, "number");
+    constructor.addStatement("this.text = text");
+    constructor.addStatement("this.number = number");
+    MethodDeclaration getter = enterprise.declareMethod(String.class, "get");
+    getter.addAnnotation(Annotation.of(Override.class));
+    getter.addModifier(Modifier.PUBLIC);
+    getter.addStatement("return text + '-' + number");
+
+    Supplier<?> spaceship = unit.compile(Supplier.class, "NCC", (short) 1701);
+
+    assertEquals("Enterprise", spaceship.getClass().getSimpleName());
+    assertEquals("NCC-1701", spaceship.get());
+    Tests.assertEquals(getClass(), "enterprise", unit);
+  }
 
   @Test
   void packageName() {
