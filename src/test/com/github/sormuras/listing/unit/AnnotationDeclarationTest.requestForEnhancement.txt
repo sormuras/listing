@@ -1,0 +1,9 @@
+@interface RequestForEnhancement {
+
+  int id();
+
+  @java.lang.Deprecated
+  java.lang.String date() default "201608032129";
+
+  java.lang.Class<? extends java.util.Formatter> formatterClass();
+}

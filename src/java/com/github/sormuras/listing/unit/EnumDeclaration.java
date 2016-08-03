@@ -18,6 +18,14 @@ import com.github.sormuras.listing.Listing;
 
 public class EnumDeclaration extends ClassDeclaration {
 
+  public EnumDeclaration() {
+    this("EnumDeclaration");
+  }
+
+  public EnumDeclaration(String name) {
+    setName(name);
+  }
+
   @Override
   public Listing apply(Listing listing) {
     if (!isLocal()) {

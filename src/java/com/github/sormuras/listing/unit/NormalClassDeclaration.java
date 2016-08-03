@@ -26,7 +26,7 @@ public class NormalClassDeclaration extends ClassDeclaration {
   private List<TypeParameter> typeParameters = Collections.emptyList();
 
   public NormalClassDeclaration() {
-    this("Unnamed");
+    this("NormalClassDeclaration");
   }
 
   public NormalClassDeclaration(String name) {

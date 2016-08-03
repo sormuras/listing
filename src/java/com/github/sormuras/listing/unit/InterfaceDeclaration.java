@@ -26,6 +26,14 @@ import com.github.sormuras.listing.Listing;
  */
 public class InterfaceDeclaration extends TypeDeclaration {
 
+  public InterfaceDeclaration() {
+    this("InterfaceDeclaration");
+  }
+
+  public InterfaceDeclaration(String name) {
+    setName(name);
+  }
+
   @Override
   public Listing apply(Listing listing) {
     listing.newline();

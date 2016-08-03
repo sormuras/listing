@@ -14,17 +14,51 @@
 
 package com.github.sormuras.listing.unit;
 
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
+import com.github.sormuras.listing.type.JavaType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * An annotation is a marker which associates information with a program construct, but has no
- * effect at run time.
+ * An annotation type declaration specifies a new annotation type, a special kind of interface type.
+ * To distinguish an annotation type declaration from a normal interface declaration, the keyword
+ * {@code interface} is preceded by an at-sign <code>@</code>.
  *
- * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.7
+ * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.6
  */
 public class AnnotationDeclaration extends TypeDeclaration {
 
-  public AnnotationDeclaration() {}
+  private final List<AnnotationElement> elements = new ArrayList<>();
+
+  public AnnotationDeclaration() {
+    this("AnnotationDeclaration");
+  }
+
+  public AnnotationDeclaration(String name) {
+    setName(name);
+  }
+
+  /** Add new annotation method w/o default value. */
+  public AnnotationElement addElement(JavaType returnType, String name) {
+    return addElement(returnType, name, (Listable) null);
+  }
+
+  /** Add new annotation method with default value. */
+  public AnnotationElement addElement(JavaType returnType, String name, Listable defaultValue) {
+    AnnotationElement element = new AnnotationElement();
+    element.setName(name);
+    element.setReturnType(returnType);
+    element.setDefaultValue(defaultValue);
+    getElements().add(element);
+    return element;
+  }
+
+  /** Add new annotation method with default value. */
+  public AnnotationElement addElement(JavaType returnType, String name, Object defaultValue) {
+    return addElement(returnType, name, Annotation.value(defaultValue));
+  }
 
   @Override
   public Listing apply(Listing listing) {
@@ -37,7 +71,14 @@ public class AnnotationDeclaration extends TypeDeclaration {
     if (!isDeclarationsEmpty()) {
       getDeclarations().forEach(listing::add);
     }
+    if (!getElements().isEmpty()) {
+      getElements().forEach(listing::add);
+    }
     listing.indent(-1).add('}').newline();
     return listing;
+  }
+
+  public List<AnnotationElement> getElements() {
+    return elements;
   }
 }
