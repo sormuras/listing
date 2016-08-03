@@ -47,10 +47,6 @@ class CompilationTest {
 
   @Test
   void multipleClassesWithDependingOnEachOther() {
-    // JavaUnit a = new JavaUnit("a");
-    // a.declareClass("A").addModifier("public");
-    // JavaUnit b = new JavaUnit("b");
-    // b.declareClass("B").setSuperClass(ClassType.of("a", "A"));
     String codeA = "package a; public class A {}";
     String codeB = "package b; class B extends a.A {}";
     JavaFileObject fileA = source("listing/A.java", codeA);

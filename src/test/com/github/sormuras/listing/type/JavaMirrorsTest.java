@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import com.github.sormuras.listing.Compilation;
 import com.github.sormuras.listing.Tests;
+import com.github.sormuras.listing.unit.ClassDeclaration;
+import com.github.sormuras.listing.unit.CompilationUnit;
 import java.net.URI;
 import javax.lang.model.type.NoType;
 import javax.lang.model.type.PrimitiveType;
@@ -18,35 +20,6 @@ import javax.tools.JavaFileObject;
 import org.junit.jupiter.api.Test;
 
 class JavaMirrorsTest {
-
-  //  @Test
-  //  void primitives() throws Exception {
-  //    JavaUnit unit = new JavaUnit("test");
-  //    ClassDeclaration type = unit.declareClass("PrimitiveFields").addModifier(Modifier.PUBLIC);
-  //    type.declareField(boolean.class, "field1").addAnnotation(Counter.Mark.class);
-  //    type.declareField(byte.class, "field2").addAnnotation(Counter.Mark.class);
-  //    type.declareField(char.class, "field3").addAnnotation(Counter.Mark.class);
-  //    type.declareField(double.class, "field4").addAnnotation(Counter.Mark.class);
-  //    type.declareField(float.class, "field5").addAnnotation(Counter.Mark.class);
-  //    type.declareField(int.class, "field6").addAnnotation(Counter.Mark.class);
-  //    type.declareField(long.class, "field7").addAnnotation(Counter.Mark.class);
-  //    type.declareField(short.class, "field8").addAnnotation(Counter.Mark.class);
-  //    type.declareMethod(void.class, "noop")
-  //        .addAnnotation(Counter.Mark.class)
-  //        .setBody(l -> l.add("{}"));
-  //
-  //    Counter counter = new Counter();
-  //    Compilation.compile(getClass().getClassLoader(), emptyList(), asList(counter), unit);
-  //
-
-  @Test
-  void primitives() {
-    String charContent = Tests.load(JavaMirrorsTest.class, "primitives");
-    JavaFileObject source = Compilation.source(URI.create("test/Primitives.java"), charContent);
-    Counter counter = new Counter();
-    Compilation.compile(getClass().getClassLoader(), emptyList(), asList(counter), asList(source));
-    primitives(counter);
-  }
 
   private void primitives(Counter counter) {
     assertEquals(9, counter.map.size());
@@ -59,6 +32,36 @@ class JavaMirrorsTest {
     assertEquals(JavaType.of(long.class), counter.map.get("field7"));
     assertEquals(JavaType.of(short.class), counter.map.get("field8"));
     assertEquals(JavaType.of(void.class), counter.map.get("noop"));
+  }
+
+  @Test
+  void primitivesFromCompilationUnit() throws Exception {
+    CompilationUnit unit = new CompilationUnit("test");
+    ClassDeclaration type = unit.declareClass("PrimitiveFields");
+    type.declareField(boolean.class, "field1").addAnnotation(Counter.Mark.class);
+    type.declareField(byte.class, "field2").addAnnotation(Counter.Mark.class);
+    type.declareField(char.class, "field3").addAnnotation(Counter.Mark.class);
+    type.declareField(double.class, "field4").addAnnotation(Counter.Mark.class);
+    type.declareField(float.class, "field5").addAnnotation(Counter.Mark.class);
+    type.declareField(int.class, "field6").addAnnotation(Counter.Mark.class);
+    type.declareField(long.class, "field7").addAnnotation(Counter.Mark.class);
+    type.declareField(short.class, "field8").addAnnotation(Counter.Mark.class);
+    type.declareMethod(void.class, "noop")
+        .setBody(l -> l.add("{}"))
+        .addAnnotation(Counter.Mark.class);
+
+    Counter counter = new Counter();
+    Compilation.compile(null, emptyList(), asList(counter), asList(unit.toJavaFileObject()));
+    primitives(counter);
+  }
+
+  @Test
+  void primitivesFromFile() {
+    String charContent = Tests.load(JavaMirrorsTest.class, "primitives");
+    JavaFileObject source = Compilation.source(URI.create("test/Primitives.java"), charContent);
+    Counter counter = new Counter();
+    Compilation.compile(null, emptyList(), asList(counter), asList(source));
+    primitives(counter);
   }
 
   @Test
