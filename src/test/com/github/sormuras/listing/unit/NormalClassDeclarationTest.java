@@ -11,14 +11,14 @@ class NormalClassDeclarationTest {
 
   @Test
   void empty() {
-    ClassDeclaration declaration = new NormalClassDeclaration();
+    NormalClassDeclaration declaration = new NormalClassDeclaration();
     declaration.setName("Empty");
     assertEquals("class Empty {\n}\n", declaration.list());
   }
 
   @Test
   void generic() {
-    ClassDeclaration declaration = new NormalClassDeclaration();
+    NormalClassDeclaration declaration = new NormalClassDeclaration();
     declaration.setName("G");
     declaration.addTypeParameter(new TypeParameter("T"));
     assertEquals("class G<T> {\n}\n", declaration.list());
@@ -30,7 +30,7 @@ class NormalClassDeclarationTest {
 
   @Test
   void interfaces() {
-    ClassDeclaration declaration = new NormalClassDeclaration();
+    NormalClassDeclaration declaration = new NormalClassDeclaration();
     declaration.setName("I");
     declaration.addInterface(JavaType.of(Runnable.class));
     assertEquals("class I implements java.lang.Runnable {\n}\n", declaration.list());
@@ -42,7 +42,7 @@ class NormalClassDeclarationTest {
 
   @Test
   void superclass() {
-    ClassDeclaration declaration = new NormalClassDeclaration();
+    NormalClassDeclaration declaration = new NormalClassDeclaration();
     declaration.setName("C");
     declaration.setSuperClass(ClassType.of(Object.class));
     assertEquals("class C extends java.lang.Object {\n}\n", declaration.list());

@@ -15,16 +15,8 @@
 package com.github.sormuras.listing.unit;
 
 import com.github.sormuras.listing.Listing;
-import com.github.sormuras.listing.type.ClassType;
-import java.util.Collections;
-import java.util.List;
 
 public class EnumDeclaration extends ClassDeclaration {
-
-  @Override
-  public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
-    throw new UnsupportedOperationException("Enum don't support type parameters!");
-  }
 
   @Override
   public Listing apply(Listing listing) {
@@ -48,20 +40,5 @@ public class EnumDeclaration extends ClassDeclaration {
     // TODO add other class members like fields, methods...
     listing.indent(-1).add('}').newline();
     return listing;
-  }
-
-  @Override
-  public ClassType getSuperClass() {
-    return ClassType.of(Enum.class);
-  }
-
-  @Override
-  public List<TypeParameter> getTypeParameters() {
-    return Collections.emptyList();
-  }
-
-  @Override
-  public ClassDeclaration setSuperClass(ClassType superClass) {
-    throw new UnsupportedOperationException("Super class of enum can't be set!");
   }
 }

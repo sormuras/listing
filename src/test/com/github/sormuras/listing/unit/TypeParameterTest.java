@@ -14,7 +14,7 @@ class TypeParameterTest {
 
   @Test
   void simple() {
-    assertEquals("T", new TypeParameter("T").getName());
+    assertEquals("T", new TypeParameter().getName());
     assertEquals("T", new TypeParameter("T").list());
     assertEquals(ElementType.TYPE_PARAMETER, new TypeParameter("T").getAnnotationTarget());
     assertEquals("T extends S", new TypeParameter("T").setBoundTypeVariable("S").list());

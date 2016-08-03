@@ -32,7 +32,7 @@ class CompilationUnitTest {
   @Test
   void enterprise() {
     CompilationUnit unit = new CompilationUnit("uss");
-    ClassDeclaration enterprise = unit.declareClass("Enterprise");
+    NormalClassDeclaration enterprise = unit.declareClass("Enterprise");
     enterprise.addModifier(Modifier.PUBLIC);
     enterprise.addInterface(ClassType.of(Supplier.class, String.class));
     enterprise.declareField(String.class, "text").addModifier("private", "final");

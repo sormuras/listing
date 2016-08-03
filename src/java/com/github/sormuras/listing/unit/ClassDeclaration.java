@@ -34,21 +34,10 @@ public abstract class ClassDeclaration extends TypeDeclaration {
   private List<Initializer> initializers = Collections.emptyList();
   private List<ClassType> interfaces = Collections.emptyList();
   private boolean local = false;
-  private ClassType superClass = null;
-  private List<TypeParameter> typeParameters = Collections.emptyList();
 
   public ClassDeclaration addInterface(JavaType interfaceType) {
     getInterfaces().add((ClassType) interfaceType);
     return this;
-  }
-
-  public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
-    getTypeParameters().add(typeParameter);
-    return this;
-  }
-
-  public MethodDeclaration declareConstructor() {
-    return declareMethod(void.class, "<init>");
   }
 
   /** Declare new field. */
@@ -110,17 +99,6 @@ public abstract class ClassDeclaration extends TypeDeclaration {
     return interfaces;
   }
 
-  public ClassType getSuperClass() {
-    return superClass;
-  }
-
-  public List<TypeParameter> getTypeParameters() {
-    if (typeParameters == Collections.EMPTY_LIST) {
-      typeParameters = new ArrayList<>();
-    }
-    return typeParameters;
-  }
-
   public boolean isInitializersEmpty() {
     return initializers.isEmpty();
   }
@@ -129,20 +107,11 @@ public abstract class ClassDeclaration extends TypeDeclaration {
     return interfaces.isEmpty();
   }
 
-  public boolean isTypeParametersEmpty() {
-    return typeParameters.isEmpty();
-  }
-
   public boolean isLocal() {
     return local;
   }
 
   public void setLocal(boolean local) {
     this.local = local;
-  }
-
-  public ClassDeclaration setSuperClass(ClassType superClass) {
-    this.superClass = superClass;
-    return this;
   }
 }
