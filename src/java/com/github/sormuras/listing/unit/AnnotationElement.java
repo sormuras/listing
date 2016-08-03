@@ -33,14 +33,6 @@ public class AnnotationElement extends AbstractAnnotatable implements Listable {
   private String name;
   private JavaType returnType;
 
-  public AnnotationElement() {
-    this("value");
-  }
-
-  public AnnotationElement(String name) {
-    setName(name);
-  }
-
   @Override
   public Listing apply(Listing listing) {
     listing.newline();
@@ -51,6 +43,11 @@ public class AnnotationElement extends AbstractAnnotatable implements Listable {
     }
     listing.add(';').newline();
     return listing;
+  }
+
+  @Override
+  public ElementType getAnnotationTarget() {
+    return ElementType.METHOD;
   }
 
   public Listable getDefaultValue() {
@@ -78,10 +75,5 @@ public class AnnotationElement extends AbstractAnnotatable implements Listable {
   public AnnotationElement setReturnType(JavaType type) {
     this.returnType = type;
     return this;
-  }
-
-  @Override
-  public ElementType getAnnotationTarget() {
-    return ElementType.METHOD;
   }
 }
