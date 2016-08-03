@@ -14,12 +14,7 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * A primitive type is predefined by the Java language and named by its reserved keyword.
@@ -28,12 +23,10 @@ import java.util.Objects;
  */
 public class PrimitiveType extends JavaType {
 
-  private List<Annotation> annotations = Collections.emptyList();
   private final Class<?> type;
 
   /** Initializes this {@link PrimitiveType} instance. */
   public PrimitiveType(Class<?> type) {
-    Objects.requireNonNull(type, "type");
     if (type == void.class) {
       throw new AssertionError("expected primitive type, got " + type);
     }
@@ -46,14 +39,6 @@ public class PrimitiveType extends JavaType {
   @Override
   public Listing apply(Listing listing) {
     return listing.add(toAnnotationsListable()).add(getType().getTypeName());
-  }
-
-  @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    if (annotations == Collections.EMPTY_LIST && !readonly) {
-      annotations = new ArrayList<>();
-    }
-    return annotations;
   }
 
   public Class<?> getType() {

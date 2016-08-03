@@ -14,12 +14,8 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -30,16 +26,20 @@ import java.util.Optional;
  */
 public class WildcardType extends JavaType {
 
-  private List<Annotation> annotations = Collections.emptyList();
   private ReferenceType boundExtends = ClassType.of(Object.class);
   private ReferenceType boundSuper = null;
 
   @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    if (annotations == Collections.EMPTY_LIST && !readonly) {
-      annotations = new ArrayList<>();
+  public Listing apply(Listing listing) {
+    listing.add(toAnnotationsListable());
+    listing.add('?');
+    if (!getBoundExtends().isJavaLangObject()) {
+      return listing.add(" extends ").add(getBoundExtends());
     }
-    return annotations;
+    if (getBoundSuper().isPresent()) {
+      return listing.add(" super ").add(getBoundSuper().get());
+    }
+    return listing;
   }
 
   @Override
@@ -53,19 +53,6 @@ public class WildcardType extends JavaType {
 
   public Optional<ReferenceType> getBoundSuper() {
     return Optional.ofNullable(boundSuper);
-  }
-
-  @Override
-  public Listing apply(Listing listing) {
-    listing.add(toAnnotationsListable());
-    listing.add('?');
-    if (!getBoundExtends().isJavaLangObject()) {
-      return listing.add(" extends ").add(getBoundExtends());
-    }
-    if (getBoundSuper().isPresent()) {
-      return listing.add(" super ").add(getBoundSuper().get());
-    }
-    return listing;
   }
 
   /** Set upper bound, read {@code extends}, type. */

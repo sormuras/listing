@@ -14,13 +14,10 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable;
-import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Modifiable;
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.lang.model.element.Modifier;
@@ -30,18 +27,13 @@ import javax.lang.model.element.Modifier;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1.6
  */
-public abstract class ClassMemberDeclaration implements Annotatable, Listable, Modifiable {
+public abstract class ClassMemberDeclaration extends AbstractAnnotatable
+    implements Listable, Modifiable {
 
-  private List<Annotation> annotations = new ArrayList<>();
   private CompilationUnit compilationUnit = null;
   private TypeDeclaration enclosingType = null;
   private Set<Modifier> modifiers = EnumSet.noneOf(Modifier.class);
   private String name;
-
-  @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    return annotations;
-  }
 
   public Optional<CompilationUnit> getCompilationUnit() {
     return Optional.ofNullable(compilationUnit);

@@ -14,7 +14,7 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotatable;
+import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Name;
@@ -28,6 +28,9 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The Java programming language is a statically typed language, which means that every variable and
@@ -44,7 +47,7 @@ import java.lang.reflect.WildcardType;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html
  */
-public abstract class JavaType implements Listable, Annotatable {
+public abstract class JavaType extends AbstractAnnotatable implements Listable {
 
   /** Create {@link JavaType} based on {@link AnnotatedType} instance. */
   public static JavaType of(AnnotatedType annotatedType) {
@@ -112,6 +115,8 @@ public abstract class JavaType implements Listable, Annotatable {
     return of((Class<?>) type);
   }
 
+  private List<Annotation> annotations = Collections.emptyList();
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -127,6 +132,14 @@ public abstract class JavaType implements Listable, Annotatable {
   }
 
   @Override
+  public List<Annotation> getAnnotations() {
+    if (annotations == Collections.EMPTY_LIST) {
+      annotations = new ArrayList<>();
+    }
+    return annotations;
+  }
+
+  @Override
   public ElementType getAnnotationTarget() {
     return ElementType.TYPE_USE;
   }
@@ -134,6 +147,11 @@ public abstract class JavaType implements Listable, Annotatable {
   @Override
   public int hashCode() {
     return list().hashCode();
+  }
+
+  @Override
+  public boolean isAnnotated() {
+    return !annotations.isEmpty();
   }
 
   public boolean isJavaLangObject() {

@@ -3,6 +3,8 @@ package com.github.sormuras.listing.unit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
+import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Name;
 import com.github.sormuras.listing.type.ClassType;
 import com.github.sormuras.listing.type.JavaType;
 import java.lang.annotation.ElementType;
@@ -18,6 +20,10 @@ class TypeParameterTest {
     assertEquals("T extends S", new TypeParameter("T").setBoundTypeVariable("S").list());
     JavaType run = ClassType.of(Runnable.class);
     assertEquals("S extends java.lang.Runnable", new TypeParameter("S").addBounds(run).list());
+    // annotated
+    TypeParameter parameter = new TypeParameter("T");
+    parameter.addAnnotation(new Annotation(Name.of("", "A")));
+    assertEquals("@A T", parameter.list());
   }
 
   @Test

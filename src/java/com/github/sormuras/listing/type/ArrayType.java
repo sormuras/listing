@@ -55,8 +55,8 @@ public class ArrayType extends ReferenceType {
   }
 
   @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    return dimensions.get(0).getAnnotations(readonly);
+  public List<Annotation> getAnnotations() {
+    return dimensions.get(0).getAnnotations();
   }
 
   public JavaType getComponentType() {
@@ -65,6 +65,11 @@ public class ArrayType extends ReferenceType {
 
   public List<ArrayDimension> getDimensions() {
     return dimensions;
+  }
+
+  @Override
+  public boolean isAnnotated() {
+    return dimensions.get(0).isAnnotated();
   }
 
   @Override

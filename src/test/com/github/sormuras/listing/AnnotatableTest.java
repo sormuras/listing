@@ -2,7 +2,6 @@ package com.github.sormuras.listing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.sormuras.listing.type.ArrayDimension;
@@ -67,10 +66,8 @@ class AnnotatableTest {
   }
 
   private void testInitial(Annotatable a) {
-    // lazy annotation collection defaults to immutable empty list
     assertFalse(a.isAnnotated());
-    assertTrue(a.getAnnotations(true).isEmpty());
-    assertSame(Collections.EMPTY_LIST, a.getAnnotations(true));
+    assertTrue(a.getAnnotations().isEmpty());
   }
 
   private void testMutable(Annotatable a) {

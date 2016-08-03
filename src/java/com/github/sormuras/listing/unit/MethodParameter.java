@@ -14,15 +14,12 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable;
-import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.type.ArrayType;
 import com.github.sormuras.listing.type.JavaType;
 import java.lang.annotation.ElementType;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -34,13 +31,12 @@ import java.util.Optional;
  * @author Christian Stein
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.4.1
  */
-public class MethodParameter implements Listable, Annotatable {
+public class MethodParameter extends AbstractAnnotatable implements Listable {
 
   public static MethodParameter of(Class<?> type, String name) {
     return new MethodParameter().setType(JavaType.of(type)).setName(name);
   }
 
-  private final List<Annotation> annotations = new ArrayList<>();
   private boolean finalModifier;
   private MethodDeclaration methodDeclaration;
   private String name;
@@ -64,11 +60,6 @@ public class MethodParameter implements Listable, Annotatable {
     }
     listing.add(' ').add(getName());
     return listing;
-  }
-
-  @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    return annotations;
   }
 
   @Override

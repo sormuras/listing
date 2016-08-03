@@ -28,13 +28,18 @@ public class VoidType extends JavaType {
   }
 
   @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
+  public List<Annotation> getAnnotations() {
     return Collections.emptyList();
   }
 
   @Override
   public ElementType getAnnotationTarget() {
     return null;
+  }
+
+  @Override
+  public boolean isAnnotated() {
+    return false;
   }
 
   @Override

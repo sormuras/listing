@@ -14,12 +14,8 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * A type variable is an unqualified identifier used as a type in class, interface, method, and
@@ -29,7 +25,6 @@ import java.util.List;
  */
 public class TypeVariable extends ReferenceType {
 
-  private List<Annotation> annotations = Collections.emptyList();
   private String name = null;
 
   public TypeVariable() {
@@ -43,14 +38,6 @@ public class TypeVariable extends ReferenceType {
   @Override
   public Listing apply(Listing listing) {
     return listing.add(toAnnotationsListable()).add(getName());
-  }
-
-  @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    if (annotations == Collections.EMPTY_LIST && !readonly) {
-      annotations = new ArrayList<>();
-    }
-    return annotations;
   }
 
   @Override

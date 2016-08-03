@@ -14,16 +14,12 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable;
-import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.Name;
 import java.lang.annotation.ElementType;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * PackageDeclaration:<br>
@@ -31,9 +27,8 @@ import java.util.List;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html#jls-7.4
  */
-public class PackageDeclaration implements Listable, Annotatable {
+public class PackageDeclaration extends AbstractAnnotatable implements Listable {
 
-  private List<Annotation> annotations = Collections.emptyList();
   private final Name name;
 
   /** Unnamed package declaration constructor - use it sparsely. */
@@ -56,14 +51,6 @@ public class PackageDeclaration implements Listable, Annotatable {
     }
     String name = getName().getPackageName();
     return listing.add(toAnnotationsListable()).add("package ").add(name).add(';').newline();
-  }
-
-  @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    if (annotations == Collections.EMPTY_LIST && !readonly) {
-      annotations = new ArrayList<>();
-    }
-    return annotations;
   }
 
   @Override

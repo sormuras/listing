@@ -15,12 +15,31 @@
 package com.github.sormuras.listing;
 
 import java.lang.annotation.ElementType;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /** Default {@link Annotation} support. */
 public interface Annotatable {
+
+  abstract class AbstractAnnotatable implements Annotatable {
+    protected List<Annotation> annotations = Collections.emptyList();
+
+    @Override
+    public List<Annotation> getAnnotations() {
+      if (annotations == Collections.EMPTY_LIST) {
+        annotations = new ArrayList<>();
+      }
+      return annotations;
+    }
+
+    @Override
+    public boolean isAnnotated() {
+      return !annotations.isEmpty();
+    }
+  }
 
   default void addAnnotation(Annotation annotation) {
     getAnnotations().add(annotation);
@@ -43,23 +62,21 @@ public interface Annotatable {
     getAnnotations().addAll(annotations);
   }
 
-  default List<Annotation> getAnnotations() {
-    return getAnnotations(false);
-  }
+  List<Annotation> getAnnotations();
 
-  List<Annotation> getAnnotations(boolean readonly);
-
+  /** Return listable separator depending on the annotation target element type. */
   default Listable getAnnotationSeparator() {
     ElementType target = getAnnotationTarget();
-    boolean inline = target == ElementType.TYPE_PARAMETER || target == ElementType.TYPE_USE;
+    boolean inline =
+        target == ElementType.TYPE_PARAMETER
+            || target == ElementType.TYPE_USE
+            || target == ElementType.PARAMETER;
     return inline ? Listable.SPACE : Listable.NEWLINE;
   }
 
   ElementType getAnnotationTarget();
 
-  default boolean isAnnotated() {
-    return !getAnnotations(true).isEmpty();
-  }
+  boolean isAnnotated();
 
   default void setAnnotations(Annotation... annotations) {
     getAnnotations().clear();
@@ -69,7 +86,7 @@ public interface Annotatable {
   default Listable toAnnotationsListable() {
     if (isAnnotated()) {
       Listable separator = getAnnotationSeparator();
-      return listing -> listing.add(getAnnotations(true), separator).add(separator);
+      return listing -> listing.add(getAnnotations(), separator).add(separator);
     }
     return Listable.IDENTITY;
   }

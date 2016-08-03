@@ -21,7 +21,7 @@ class VoidTypeTest {
 
   @Test
   void annotationsAreImmutable() {
-    assertTrue(new VoidType().getAnnotations(true).isEmpty());
+    assertTrue(new VoidType().getAnnotations().isEmpty());
     assertThrows(
         UnsupportedOperationException.class,
         () -> new VoidType().addAnnotation(new Annotation(Name.of("", "Fail"))));

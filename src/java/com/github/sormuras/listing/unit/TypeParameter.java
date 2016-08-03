@@ -16,8 +16,7 @@ package com.github.sormuras.listing.unit;
 
 import static java.util.Objects.requireNonNull;
 
-import com.github.sormuras.listing.Annotatable;
-import com.github.sormuras.listing.Annotation;
+import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.Tool;
@@ -44,9 +43,8 @@ import javax.lang.model.SourceVersion;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1.2
  */
-public class TypeParameter implements Listable, Annotatable {
+public class TypeParameter extends AbstractAnnotatable implements Listable {
 
-  private final List<Annotation> annotations = new ArrayList<>();
   private final List<ClassType> bounds = new ArrayList<>();
   private TypeVariable boundTypeVariable = null;
   private final String name;
@@ -87,11 +85,6 @@ public class TypeParameter implements Listable, Annotatable {
       listing.add(bounds, " & ");
     }
     return listing;
-  }
-
-  @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    return annotations;
   }
 
   @Override

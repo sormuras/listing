@@ -14,7 +14,7 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotatable;
+import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
@@ -25,9 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 /** Simple and(!) annotatable and(!) typed class or interface name. */
-public class ClassName implements Listable, Annotatable {
+public class ClassName extends AbstractAnnotatable implements Listable {
 
-  private List<Annotation> annotations = Collections.emptyList();
   private final String name;
   private List<TypeArgument> typeArguments = Collections.emptyList();
 
@@ -45,19 +44,11 @@ public class ClassName implements Listable, Annotatable {
   @Override
   public Listing apply(Listing listing) {
     listing.add(toAnnotationsListable());
-    if (getTypeArguments().isEmpty()) {
+    if (typeArguments.isEmpty()) {
       return listing.add(getName());
     }
     listing.add(getName()).add('<').add(getTypeArguments(), ", ").add('>');
     return listing;
-  }
-
-  @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    if (annotations == Collections.EMPTY_LIST && !readonly) {
-      annotations = new ArrayList<>();
-    }
-    return annotations;
   }
 
   @Override

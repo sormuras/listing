@@ -64,8 +64,8 @@ public class ClassType extends ReferenceType {
   }
 
   @Override
-  public List<Annotation> getAnnotations(boolean readonly) {
-    return names.get(names.size() - 1).getAnnotations(readonly);
+  public List<Annotation> getAnnotations() {
+    return names.get(names.size() - 1).getAnnotations();
   }
 
   public Optional<ClassType> getEnclosingClassType() {
@@ -89,6 +89,11 @@ public class ClassType extends ReferenceType {
 
   public List<TypeArgument> getTypeArguments() {
     return names.get(names.size() - 1).getTypeArguments();
+  }
+
+  @Override
+  public boolean isAnnotated() {
+    return names.get(names.size() - 1).isAnnotated();
   }
 
   @Override
