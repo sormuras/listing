@@ -49,7 +49,7 @@ class MethodDeclarationTest {
     emptyList.addModifier("public", "static", "final");
     emptyList.addTypeParameter(new TypeParameter("T"));
     emptyList.setReturnType(
-        new ClassType(Name.of(List.class), new TypeArgument(new TypeVariable().setName("T"))));
+        new ClassType(Name.of(List.class), new TypeArgument(new TypeVariable("T"))));
     emptyList.setName("emptyList");
     emptyList.addStatement("return (List<T>) EMPTY_LIST");
     Tests.assertEquals(getClass(), "emptyList", emptyList);
@@ -63,7 +63,7 @@ class MethodDeclarationTest {
     runnable.setName("run");
     runnable.addParameter(getClass(), "this");
     runnable.addThrows(RuntimeException.class);
-    runnable.addThrows(new TypeVariable().setName("X"));
+    runnable.addThrows(new TypeVariable("X"));
     runnable.setBody(code -> code.add("java.lang.System.out.println(\"Running!\");").newline());
     Tests.assertEquals(getClass(), "runnable", runnable);
     assertEquals(true, runnable.isModified());

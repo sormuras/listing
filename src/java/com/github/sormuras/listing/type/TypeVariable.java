@@ -62,11 +62,10 @@ public class TypeVariable extends ReferenceType {
     return name;
   }
 
-  public TypeVariable setName(String name) {
+  public void setName(String name) {
     if (name.isEmpty()) {
       throw new IllegalArgumentException("TypeVariable name must not be empty!");
     }
     this.name = name;
-    return this;
   }
 }

@@ -69,16 +69,14 @@ public class WildcardType extends JavaType {
   }
 
   /** Set upper bound, read {@code extends}, type. */
-  public WildcardType setBoundExtends(ReferenceType boundExtends) {
+  public void setBoundExtends(ReferenceType boundExtends) {
     this.boundExtends = boundExtends;
     this.boundSuper = null;
-    return this;
   }
 
   /** Set lower bound, read {@code super}, type. */
-  public WildcardType setBoundSuper(ReferenceType boundSuper) {
+  public void setBoundSuper(ReferenceType boundSuper) {
     this.boundExtends = ClassType.of(Object.class);
     this.boundSuper = boundSuper;
-    return this;
   }
 }

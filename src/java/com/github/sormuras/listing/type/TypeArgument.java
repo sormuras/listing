@@ -58,15 +58,13 @@ public class TypeArgument implements Listable {
     return wildcard;
   }
 
-  public TypeArgument setReference(ReferenceType reference) {
+  public void setReference(ReferenceType reference) {
     this.reference = reference;
     this.wildcard = null;
-    return this;
   }
 
-  public TypeArgument setWildcard(WildcardType wildcard) {
+  public void setWildcard(WildcardType wildcard) {
     this.wildcard = wildcard;
     this.reference = null;
-    return this;
   }
 }

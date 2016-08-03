@@ -198,9 +198,8 @@ public class Name implements Listable, Modifiable {
     return "java.lang".equals(packageName);
   }
 
-  public Name setTarget(ElementType target) {
+  public void setTarget(ElementType target) {
     this.target = target;
-    return this;
   }
 
   @Override

@@ -117,7 +117,7 @@ public class Annotation implements Listable {
   }
 
   /** Add the listable to the member specified by its name. */
-  public Annotation addMember(String name, Listable listable) {
+  public void addMember(String name, Listable listable) {
     requireNonNull(name, "name");
     requireNonNull(listable, "listable");
     List<Listable> values = getMembers().get(name);
@@ -126,16 +126,15 @@ public class Annotation implements Listable {
       getMembers().put(name, values);
     }
     values.add(listable);
-    return this;
   }
 
-  public Annotation addObject(String memberName, Object object) {
+  public void addObject(String memberName, Object object) {
     requireNonNull(object, "constant non-null object expected as value for " + memberName);
-    return addMember(memberName, value(object));
+    addMember(memberName, value(object));
   }
 
-  public Annotation addValue(Object object) {
-    return addObject("value", object);
+  public void addValue(Object object) {
+    addObject("value", object);
   }
 
   @Override

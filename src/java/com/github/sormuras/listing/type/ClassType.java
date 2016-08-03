@@ -42,15 +42,15 @@ public class ClassType extends ReferenceType {
 
   private final List<ClassName> names;
   private final String packageName;
-  private final Name typeName;
+  private final Name name;
 
   /** Initialize this ClassType instance. */
-  public ClassType(Name typeName, TypeArgument... typeArguments) {
-    this.typeName = typeName;
-    this.packageName = typeName.getPackageName();
-    this.names = typeName.getSimpleNames().stream().map(ClassName::new).collect(toList());
+  public ClassType(Name name, TypeArgument... typeArguments) {
+    this.name = name;
+    this.packageName = name.getPackageName();
+    this.names = name.getSimpleNames().stream().map(ClassName::new).collect(toList());
     if (names.isEmpty()) {
-      throw new IllegalArgumentException("Not a single class name given by: " + typeName);
+      throw new IllegalArgumentException("Not a single class name given by: " + name);
     }
     Collections.addAll(getTypeArguments(), typeArguments);
   }
@@ -72,7 +72,11 @@ public class ClassType extends ReferenceType {
     if (names.size() == 1) {
       return Optional.empty();
     }
-    return Optional.of(new ClassType(typeName.getEnclosing().get()));
+    return Optional.of(new ClassType(getName().getEnclosing().get()));
+  }
+
+  public Name getName() {
+    return name;
   }
 
   public List<ClassName> getNames() {
@@ -87,13 +91,9 @@ public class ClassType extends ReferenceType {
     return names.get(names.size() - 1).getTypeArguments();
   }
 
-  public Name getTypeName() {
-    return typeName;
-  }
-
   @Override
   public boolean isJavaLangObject() {
-    return getTypeName().isJavaLangObject();
+    return getName().isJavaLangObject();
   }
 
   @Override

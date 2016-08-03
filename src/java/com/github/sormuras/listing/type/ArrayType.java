@@ -45,9 +45,8 @@ public class ArrayType extends ReferenceType {
     this.dimensions = Collections.unmodifiableList(dimensions);
   }
 
-  public ArrayType addAnnotations(int index, Annotation... annotations) {
+  public void addAnnotations(int index, Annotation... annotations) {
     dimensions.get(index).getAnnotations().addAll(Arrays.asList(annotations));
-    return this;
   }
 
   @Override
