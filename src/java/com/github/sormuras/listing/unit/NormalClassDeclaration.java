@@ -14,6 +14,8 @@
 
 package com.github.sormuras.listing.unit;
 
+import com.github.sormuras.listing.Listing;
+
 public class NormalClassDeclaration extends ClassDeclaration {
 
   public NormalClassDeclaration() {
@@ -21,7 +23,39 @@ public class NormalClassDeclaration extends ClassDeclaration {
   }
 
   public NormalClassDeclaration(String name) {
-    super("class");
     setName(name);
+  }
+
+  @Override
+  public Listing apply(Listing listing) {
+    if (!isLocal()) {
+      listing.newline();
+    }
+    listing.add(toAnnotationsListable());
+    listing.add(toModifiersListable());
+    listing.add("class").add(' ').add(getName());
+    // [TypeParameters]
+    if (!isTypeParametersEmpty()) {
+      listing.add('<').add(getTypeParameters(), ", ").add('>');
+    }
+    // [Superclass]
+    if (getSuperClass() != null) {
+      listing.add(" extends ").add(getSuperClass());
+    }
+    // [Superinterfaces]
+    if (!isInterfacesEmpty()) {
+      listing.add(" implements ").add(getInterfaces(), ", ");
+    }
+    listing.add(' ').add('{').newline();
+    listing.indent(1);
+    if (!isDeclarationsEmpty()) {
+      getDeclarations().forEach(listing::add);
+    }
+    listing.add(getClassBodyElements());
+    if (!isInitializersEmpty()) {
+      getInitializers().forEach(listing::add);
+    }
+    listing.indent(-1).add('}').newline();
+    return listing;
   }
 }

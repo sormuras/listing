@@ -14,6 +14,8 @@
 
 package com.github.sormuras.listing.unit;
 
+import com.github.sormuras.listing.Listing;
+
 /**
  * An interface declaration introduces a new reference type whose members are classes, interfaces,
  * constants, and methods. This type has no instance variables, and typically declares one or more
@@ -24,7 +26,18 @@ package com.github.sormuras.listing.unit;
  */
 public class InterfaceDeclaration extends TypeDeclaration {
 
-  public InterfaceDeclaration() {
-    super("interface");
+  @Override
+  public Listing apply(Listing listing) {
+    listing.newline();
+    listing.add(toAnnotationsListable());
+    listing.add(toModifiersListable());
+    listing.add("interface").add(' ').add(getName());
+    listing.add(' ').add('{').newline();
+    listing.indent(1);
+    if (!isDeclarationsEmpty()) {
+      getDeclarations().forEach(listing::add);
+    }
+    listing.indent(-1).add('}').newline();
+    return listing;
   }
 }

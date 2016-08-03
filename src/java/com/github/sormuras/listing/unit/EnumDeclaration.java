@@ -21,24 +21,32 @@ import java.util.List;
 
 public class EnumDeclaration extends ClassDeclaration {
 
-  public EnumDeclaration() {
-    super("enum");
-  }
-
   @Override
   public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
     throw new UnsupportedOperationException("Enum don't support type parameters!");
   }
 
   @Override
-  protected Listing applyDeclarationHead(Listing listing) {
+  public Listing apply(Listing listing) {
+    if (!isLocal()) {
+      listing.newline();
+    }
     listing.add(toAnnotationsListable());
     listing.add(toModifiersListable());
-    listing.add(getKeyword()).add(' ').add(getName());
+    listing.add("enum").add(' ').add(getName());
     // [Superinterfaces]
     if (!isInterfacesEmpty()) {
       listing.add(" implements ").add(getInterfaces(), ", ");
     }
+    listing.add(' ').add('{').newline();
+    listing.indent(1);
+    // TODO add enum constants - simple or fancy local classes
+    // TODO add ";"
+    if (!isDeclarationsEmpty()) {
+      getDeclarations().forEach(listing::add);
+    }
+    // TODO add other class members like fields, methods...
+    listing.indent(-1).add('}').newline();
     return listing;
   }
 

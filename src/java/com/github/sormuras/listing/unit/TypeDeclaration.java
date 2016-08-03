@@ -14,7 +14,6 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.Name;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
@@ -26,36 +25,6 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
     implements DeclarationContainer {
 
   private List<TypeDeclaration> declarations = Collections.emptyList();
-  private final String keyword;
-
-  public TypeDeclaration(String keyword) {
-    this.keyword = keyword;
-  }
-
-  @Override
-  public Listing apply(Listing listing) {
-    listing.newline();
-    applyDeclarationHead(listing);
-    applyDeclarationBody(listing);
-    return listing;
-  }
-
-  protected Listing applyDeclarationBody(Listing listing) {
-    listing.add(' ').add('{').newline();
-    listing.indent(1);
-    if (!isDeclarationsEmpty()) {
-      getDeclarations().forEach(listing::add);
-    }
-    listing.indent(-1).add('}').newline();
-    return listing;
-  }
-
-  protected Listing applyDeclarationHead(Listing listing) {
-    listing.add(toAnnotationsListable());
-    listing.add(toModifiersListable());
-    listing.add(getKeyword()).add(' ').add(getName());
-    return listing;
-  }
 
   @Override
   public void assertValidNestedDeclarationName(String name) {
@@ -89,10 +58,6 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
       declarations = new ArrayList<>();
     }
     return declarations;
-  }
-
-  public String getKeyword() {
-    return keyword;
   }
 
   public boolean isDeclarationsEmpty() {

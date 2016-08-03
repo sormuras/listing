@@ -14,6 +14,8 @@
 
 package com.github.sormuras.listing.unit;
 
+import com.github.sormuras.listing.Listing;
+
 /**
  * An annotation is a marker which associates information with a program construct, but has no
  * effect at run time.
@@ -22,7 +24,20 @@ package com.github.sormuras.listing.unit;
  */
 public class AnnotationDeclaration extends TypeDeclaration {
 
-  public AnnotationDeclaration() {
-    super("@interface");
+  public AnnotationDeclaration() {}
+
+  @Override
+  public Listing apply(Listing listing) {
+    listing.newline();
+    listing.add(toAnnotationsListable());
+    listing.add(toModifiersListable());
+    listing.add("@interface").add(' ').add(getName());
+    listing.add(' ').add('{').newline();
+    listing.indent(1);
+    if (!isDeclarationsEmpty()) {
+      getDeclarations().forEach(listing::add);
+    }
+    listing.indent(-1).add('}').newline();
+    return listing;
   }
 }

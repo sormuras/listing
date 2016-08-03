@@ -15,7 +15,6 @@
 package com.github.sormuras.listing.unit;
 
 import com.github.sormuras.listing.Listable;
-import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.type.ClassType;
 import com.github.sormuras.listing.type.JavaType;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import java.util.List;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1
  */
-public class ClassDeclaration extends TypeDeclaration {
+public abstract class ClassDeclaration extends TypeDeclaration {
 
   private List<Listable> classBodyElements = new ArrayList<>();
   private List<Initializer> initializers = Collections.emptyList();
@@ -37,10 +36,6 @@ public class ClassDeclaration extends TypeDeclaration {
   private boolean local = false;
   private ClassType superClass = null;
   private List<TypeParameter> typeParameters = Collections.emptyList();
-
-  public ClassDeclaration(String keyword) {
-    super(keyword);
-  }
 
   public ClassDeclaration addInterface(JavaType interfaceType) {
     getInterfaces().add((ClassType) interfaceType);
@@ -50,49 +45,6 @@ public class ClassDeclaration extends TypeDeclaration {
   public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
     getTypeParameters().add(typeParameter);
     return this;
-  }
-
-  @Override
-  public Listing apply(Listing listing) {
-    if (!isLocal()) {
-      listing.newline();
-    }
-    applyDeclarationHead(listing);
-    applyDeclarationBody(listing);
-    return listing;
-  }
-
-  @Override
-  protected Listing applyDeclarationHead(Listing listing) {
-    super.applyDeclarationHead(listing);
-    // [TypeParameters]
-    if (!isTypeParametersEmpty()) {
-      listing.add('<').add(typeParameters, ", ").add('>');
-    }
-    // [Superclass]
-    if (getSuperClass() != null) {
-      listing.add(" extends ").add(getSuperClass());
-    }
-    // [Superinterfaces]
-    if (!isInterfacesEmpty()) {
-      listing.add(" implements ").add(interfaces, ", ");
-    }
-    return listing;
-  }
-
-  @Override
-  protected Listing applyDeclarationBody(Listing listing) {
-    listing.add(' ').add('{').newline();
-    listing.indent(1);
-    if (!isDeclarationsEmpty()) {
-      getDeclarations().forEach(listing::add);
-    }
-    listing.add(getClassBodyElements());
-    if (!isInitializersEmpty()) {
-      getInitializers().forEach(listing::add);
-    }
-    listing.indent(-1).add('}').newline();
-    return listing;
   }
 
   public MethodDeclaration declareConstructor() {
