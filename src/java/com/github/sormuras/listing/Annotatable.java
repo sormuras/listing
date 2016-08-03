@@ -25,7 +25,7 @@ import java.util.List;
 public interface Annotatable {
 
   abstract class AbstractAnnotatable implements Annotatable {
-    protected List<Annotation> annotations = Collections.emptyList();
+    private List<Annotation> annotations = Collections.emptyList();
 
     @Override
     public List<Annotation> getAnnotations() {
