@@ -17,6 +17,7 @@ package com.github.sormuras.listing.unit;
 import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Modifiable;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
@@ -32,7 +33,7 @@ public abstract class ClassMemberDeclaration extends AbstractAnnotatable
 
   private CompilationUnit compilationUnit = null;
   private TypeDeclaration enclosingType = null;
-  private Set<Modifier> modifiers = EnumSet.noneOf(Modifier.class);
+  private Set<Modifier> modifiers = Collections.emptySet();
   private String name;
 
   public Optional<CompilationUnit> getCompilationUnit() {
@@ -44,12 +45,20 @@ public abstract class ClassMemberDeclaration extends AbstractAnnotatable
   }
 
   @Override
-  public Set<Modifier> getModifiers(boolean readonly) {
+  public Set<Modifier> getModifiers() {
+    if (modifiers == Collections.EMPTY_SET) {
+      modifiers = EnumSet.noneOf(Modifier.class);
+    }
     return modifiers;
   }
 
   public String getName() {
     return name;
+  }
+
+  @Override
+  public boolean isModified() {
+    return !modifiers.isEmpty();
   }
 
   public ClassMemberDeclaration setCompilationUnit(CompilationUnit unit) {

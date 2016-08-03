@@ -152,8 +152,8 @@ public class Name implements Listable, Modifiable {
   }
 
   @Override
-  public Set<Modifier> getModifiers(boolean readonly) {
-    if (!readonly && modifiers == Collections.EMPTY_SET) {
+  public Set<Modifier> getModifiers() {
+    if (modifiers == Collections.EMPTY_SET) {
       modifiers = EnumSet.noneOf(Modifier.class);
     }
     return modifiers;
@@ -196,6 +196,11 @@ public class Name implements Listable, Modifiable {
 
   public boolean isJavaLangPackage() {
     return "java.lang".equals(packageName);
+  }
+
+  @Override
+  public boolean isModified() {
+    return !modifiers.isEmpty();
   }
 
   public void setTarget(ElementType target) {

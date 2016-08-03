@@ -46,13 +46,18 @@ class ModifiableTest implements Modifiable {
   }
 
   @Override
-  public Set<Modifier> getModifiers(boolean readonly) {
+  public Set<Modifier> getModifiers() {
     return modifiers;
   }
 
   @Override
   public Set<Modifier> getModifierValidationSet() {
     return EnumSet.of(ABSTRACT, FINAL, PUBLIC, STATIC);
+  }
+
+  @Override
+  public boolean isModified() {
+    return !modifiers.isEmpty();
   }
 
   @Test

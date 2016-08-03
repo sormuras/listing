@@ -53,17 +53,8 @@ public interface Modifiable {
     getModifiers().addAll(asList(modifiers));
   }
 
-  /**
-   * Returns all applied modifiers.
-   *
-   * @return Applied modifiers.
-   */
-  default Set<Modifier> getModifiers() {
-    return getModifiers(false);
-  }
-
-  /** Return set of modifiers indicating if the caller will mutate the set. */
-  Set<Modifier> getModifiers(boolean readonly);
+  /** Return set of modifiers indicating if the caller might mutate the set. */
+  Set<Modifier> getModifiers();
 
   /**
    * Returns all modifiers that are applicable to this element kind.
@@ -75,18 +66,16 @@ public interface Modifiable {
   }
 
   /** Return {@code true} if modifier set is not empty, else {@code false}. */
-  default boolean isModified() {
-    return !getModifiers(true).isEmpty();
-  }
+  boolean isModified();
 
   /** Return {@code true} if {@link Modifier#PUBLIC} is part of modifier set, else {@code false}. */
   default boolean isPublic() {
-    return getModifiers(true).contains(Modifier.PUBLIC);
+    return isModified() && getModifiers().contains(Modifier.PUBLIC);
   }
 
   /** Return {@code true} if {@link Modifier#STATIC} is part of modifier set, else {@code false}. */
   default boolean isStatic() {
-    return getModifiers(true).contains(Modifier.STATIC);
+    return isModified() && getModifiers().contains(Modifier.STATIC);
   }
 
   /** Replace current modifiers by with new ones. */
@@ -103,10 +92,13 @@ public interface Modifiable {
 
   /** Return modifiers as an inline listable. */
   default Listable toModifiersListable() {
-    return listing -> {
-      getModifiers(true).forEach(m -> listing.add(m.name().toLowerCase()).add(' '));
-      return listing;
-    };
+    if (isModified()) {
+      return listing -> {
+        getModifiers().forEach(m -> listing.add(m.name().toLowerCase()).add(' '));
+        return listing;
+      };
+    }
+    return Listable.IDENTITY;
   }
 
   /**
