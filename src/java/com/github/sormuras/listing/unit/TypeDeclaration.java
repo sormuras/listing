@@ -97,4 +97,10 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
   public boolean isDeclarationsEmpty() {
     return declarations.isEmpty();
   }
+
+  @Override
+  public TypeDeclaration setName(String name) {
+    super.setName(name);
+    return this;
+  }
 }

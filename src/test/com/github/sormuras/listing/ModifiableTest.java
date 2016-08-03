@@ -15,12 +15,12 @@ import java.util.TreeSet;
 import javax.lang.model.element.Modifier;
 import org.junit.jupiter.api.Test;
 
-public class ModifiableTest implements Modifiable {
+class ModifiableTest implements Modifiable {
 
   private final Set<Modifier> modifiers = new TreeSet<>();
 
   @Test
-  public void addModifiers() {
+  void addModifiers() {
     addModifier(ABSTRACT);
     assertTrue(getModifiers().equals(EnumSet.of(ABSTRACT)));
     assertFalse(isStatic());
@@ -33,14 +33,14 @@ public class ModifiableTest implements Modifiable {
   }
 
   @Test
-  public void addModifiersFails() {
+  void addModifiersFails() {
     Modifier invalid = Modifier.VOLATILE;
     Exception e = expectThrows(IllegalArgumentException.class, () -> addModifier(invalid));
     assertTrue(e.getMessage().contains(invalid.toString()));
   }
 
   @Test
-  public void emptyOnCreation() {
+  void emptyOnCreation() {
     assertFalse(isStatic());
     assertTrue(getModifiers().isEmpty());
   }
@@ -56,9 +56,14 @@ public class ModifiableTest implements Modifiable {
   }
 
   @Test
-  public void validationSetDefaultsToAllEnumConstants() {
+  void validationSetDefaultsToAllEnumConstants() {
     Set<Modifier> set = Modifiable.super.getModifierValidationSet();
     assertTrue(set.containsAll(EnumSet.allOf(Modifier.class)));
     assertTrue(set.equals(EnumSet.allOf(Modifier.class)));
+  }
+
+  @Test
+  void validationThrowsNullPointerException() {
+    expectThrows(NullPointerException.class, () -> validateModifiers(null, null));
   }
 }

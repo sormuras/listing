@@ -14,9 +14,9 @@
 
 package com.github.sormuras.listing;
 
+import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
@@ -29,6 +29,11 @@ public interface Modifiable {
   default void addModifier(Modifier modifier) {
     validateModifiers(modifier);
     getModifiers().add(modifier);
+  }
+
+  /** Add variable array of modifier names to the set. */
+  default void addModifier(String... modifiers) {
+    asList(modifiers).forEach(name -> addModifier(Modifier.valueOf(name.toUpperCase())));
   }
 
   /** Add collection of modifiers to the set. */
@@ -45,11 +50,8 @@ public interface Modifiable {
   /** Add variable array of modifiers to the set. */
   default void addModifiers(Modifier... modifiers) {
     validateModifiers(modifiers);
-    getModifiers().addAll(Arrays.asList(modifiers));
+    getModifiers().addAll(asList(modifiers));
   }
-
-  /** Return set of modifiers indicating if the caller will mutate the set. */
-  Set<Modifier> getModifiers(boolean readonly);
 
   /**
    * Returns all applied modifiers.
@@ -59,6 +61,9 @@ public interface Modifiable {
   default Set<Modifier> getModifiers() {
     return getModifiers(false);
   }
+
+  /** Return set of modifiers indicating if the caller will mutate the set. */
+  Set<Modifier> getModifiers(boolean readonly);
 
   /**
    * Returns all modifiers that are applicable to this element kind.

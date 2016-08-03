@@ -30,7 +30,11 @@ import java.util.List;
 public class TypeVariable extends ReferenceType {
 
   private List<Annotation> annotations = Collections.emptyList();
-  private String name = "*";
+  private String name = null;
+
+  public TypeVariable() {
+    this("T");
+  }
 
   public TypeVariable(String name) {
     setName(name);
