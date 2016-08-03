@@ -142,7 +142,7 @@ public class Annotation implements Listable {
     // always emit "@" and the typename
     listing.add('@').add(getTypeName());
     Map<String, List<Listable>> members = getMembers(true);
-    // trivival case: marker annotation w/o members
+    // trivial case: marker annotation w/o members
     if (members.isEmpty()) {
       return listing;
     }

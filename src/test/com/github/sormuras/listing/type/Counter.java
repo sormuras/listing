@@ -15,7 +15,7 @@ import javax.lang.model.element.TypeElement;
 
 public class Counter extends AbstractProcessor {
 
-  public static @interface Mark {}
+  public @interface Mark {}
 
   public final List<Element> listOfElements = new ArrayList<>();
   public final Map<String, JavaType> map = new HashMap<>();

@@ -121,7 +121,7 @@ public interface Compilation {
     }
   }
 
-  static class SecureLoader extends SecureClassLoader {
+  class SecureLoader extends SecureClassLoader {
     private final Map<String, ByteArrayFileObject> map;
 
     public SecureLoader(ClassLoader parent, Map<String, ByteArrayFileObject> map) {
