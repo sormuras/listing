@@ -87,12 +87,8 @@ public class AnnotationDeclaration extends TypeDeclaration {
     if (!isDeclarationsEmpty()) {
       getDeclarations().forEach(listing::add);
     }
-    if (!getConstants().isEmpty()) {
-      getConstants().forEach(listing::add);
-    }
-    if (!getElements().isEmpty()) {
-      getElements().forEach(listing::add);
-    }
+    getConstants().forEach(listing::add);
+    getElements().forEach(listing::add);
     listing.indent(-1).add('}').newline();
     return listing;
   }
