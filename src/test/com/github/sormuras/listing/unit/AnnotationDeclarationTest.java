@@ -25,6 +25,11 @@ class AnnotationDeclarationTest {
     WildcardType extendsFormatter = new WildcardType();
     extendsFormatter.setBoundExtends(ClassType.of(Formatter.class));
     AnnotationDeclaration declaration = new AnnotationDeclaration("RequestForEnhancement");
+    declaration.addConstant(JavaType.of(String.class), "EMPTY_TEXT", "");
+    declaration
+        .addConstant(JavaType.of(float.class), "PI", l -> l.add("3.141F"))
+        .addAnnotation(Deprecated.class);
+    declaration.addConstant(JavaType.of(double.class), "E", Name.of(Math.class, "E"));
     declaration.addElement(JavaType.of(int.class), "id");
     declaration
         .addElement(JavaType.of(String.class), "date", "201608032129")

@@ -38,6 +38,12 @@ class NameTest {
   }
 
   @Test
+  void field() {
+    assertEquals("java.lang.Math.PI", of(Math.class, "PI").list());
+    expectThrows(Error.class, () -> of(Object.class, "PI").list());
+  }
+
+  @Test
   void equalsAndHashcode() {
     assertEquals(of(byte.class), of("", "byte"));
     assertEquals(of(Object.class), of("java.lang", "Object"));

@@ -30,6 +30,7 @@ import java.util.List;
  */
 public class AnnotationDeclaration extends TypeDeclaration {
 
+  private final List<ConstantDeclaration> constants = new ArrayList<>();
   private final List<AnnotationElement> elements = new ArrayList<>();
 
   public AnnotationDeclaration() {
@@ -38,6 +39,21 @@ public class AnnotationDeclaration extends TypeDeclaration {
 
   public AnnotationDeclaration(String name) {
     setName(name);
+  }
+
+  /** Add new annotation field. */
+  public ConstantDeclaration addConstant(JavaType type, String name, Listable initializer) {
+    ConstantDeclaration constants = new ConstantDeclaration();
+    constants.setName(name);
+    constants.setType(type);
+    constants.setInitializer(initializer);
+    getConstants().add(constants);
+    return constants;
+  }
+
+  /** Add new annotation field. */
+  public ConstantDeclaration addConstant(JavaType type, String name, Object value) {
+    return addConstant(type, name, Annotation.value(value));
   }
 
   /** Add new annotation method w/o default value. */
@@ -71,11 +87,18 @@ public class AnnotationDeclaration extends TypeDeclaration {
     if (!isDeclarationsEmpty()) {
       getDeclarations().forEach(listing::add);
     }
+    if (!getConstants().isEmpty()) {
+      getConstants().forEach(listing::add);
+    }
     if (!getElements().isEmpty()) {
       getElements().forEach(listing::add);
     }
     listing.indent(-1).add('}').newline();
     return listing;
+  }
+
+  public List<ConstantDeclaration> getConstants() {
+    return constants;
   }
 
   public List<AnnotationElement> getElements() {

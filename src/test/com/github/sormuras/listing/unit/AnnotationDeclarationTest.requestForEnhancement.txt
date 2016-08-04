@@ -1,5 +1,12 @@
 @interface RequestForEnhancement {
 
+  java.lang.String EMPTY_TEXT = "";
+
+  @java.lang.Deprecated
+  float PI = 3.141F;
+
+  double E = java.lang.Math.E;
+
   int id();
 
   @java.lang.Deprecated

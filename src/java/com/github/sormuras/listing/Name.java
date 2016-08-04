@@ -48,6 +48,15 @@ import javax.lang.model.element.Modifier;
  */
 public class Name implements Listable, Modifiable {
 
+  /** Create new Name based on the class type and field name. */
+  public static Name of(Class<?> type, String name) {
+    try {
+      return of(type.getField(name));
+    } catch (Exception exception) {
+      throw new AssertionError("Field lookup failed!", exception);
+    }
+  }
+
   /** Create new Name based on the class type. */
   public static Name of(Class<?> type) {
     requireNonNull(type, "type");
