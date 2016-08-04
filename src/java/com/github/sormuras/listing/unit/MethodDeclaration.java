@@ -111,6 +111,8 @@ public class MethodDeclaration extends ClassMemberDeclaration {
       listing.add(bodyStatements, Listable.NEWLINE);
       listing.newline();
       listing.indent(-1).add('}');
+    } else {
+      listing.add(';');
     }
     listing.newline();
     return listing;

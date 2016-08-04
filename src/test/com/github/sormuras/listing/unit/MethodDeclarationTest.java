@@ -18,7 +18,7 @@ class MethodDeclarationTest {
   @Test
   void constructor() {
     MethodDeclaration m = new MethodDeclaration().setName("<init>");
-    assertEquals("<init>()\n", m.list());
+    assertEquals("<init>();\n", m.list());
     assertEquals(ElementType.METHOD, m.getAnnotationTarget());
     assertEquals(true, m.isConstructor());
     assertEquals(false, m.isModified());
@@ -27,13 +27,13 @@ class MethodDeclarationTest {
     assertEquals(true, expected.toString().contains("no parameter"));
     // put into context
     m.setEnclosingDeclaration(new NormalClassDeclaration().setName("Abc"));
-    assertEquals("Abc()\n", m.list());
+    assertEquals("Abc();\n", m.list());
   }
 
   @Test
   void declaration() {
     MethodDeclaration m = new MethodDeclaration().setName("m");
-    assertEquals("void m()\n", m.list());
+    assertEquals("void m();\n", m.list());
     assertEquals(ElementType.METHOD, m.getAnnotationTarget());
     assertEquals(false, m.isConstructor());
     assertEquals(false, m.isModified());
@@ -79,12 +79,12 @@ class MethodDeclarationTest {
     var.setName("var");
     var.addParameter(int[].class, "numbers");
     assertEquals(false, var.isVarArgs());
-    assertEquals("void var(int[] numbers)\n", var.list());
+    assertEquals("void var(int[] numbers);\n", var.list());
     var.setVarArgs(true);
     assertEquals(true, var.isVarArgs());
-    assertEquals("void var(int... numbers)\n", var.list());
+    assertEquals("void var(int... numbers);\n", var.list());
     var.setVarArgs(false);
     assertEquals(false, var.isVarArgs());
-    assertEquals("void var(int[] numbers)\n", var.list());
+    assertEquals("void var(int[] numbers);\n", var.list());
   }
 }

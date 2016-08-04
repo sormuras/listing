@@ -1,0 +1,11 @@
+interface Everything<T> extends java.lang.Runnable {
+
+  java.lang.String EMPTY_TEXT = "";
+
+  @java.lang.Deprecated
+  float PI = 3.141F;
+
+  double E = java.lang.Math.E;
+
+  java.math.BigInteger id();
+}
