@@ -85,8 +85,8 @@ public class MethodDeclaration extends ClassMemberDeclaration {
       listing.add("> ");
     }
     if (isConstructor()) {
-      if (getEnclosingDeclaration().isPresent()) {
-        listing.add(getEnclosingDeclaration().get().getName());
+      if (getEnclosing().isPresent()) {
+        listing.add(getEnclosing().get().getName());
       } else {
         listing.add("<init>");
       }

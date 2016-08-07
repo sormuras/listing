@@ -35,7 +35,7 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
       if (name.equals(parent.getName())) {
         throw new IllegalArgumentException("nested " + name + " hides an enclosing type");
       }
-      enclosing = parent.getEnclosingDeclaration();
+      enclosing = parent.getEnclosing();
     }
   }
 
@@ -85,7 +85,7 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
     TypeDeclaration current = this;
     while (current != null) {
       simpleNames.add(0, current.getName());
-      current = current.getEnclosingDeclaration().orElse(null);
+      current = current.getEnclosing().orElse(null);
     }
     Name name = new Name(packageName, simpleNames);
     name.getModifiers().addAll(getModifiers());

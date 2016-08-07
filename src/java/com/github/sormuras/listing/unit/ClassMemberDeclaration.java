@@ -40,7 +40,7 @@ public abstract class ClassMemberDeclaration extends AbstractAnnotatable
     return Optional.ofNullable(compilationUnit);
   }
 
-  public Optional<TypeDeclaration> getEnclosingDeclaration() {
+  public Optional<TypeDeclaration> getEnclosing() {
     return Optional.ofNullable(enclosingType);
   }
 

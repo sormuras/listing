@@ -14,7 +14,7 @@ class FieldDeclarationTest {
     assertEquals("int i;\n", i.list());
     assertEquals(ElementType.FIELD, i.getAnnotationTarget());
     assertEquals(false, i.isModified());
-    assertEquals(false, i.getEnclosingDeclaration().isPresent());
+    assertEquals(false, i.getEnclosing().isPresent());
     i.setInitializer(l -> l.add(Integer.toString(4711)));
     assertEquals("int i = 4711;\n", i.list());
   }

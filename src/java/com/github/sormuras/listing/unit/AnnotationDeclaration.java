@@ -105,9 +105,6 @@ public class AnnotationDeclaration extends TypeDeclaration {
 
   @Override
   public boolean isEmpty() {
-    System.out.println("\nsuper    = " + super.isEmpty());
-    System.out.println("elements = " + getElements().isEmpty());
-    System.out.println("constants= " + getConstants().isEmpty());
     return super.isEmpty() && getElements().isEmpty() && getConstants().isEmpty();
   }
 }
