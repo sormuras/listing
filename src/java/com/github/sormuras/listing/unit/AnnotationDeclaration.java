@@ -44,6 +44,7 @@ public class AnnotationDeclaration extends TypeDeclaration {
   /** Add new annotation field. */
   public ConstantDeclaration addConstant(JavaType type, String name, Listable initializer) {
     ConstantDeclaration constants = new ConstantDeclaration();
+    constants.setEnclosing(this);
     constants.setName(name);
     constants.setType(type);
     constants.setInitializer(initializer);
@@ -64,6 +65,7 @@ public class AnnotationDeclaration extends TypeDeclaration {
   /** Add new annotation method with default value. */
   public AnnotationElement addElement(JavaType returnType, String name, Listable defaultValue) {
     AnnotationElement element = new AnnotationElement();
+    element.setEnclosing(this);
     element.setName(name);
     element.setReturnType(returnType);
     element.setDefaultValue(defaultValue);
@@ -99,5 +101,13 @@ public class AnnotationDeclaration extends TypeDeclaration {
 
   public List<AnnotationElement> getElements() {
     return elements;
+  }
+
+  @Override
+  public boolean isEmpty() {
+    System.out.println("\nsuper    = " + super.isEmpty());
+    System.out.println("elements = " + getElements().isEmpty());
+    System.out.println("constants= " + getConstants().isEmpty());
+    return super.isEmpty() && getElements().isEmpty() && getConstants().isEmpty();
   }
 }

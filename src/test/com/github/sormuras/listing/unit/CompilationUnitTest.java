@@ -83,6 +83,8 @@ class CompilationUnitTest {
     unit.declareClass("C").declareClass("X").declareClass("Z");
     unit.declareInterface("I").declareInterface("X");
     assertEquals(4, unit.getDeclarations().size());
+    assertFalse(unit.getDeclarations().get(0).isEmpty()); // A
+    assertTrue(unit.getDeclarations().get(0).getDeclarations().get(0).isEmpty()); // A.X
     assertEquals(Tests.load(CompilationUnitTest.class, "top"), unit.list());
   }
 

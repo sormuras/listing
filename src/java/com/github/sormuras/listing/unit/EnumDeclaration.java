@@ -75,7 +75,7 @@ public class EnumDeclaration extends ClassDeclaration {
     listing.indent(1);
     // [EnumConstantList]
     listing.add(getConstants(), l -> l.add(",").newline());
-    if (!isBodyEmpty()) {
+    if (!isEmpty()) {
       listing.add(';');
       listing.newline();
       applyClassBodyElements(listing);

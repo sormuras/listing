@@ -1,6 +1,8 @@
 package com.github.sormuras.listing.unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.sormuras.listing.type.ClassType;
 import com.github.sormuras.listing.type.JavaType;
@@ -14,6 +16,14 @@ class NormalClassDeclarationTest {
     NormalClassDeclaration declaration = new NormalClassDeclaration();
     declaration.setName("Empty");
     assertEquals("class Empty {\n}\n", declaration.list());
+    assertTrue(declaration.isEmpty());
+    assertFalse(new NormalClassDeclaration().declareInitializer(false).getEnclosing().isEmpty());
+    assertFalse(
+        new NormalClassDeclaration()
+            .declareField(int.class, "i")
+            .getEnclosingDeclaration()
+            .get()
+            .isEmpty());
   }
 
   @Test

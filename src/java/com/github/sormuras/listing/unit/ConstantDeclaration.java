@@ -27,6 +27,7 @@ import java.lang.annotation.ElementType;
  */
 public class ConstantDeclaration extends AbstractAnnotatable implements Listable {
 
+  private TypeDeclaration enclosing;
   private Listable initializer;
   private String name;
   private JavaType type;
@@ -45,6 +46,10 @@ public class ConstantDeclaration extends AbstractAnnotatable implements Listable
     return ElementType.FIELD;
   }
 
+  public TypeDeclaration getEnclosing() {
+    return enclosing;
+  }
+
   public Listable getInitializer() {
     return initializer;
   }
@@ -55,6 +60,10 @@ public class ConstantDeclaration extends AbstractAnnotatable implements Listable
 
   public JavaType getType() {
     return type;
+  }
+
+  public void setEnclosing(TypeDeclaration enclosing) {
+    this.enclosing = enclosing;
   }
 
   public ConstantDeclaration setInitializer(Listable initializer) {

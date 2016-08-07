@@ -60,6 +60,11 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
     return declarations;
   }
 
+  @Override
+  public boolean isEmpty() {
+    return isDeclarationsEmpty();
+  }
+
   public boolean isDeclarationsEmpty() {
     return declarations.isEmpty();
   }

@@ -29,6 +29,7 @@ import java.lang.annotation.ElementType;
  */
 public class AnnotationElement extends AbstractAnnotatable implements Listable {
 
+  private AnnotationDeclaration enclosing;
   private Listable defaultValue;
   private String name;
   private JavaType returnType;
@@ -54,6 +55,10 @@ public class AnnotationElement extends AbstractAnnotatable implements Listable {
     return defaultValue;
   }
 
+  public AnnotationDeclaration getEnclosing() {
+    return enclosing;
+  }
+
   public String getName() {
     return name;
   }
@@ -64,6 +69,11 @@ public class AnnotationElement extends AbstractAnnotatable implements Listable {
 
   public AnnotationElement setDefaultValue(Listable defaultValue) {
     this.defaultValue = defaultValue;
+    return this;
+  }
+
+  public AnnotationElement setEnclosing(AnnotationDeclaration enclosing) {
+    this.enclosing = enclosing;
     return this;
   }
 

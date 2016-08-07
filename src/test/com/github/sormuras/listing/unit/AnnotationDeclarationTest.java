@@ -1,6 +1,8 @@
 package com.github.sormuras.listing.unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.sormuras.listing.Name;
 import com.github.sormuras.listing.Tests;
@@ -18,13 +20,24 @@ class AnnotationDeclarationTest {
   void empty() {
     TypeDeclaration declaration = new AnnotationDeclaration();
     assertEquals("@interface AnnotationDeclaration {\n}\n", declaration.list());
+    assertTrue(declaration.isEmpty());
+    assertFalse(
+        new AnnotationDeclaration()
+            .addConstant(JavaType.of(int.class), "constant", l -> l)
+            .getEnclosing()
+            .isEmpty());
+    assertFalse(
+        new AnnotationDeclaration()
+            .addElement(JavaType.of(int.class), "element")
+            .getEnclosing()
+            .isEmpty());
   }
 
   @Test
-  void requestForEnhancement() {
+  void everything() {
     WildcardType extendsFormatter = new WildcardType();
     extendsFormatter.setBoundExtends(ClassType.of(Formatter.class));
-    AnnotationDeclaration declaration = new AnnotationDeclaration("RequestForEnhancement");
+    AnnotationDeclaration declaration = new AnnotationDeclaration("Everything");
     declaration.addConstant(JavaType.of(String.class), "EMPTY_TEXT", "");
     declaration
         .addConstant(JavaType.of(float.class), "PI", l -> l.add("3.141F"))
@@ -36,7 +49,8 @@ class AnnotationDeclarationTest {
         .addAnnotation(Deprecated.class);
     declaration.addElement(
         new ClassType(Name.of(Class.class), new TypeArgument(extendsFormatter)), "formatterClass");
-    Tests.assertEquals(getClass(), "requestForEnhancement", declaration);
+    Tests.assertEquals(getClass(), "everything", declaration);
+    assertFalse(declaration.isEmpty());
   }
 
   @Test

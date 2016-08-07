@@ -1,4 +1,4 @@
-@interface RequestForEnhancement {
+@interface Everything {
 
   java.lang.String EMPTY_TEXT = "";
 

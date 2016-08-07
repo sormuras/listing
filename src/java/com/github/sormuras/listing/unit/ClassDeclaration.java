@@ -126,8 +126,9 @@ public abstract class ClassDeclaration extends TypeDeclaration {
     return interfaces;
   }
 
-  public boolean isBodyEmpty() {
-    return isDeclarationsEmpty() && isInitializersEmpty() && getClassBodyElements().isEmpty();
+  @Override
+  public boolean isEmpty() {
+    return super.isEmpty() && isInitializersEmpty() && getClassBodyElements().isEmpty();
   }
 
   public boolean isInitializersEmpty() {
