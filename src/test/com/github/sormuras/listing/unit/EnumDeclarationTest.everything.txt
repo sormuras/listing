@@ -1,0 +1,25 @@
+enum Everything {
+
+  A,
+
+  @java.lang.Deprecated
+  B(),
+
+  C(123) {
+
+    public java.lang.String toString() {
+      return "c" + i;
+    }
+  }
+  ;
+
+  int i;
+
+  Everything() {
+    this(0);
+  }
+
+  Everything(int i) {
+    this.i = i;
+  }
+}

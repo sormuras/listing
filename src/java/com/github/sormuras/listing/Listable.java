@@ -19,7 +19,30 @@ import java.util.function.UnaryOperator;
 @FunctionalInterface
 public interface Listable extends UnaryOperator<Listing>, Comparable<Listable> {
 
-  Listable IDENTITY = listing -> listing;
+  class Identity implements Listable {
+
+    @Override
+    public Listing apply(Listing listing) {
+      return listing;
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return true;
+    }
+
+    @Override
+    public String list() {
+      return "";
+    }
+
+    @Override
+    public String toString() {
+      return "Listing.IDENTITY";
+    }
+  }
+
+  Listable IDENTITY = new Identity();
 
   Listable NEWLINE = Listing::newline;
 

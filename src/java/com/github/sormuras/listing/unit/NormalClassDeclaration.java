@@ -53,26 +53,13 @@ public class NormalClassDeclaration extends ClassDeclaration {
     if (!isInterfacesEmpty()) {
       listing.add(" implements ").add(getInterfaces(), ", ");
     }
-    listing.add(' ').add('{').newline();
-    listing.indent(1);
-    if (!isDeclarationsEmpty()) {
-      getDeclarations().forEach(listing::add);
-    }
-    listing.add(getClassBodyElements());
-    if (!isInitializersEmpty()) {
-      getInitializers().forEach(listing::add);
-    }
-    listing.indent(-1).add('}').newline();
+    applyClassBody(listing);
     return listing;
   }
 
   public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
     getTypeParameters().add(typeParameter);
     return this;
-  }
-
-  public MethodDeclaration declareConstructor() {
-    return declareMethod(void.class, "<init>");
   }
 
   public ClassType getSuperClass() {

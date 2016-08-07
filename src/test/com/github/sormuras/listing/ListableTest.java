@@ -17,7 +17,7 @@ class ListableTest {
 
     @Override
     public Listing apply(Listing t) {
-      return t;
+      return t.add('a');
     }
 
     @Override
@@ -30,7 +30,7 @@ class ListableTest {
 
     @Override
     public Listing apply(Listing t) {
-      return t;
+      return t.add('z');
     }
 
     @Override
@@ -51,14 +51,22 @@ class ListableTest {
   void comparisonKey() {
     assertEquals("a#a", new A().comparisonKey());
     assertEquals("z#z", new Z().comparisonKey());
-    assertTrue(IDENTITY.comparisonKey().startsWith("listable$$lambda"));
+    assertEquals("identity#listing.identity", IDENTITY.comparisonKey());
   }
 
   @Test
   void empty() {
-    assertTrue(new A().isEmpty());
     assertTrue(IDENTITY.isEmpty());
     assertTrue(NEWLINE.isEmpty());
     assertFalse(SPACE.isEmpty());
+    assertFalse(new A().isEmpty());
+  }
+
+  @Test
+  void list() {
+    assertEquals("a", new A().list());
+    assertEquals("", IDENTITY.list());
+    assertEquals("", NEWLINE.list()); // initial new line is ignored
+    assertEquals(" ", SPACE.list());
   }
 }

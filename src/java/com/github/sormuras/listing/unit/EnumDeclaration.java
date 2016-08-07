@@ -14,9 +14,19 @@
 
 package com.github.sormuras.listing.unit;
 
+import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * An enum declaration specifies a new enum type, a special kind of class type.
+ *
+ * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9
+ */
 public class EnumDeclaration extends ClassDeclaration {
+
+  private final List<EnumConstantDeclaration> constants = new ArrayList<>();
 
   public EnumDeclaration() {
     this("EnumDeclaration");
@@ -26,13 +36,36 @@ public class EnumDeclaration extends ClassDeclaration {
     setName(name);
   }
 
+  /** Add new enum constant. */
+  public EnumConstantDeclaration addConstant(String name) {
+    return addConstant(name, null);
+  }
+
+  /** Add new enum constant. */
+  public EnumConstantDeclaration addConstant(String name, Listable arguments) {
+    return addConstant(name, arguments, null);
+  }
+
+  /** Add new enum constant. */
+  public EnumConstantDeclaration addConstant(
+      String name, Listable arguments, NormalClassDeclaration body) {
+    EnumConstantDeclaration constant = new EnumConstantDeclaration();
+    constant.setName(name);
+    constant.setArguments(arguments);
+    constant.setBody(body);
+    getConstants().add(constant);
+    return constant;
+  }
+
   @Override
   public Listing apply(Listing listing) {
     if (!isLocal()) {
       listing.newline();
     }
+    // {ClassModifier}
     listing.add(toAnnotationsListable());
     listing.add(toModifiersListable());
+    // enum Identifier
     listing.add("enum").add(' ').add(getName());
     // [Superinterfaces]
     if (!isInterfacesEmpty()) {
@@ -40,13 +73,21 @@ public class EnumDeclaration extends ClassDeclaration {
     }
     listing.add(' ').add('{').newline();
     listing.indent(1);
-    // TODO add enum constants - simple or fancy local classes
-    // TODO add ";"
-    if (!isDeclarationsEmpty()) {
-      getDeclarations().forEach(listing::add);
+    // [EnumConstantList]
+    listing.add(getConstants(), l -> l.add(",").newline());
+    if (!isBodyEmpty()) {
+      listing.add(';');
+      listing.newline();
+      applyClassBodyElements(listing);
+    } else if (!getConstants().isEmpty()) {
+      listing.newline();
     }
-    // TODO add other class members like fields, methods...
+
     listing.indent(-1).add('}').newline();
     return listing;
+  }
+
+  public List<EnumConstantDeclaration> getConstants() {
+    return constants;
   }
 }

@@ -15,6 +15,7 @@
 package com.github.sormuras.listing.unit;
 
 import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.type.ClassType;
 import com.github.sormuras.listing.type.JavaType;
 import java.util.ArrayList;
@@ -38,6 +39,32 @@ public abstract class ClassDeclaration extends TypeDeclaration {
   public ClassDeclaration addInterface(JavaType interfaceType) {
     getInterfaces().add((ClassType) interfaceType);
     return this;
+  }
+
+  /** Applies class body. */
+  public Listing applyClassBody(Listing listing) {
+    listing.add(' ').add('{').newline();
+    listing.indent(1);
+    applyClassBodyElements(listing);
+    listing.indent(-1);
+    listing.add('}').newline();
+    return listing;
+  }
+
+  /** Applies class body. */
+  public Listing applyClassBodyElements(Listing listing) {
+    if (!isDeclarationsEmpty()) {
+      getDeclarations().forEach(listing::add);
+    }
+    listing.add(getClassBodyElements());
+    if (!isInitializersEmpty()) {
+      getInitializers().forEach(listing::add);
+    }
+    return listing;
+  }
+
+  public MethodDeclaration declareConstructor() {
+    return declareMethod(void.class, "<init>");
   }
 
   /** Declare new field. */
@@ -97,6 +124,10 @@ public abstract class ClassDeclaration extends TypeDeclaration {
       interfaces = new ArrayList<>();
     }
     return interfaces;
+  }
+
+  public boolean isBodyEmpty() {
+    return isDeclarationsEmpty() && isInitializersEmpty() && getClassBodyElements().isEmpty();
   }
 
   public boolean isInitializersEmpty() {
