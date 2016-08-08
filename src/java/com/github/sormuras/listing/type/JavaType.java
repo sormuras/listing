@@ -14,9 +14,8 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
+import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Annotation;
-import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Name;
 import java.lang.annotation.ElementType;
 import java.lang.reflect.AnnotatedArrayType;
@@ -47,7 +46,7 @@ import java.util.List;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html
  */
-public abstract class JavaType extends AbstractAnnotatable implements Listable {
+public abstract class JavaType extends Annotated {
 
   /** Create {@link JavaType} based on {@link AnnotatedType} instance. */
   public static JavaType of(AnnotatedType annotatedType) {

@@ -14,33 +14,13 @@
 
 package com.github.sormuras.listing;
 
-import java.io.Serializable;
 import java.lang.annotation.ElementType;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /** Default {@link Annotation} support. */
-public interface Annotatable {
-
-  abstract class AbstractAnnotatable implements Annotatable, Serializable {
-    private List<Annotation> annotations = Collections.emptyList();
-
-    @Override
-    public List<Annotation> getAnnotations() {
-      if (annotations == Collections.EMPTY_LIST) {
-        annotations = new ArrayList<>();
-      }
-      return annotations;
-    }
-
-    @Override
-    public boolean isAnnotated() {
-      return !annotations.isEmpty();
-    }
-  }
+public interface Annotatable extends Listable {
 
   default void addAnnotation(Annotation annotation) {
     getAnnotations().add(annotation);

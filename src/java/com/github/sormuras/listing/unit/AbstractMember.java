@@ -1,10 +1,9 @@
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
-import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Annotated;
 
 /** Named and encloseable member base class. */
-public abstract class AbstractMember extends AbstractAnnotatable implements Listable {
+public abstract class AbstractMember extends Annotated {
 
   private CompilationUnit compilationUnit = null;
   private TypeDeclaration enclosingDeclaration = null;

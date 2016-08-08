@@ -14,8 +14,7 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
-import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.Tool;
 import com.github.sormuras.listing.type.ClassType;
@@ -41,7 +40,7 @@ import javax.lang.model.SourceVersion;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1.2
  */
-public class TypeParameter extends AbstractAnnotatable implements Listable {
+public class TypeParameter extends Annotated {
 
   public static TypeParameter of(String name, JavaType... bounds) {
     Tool.assume(SourceVersion.isIdentifier(name), "expected legal identifier, but got: " + name);

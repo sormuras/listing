@@ -14,8 +14,7 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
-import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.Name;
 import java.lang.annotation.ElementType;
@@ -31,7 +30,7 @@ import java.net.URI;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html#jls-7.4
  */
-public class PackageDeclaration extends AbstractAnnotatable implements Listable {
+public class PackageDeclaration extends Annotated {
 
   public static PackageDeclaration of(Name packageName) {
     PackageDeclaration name = new PackageDeclaration();

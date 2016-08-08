@@ -14,8 +14,7 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotatable;
-import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 /** Simple and(!) annotatable and(!) typed class or interface name. */
-public class ClassName extends Annotatable.AbstractAnnotatable implements Listable {
+public class ClassName extends Annotated {
 
   public static ClassName of(String name) {
     ClassName className = new ClassName();

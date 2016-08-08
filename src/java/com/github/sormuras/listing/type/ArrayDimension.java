@@ -14,12 +14,11 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
-import com.github.sormuras.listing.Listable;
+import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
 
-public class ArrayDimension extends AbstractAnnotatable implements Listable {
+public class ArrayDimension extends Annotated {
 
   @Override
   public Listing apply(Listing listing) {

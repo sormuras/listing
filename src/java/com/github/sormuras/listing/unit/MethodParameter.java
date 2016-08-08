@@ -14,7 +14,7 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
+import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.type.ArrayType;
@@ -31,7 +31,7 @@ import java.util.Optional;
  * @author Christian Stein
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.4.1
  */
-public class MethodParameter extends AbstractAnnotatable implements Listable {
+public class MethodParameter extends Annotated {
 
   public static MethodParameter of(Class<?> type, String name) {
     return new MethodParameter().setType(JavaType.of(type)).setName(name);
