@@ -26,30 +26,7 @@ import java.util.List;
  */
 public class EnumDeclaration extends ClassDeclaration {
 
-  private final List<EnumConstantDeclaration> constants = new ArrayList<>();
-
-  /** Add new enum constant. */
-  public EnumConstantDeclaration addConstant(String name) {
-    return addConstant(name, null);
-  }
-
-  /** Add new enum constant. */
-  public EnumConstantDeclaration addConstant(String name, Listable arguments) {
-    return addConstant(name, arguments, null);
-  }
-
-  /** Add new enum constant. */
-  public EnumConstantDeclaration addConstant(
-      String name, Listable arguments, NormalClassDeclaration body) {
-    EnumConstantDeclaration constant = new EnumConstantDeclaration();
-    constant.setEnclosingDeclaration(this);
-    constant.setCompilationUnit(getCompilationUnit());
-    constant.setName(name);
-    constant.setArguments(arguments);
-    constant.setBody(body);
-    getConstants().add(constant);
-    return constant;
-  }
+  private final List<EnumConstant> constants = new ArrayList<>();
 
   @Override
   public Listing apply(Listing listing) {
@@ -81,7 +58,29 @@ public class EnumDeclaration extends ClassDeclaration {
     return listing;
   }
 
-  public List<EnumConstantDeclaration> getConstants() {
+  /** Add new enum constant. */
+  public EnumConstant declareConstant(String name) {
+    return declareConstant(name, null);
+  }
+
+  /** Add new enum constant. */
+  public EnumConstant declareConstant(String name, Listable arguments) {
+    return declareConstant(name, arguments, null);
+  }
+
+  /** Add new enum constant. */
+  public EnumConstant declareConstant(String name, Listable arguments, ClassDeclaration body) {
+    EnumConstant constant = new EnumConstant();
+    constant.setEnclosingDeclaration(this);
+    constant.setCompilationUnit(getCompilationUnit());
+    constant.setName(name);
+    constant.setArguments(arguments);
+    constant.setBody(body);
+    getConstants().add(constant);
+    return constant;
+  }
+
+  public List<EnumConstant> getConstants() {
     return constants;
   }
 }

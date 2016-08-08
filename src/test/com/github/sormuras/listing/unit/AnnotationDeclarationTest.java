@@ -24,12 +24,12 @@ class AnnotationDeclarationTest {
     assertTrue(declaration.isEmpty());
     assertFalse(
         new AnnotationDeclaration()
-            .addConstant(JavaType.of(int.class), "constant", l -> l)
+            .declareConstant(JavaType.of(int.class), "constant", l -> l)
             .getEnclosingDeclaration()
             .isEmpty());
     assertFalse(
         new AnnotationDeclaration()
-            .addElement(JavaType.of(int.class), "element")
+            .declareElement(JavaType.of(int.class), "element")
             .getEnclosingDeclaration()
             .isEmpty());
   }
@@ -40,16 +40,16 @@ class AnnotationDeclarationTest {
     extendsFormatter.setBoundExtends(ClassType.of(Formatter.class));
     AnnotationDeclaration declaration = new AnnotationDeclaration();
     declaration.setName("Everything");
-    declaration.addConstant(JavaType.of(String.class), "EMPTY_TEXT", "");
+    declaration.declareConstant(JavaType.of(String.class), "EMPTY_TEXT", "");
     declaration
-        .addConstant(JavaType.of(float.class), "PI", l -> l.add("3.141F"))
+        .declareConstant(JavaType.of(float.class), "PI", l -> l.add("3.141F"))
         .addAnnotation(Deprecated.class);
-    declaration.addConstant(JavaType.of(double.class), "E", Name.of(Math.class, "E"));
-    declaration.addElement(JavaType.of(int.class), "id");
+    declaration.declareConstant(JavaType.of(double.class), "E", Name.of(Math.class, "E"));
+    declaration.declareElement(JavaType.of(int.class), "id");
     declaration
-        .addElement(JavaType.of(String.class), "date", "201608032129")
+        .declareElement(JavaType.of(String.class), "date", "201608032129")
         .addAnnotation(Deprecated.class);
-    declaration.addElement(
+    declaration.declareElement(
         new ClassType(Name.of(Class.class), new TypeArgument(extendsFormatter)), "formatterClass");
     Tests.assertEquals(getClass(), "everything", declaration);
     assertFalse(declaration.isEmpty());

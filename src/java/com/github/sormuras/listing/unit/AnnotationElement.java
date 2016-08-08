@@ -26,7 +26,7 @@ import java.lang.annotation.ElementType;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.6.1
  */
-public class AnnotationElement extends AbstractMember {
+public class AnnotationElement extends NamedMember {
 
   private Listable defaultValue;
   private JavaType returnType;

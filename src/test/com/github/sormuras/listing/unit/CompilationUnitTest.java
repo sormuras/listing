@@ -157,9 +157,9 @@ class CompilationUnitTest {
     e1.addAnnotation(Generated.class, "An enum for testing");
     e1.addModifier(Modifier.PROTECTED);
     e1.addInterface(JavaType.of(Serializable.class));
-    e1.addConstant("A");
-    e1.addConstant("B");
-    e1.addConstant("C");
+    e1.declareConstant("A");
+    e1.declareConstant("B");
+    e1.declareConstant("C");
     unit.declareInterface("TestIntf");
     NormalClassDeclaration simple = unit.declareClass("SimpleClass");
     simple.addModifier("public", "final");

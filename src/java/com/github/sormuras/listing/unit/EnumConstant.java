@@ -23,10 +23,10 @@ import java.lang.annotation.ElementType;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9.1
  */
-public class EnumConstantDeclaration extends AbstractMember implements Listable {
+public class EnumConstant extends NamedMember implements Listable {
 
   private Listable arguments;
-  private NormalClassDeclaration body;
+  private ClassDeclaration body;
 
   @Override
   public Listing apply(Listing listing) {
@@ -57,7 +57,7 @@ public class EnumConstantDeclaration extends AbstractMember implements Listable 
     return arguments;
   }
 
-  public NormalClassDeclaration getBody() {
+  public ClassDeclaration getBody() {
     return body;
   }
 
@@ -65,7 +65,7 @@ public class EnumConstantDeclaration extends AbstractMember implements Listable 
     this.arguments = arguments;
   }
 
-  public void setBody(NormalClassDeclaration body) {
+  public void setBody(ClassDeclaration body) {
     this.body = body;
   }
 }

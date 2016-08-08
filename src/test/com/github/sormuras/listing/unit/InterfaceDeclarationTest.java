@@ -20,16 +20,15 @@ class InterfaceDeclarationTest {
 
   @Test
   void everything() {
-    TypeParameter t = new TypeParameter();
     InterfaceDeclaration declaration = new InterfaceDeclaration();
     declaration.setName("Everything");
-    declaration.getTypeParameters().add(t);
+    declaration.addTypeParameter(new TypeParameter());
     declaration.addInterface(JavaType.of(Runnable.class));
-    declaration.addConstant(JavaType.of(String.class), "EMPTY_TEXT", "");
+    declaration.declareConstant(JavaType.of(String.class), "EMPTY_TEXT", "");
     declaration
-        .addConstant(JavaType.of(float.class), "PI", l -> l.add("3.141F"))
+        .declareConstant(JavaType.of(float.class), "PI", l -> l.add("3.141F"))
         .addAnnotation(Deprecated.class);
-    declaration.addConstant(JavaType.of(double.class), "E", Name.of(Math.class, "E"));
+    declaration.declareConstant(JavaType.of(double.class), "E", Name.of(Math.class, "E"));
     declaration.declareMethod(BigInteger.class, "id");
     Tests.assertEquals(getClass(), "everything", declaration);
   }

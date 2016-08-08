@@ -30,14 +30,14 @@ class EnumDeclarationTest {
         "enum Everything implements java.lang.Runnable, java.lang.Comparable<java.lang.Byte> {\n}\n",
         declaration.list());
     declaration.getInterfaces().clear();
-    declaration.addConstant("A");
+    declaration.declareConstant("A");
     assertEquals("enum Everything {\n\n  A\n}\n", declaration.list());
-    declaration.addConstant("B", Listable.IDENTITY).addAnnotation(Deprecated.class);
+    declaration.declareConstant("B", Listable.IDENTITY).addAnnotation(Deprecated.class);
     NormalClassDeclaration cbody = new NormalClassDeclaration();
     MethodDeclaration toString = cbody.declareMethod(String.class, "toString");
     toString.addStatement("return \"c\" + i");
     toString.addModifier(Modifier.PUBLIC);
-    declaration.addConstant("C", l -> l.add("123"), cbody);
+    declaration.declareConstant("C", l -> l.add("123"), cbody);
     declaration.declareField(int.class, "i");
     declaration.declareConstructor().addStatement("this(0)");
     MethodDeclaration ctor = declaration.declareConstructor();

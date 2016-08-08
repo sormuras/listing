@@ -2,8 +2,8 @@ package com.github.sormuras.listing.unit;
 
 import com.github.sormuras.listing.Annotated;
 
-/** Named and encloseable member base class. */
-public abstract class AbstractMember extends Annotated {
+/** Named, annotatable and encloseable member base class. */
+public abstract class NamedMember extends Annotated {
 
   private CompilationUnit compilationUnit = null;
   private TypeDeclaration enclosingDeclaration = null;

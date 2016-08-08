@@ -25,7 +25,7 @@ import javax.lang.model.element.Modifier;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1.6
  */
-public abstract class ClassMemberDeclaration extends AbstractMember implements Modifiable {
+public abstract class ClassMemberDeclaration extends NamedMember implements Modifiable {
 
   private Set<Modifier> modifiers = Collections.emptySet();
 

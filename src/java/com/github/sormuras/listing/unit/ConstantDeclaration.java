@@ -24,7 +24,7 @@ import java.lang.annotation.ElementType;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.3
  */
-public class ConstantDeclaration extends AbstractMember {
+public class ConstantDeclaration extends NamedMember {
 
   private Listable initializer;
   private JavaType type;

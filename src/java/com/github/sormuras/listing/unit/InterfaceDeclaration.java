@@ -37,41 +37,12 @@ public class InterfaceDeclaration extends TypeDeclaration {
   private final List<MethodDeclaration> methods = new ArrayList<>();
   private final List<TypeParameter> typeParameters = new ArrayList<>();
 
-  /** Add new constant field. */
-  public ConstantDeclaration addConstant(JavaType type, String name, Listable initializer) {
-    ConstantDeclaration constants = new ConstantDeclaration();
-    constants.setEnclosingDeclaration(this);
-    constants.setName(name);
-    constants.setType(type);
-    constants.setInitializer(initializer);
-    getConstants().add(constants);
-    return constants;
-  }
-
-  /** Add new constant field. */
-  public ConstantDeclaration addConstant(JavaType type, String name, Object value) {
-    return addConstant(type, name, Annotation.value(value));
-  }
-
-  public InterfaceDeclaration addInterface(JavaType interfaceType) {
+  public void addInterface(JavaType interfaceType) {
     getInterfaces().add((ClassType) interfaceType);
-    return this;
   }
 
-  /** Declare new method. */
-  public MethodDeclaration declareMethod(Class<?> type, String name) {
-    return declareMethod(JavaType.of(type), name);
-  }
-
-  /** Declare new method. */
-  public MethodDeclaration declareMethod(JavaType type, String name) {
-    MethodDeclaration declaration = new MethodDeclaration();
-    declaration.setCompilationUnit(getCompilationUnit());
-    declaration.setEnclosingDeclaration(this);
-    declaration.setReturnType(type);
-    declaration.setName(name);
-    getMethods().add(declaration);
-    return declaration;
+  public void addTypeParameter(TypeParameter parameter) {
+    getTypeParameters().add(parameter);
   }
 
   @Override
@@ -100,6 +71,38 @@ public class InterfaceDeclaration extends TypeDeclaration {
     getMethods().forEach(listing::add);
     listing.indent(-1).add('}').newline();
     return listing;
+  }
+
+  /** Add new constant field. */
+  public ConstantDeclaration declareConstant(JavaType type, String name, Listable initializer) {
+    ConstantDeclaration constants = new ConstantDeclaration();
+    constants.setEnclosingDeclaration(this);
+    constants.setName(name);
+    constants.setType(type);
+    constants.setInitializer(initializer);
+    getConstants().add(constants);
+    return constants;
+  }
+
+  /** Add new constant field. */
+  public ConstantDeclaration declareConstant(JavaType type, String name, Object value) {
+    return declareConstant(type, name, Annotation.value(value));
+  }
+
+  /** Declare new method. */
+  public MethodDeclaration declareMethod(Class<?> type, String name) {
+    return declareMethod(JavaType.of(type), name);
+  }
+
+  /** Declare new method. */
+  public MethodDeclaration declareMethod(JavaType type, String name) {
+    MethodDeclaration declaration = new MethodDeclaration();
+    declaration.setCompilationUnit(getCompilationUnit());
+    declaration.setEnclosingDeclaration(this);
+    declaration.setReturnType(type);
+    declaration.setName(name);
+    getMethods().add(declaration);
+    return declaration;
   }
 
   public List<ConstantDeclaration> getConstants() {

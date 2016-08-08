@@ -33,45 +33,6 @@ public class AnnotationDeclaration extends TypeDeclaration {
   private final List<ConstantDeclaration> constants = new ArrayList<>();
   private final List<AnnotationElement> elements = new ArrayList<>();
 
-  /** Add new annotation field. */
-  public ConstantDeclaration addConstant(JavaType type, String name, Listable initializer) {
-    ConstantDeclaration constant = new ConstantDeclaration();
-    constant.setEnclosingDeclaration(this);
-    constant.setCompilationUnit(getCompilationUnit());
-    constant.setName(name);
-    constant.setType(type);
-    constant.setInitializer(initializer);
-    getConstants().add(constant);
-    return constant;
-  }
-
-  /** Add new annotation field. */
-  public ConstantDeclaration addConstant(JavaType type, String name, Object value) {
-    return addConstant(type, name, Annotation.value(value));
-  }
-
-  /** Add new annotation method w/o default value. */
-  public AnnotationElement addElement(JavaType returnType, String name) {
-    return addElement(returnType, name, (Listable) null);
-  }
-
-  /** Add new annotation method with default value. */
-  public AnnotationElement addElement(JavaType returnType, String name, Listable defaultValue) {
-    AnnotationElement element = new AnnotationElement();
-    element.setEnclosingDeclaration(this);
-    element.setCompilationUnit(getCompilationUnit());
-    element.setName(name);
-    element.setReturnType(returnType);
-    element.setDefaultValue(defaultValue);
-    getElements().add(element);
-    return element;
-  }
-
-  /** Add new annotation method with default value. */
-  public AnnotationElement addElement(JavaType returnType, String name, Object defaultValue) {
-    return addElement(returnType, name, Annotation.value(defaultValue));
-  }
-
   @Override
   public Listing apply(Listing listing) {
     listing.newline();
@@ -87,6 +48,45 @@ public class AnnotationDeclaration extends TypeDeclaration {
     getElements().forEach(listing::add);
     listing.indent(-1).add('}').newline();
     return listing;
+  }
+
+  /** Add new annotation field. */
+  public ConstantDeclaration declareConstant(JavaType type, String name, Listable initializer) {
+    ConstantDeclaration constant = new ConstantDeclaration();
+    constant.setEnclosingDeclaration(this);
+    constant.setCompilationUnit(getCompilationUnit());
+    constant.setName(name);
+    constant.setType(type);
+    constant.setInitializer(initializer);
+    getConstants().add(constant);
+    return constant;
+  }
+
+  /** Add new annotation field. */
+  public ConstantDeclaration declareConstant(JavaType type, String name, Object value) {
+    return declareConstant(type, name, Annotation.value(value));
+  }
+
+  /** Add new annotation method w/o default value. */
+  public AnnotationElement declareElement(JavaType returnType, String name) {
+    return declareElement(returnType, name, (Listable) null);
+  }
+
+  /** Add new annotation method with default value. */
+  public AnnotationElement declareElement(JavaType returnType, String name, Listable defaultValue) {
+    AnnotationElement element = new AnnotationElement();
+    element.setEnclosingDeclaration(this);
+    element.setCompilationUnit(getCompilationUnit());
+    element.setName(name);
+    element.setReturnType(returnType);
+    element.setDefaultValue(defaultValue);
+    getElements().add(element);
+    return element;
+  }
+
+  /** Add new annotation method with default value. */
+  public AnnotationElement declareElement(JavaType returnType, String name, Object defaultValue) {
+    return declareElement(returnType, name, Annotation.value(defaultValue));
   }
 
   public List<ConstantDeclaration> getConstants() {
