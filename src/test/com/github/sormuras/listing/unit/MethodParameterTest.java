@@ -17,7 +17,7 @@ public class MethodParameterTest {
     assertEquals("int... ia1", MethodParameter.of(int[].class, "ia1").setVariable(true).list());
     assertEquals("int[]... ia2", MethodParameter.of(int[][].class, "ia2").setVariable(true).list());
     MethodParameter parameter =
-        new MethodParameter().setType(new TypeVariable("T")).setName("t").setFinal(true);
+        new MethodParameter().setType(new TypeVariable()).setName("t").setFinal(true);
     parameter.addAnnotation(new Annotation(Name.of("", "A")));
     assertEquals("final @A T t", parameter.list());
     assertEquals(ElementType.PARAMETER, new MethodParameter().getAnnotationTarget());

@@ -181,7 +181,7 @@ class CompilationUnitTest {
     run.addAnnotation(Override.class);
     run.addModifiers(Modifier.PUBLIC, Modifier.FINAL);
     run.setBody(l -> l.add("System.out.println(\"Hallo Welt!\");").newline());
-    MethodDeclaration calc = simple.declareMethod(new TypeVariable("N"), "calc");
+    MethodDeclaration calc = simple.declareMethod(TypeVariable.of("N"), "calc");
     calc.addModifier(Modifier.STATIC);
     calc.addTypeParameter(TypeParameter.of("N", JavaType.of(Number.class)));
     calc.addParameter(int.class, "i");

@@ -15,7 +15,7 @@ class TypeVariableTest {
 
   @Test
   void constructorFailsWithEmptyName() {
-    Exception e = expectThrows(IllegalArgumentException.class, () -> new TypeVariable(""));
+    Exception e = expectThrows(IllegalArgumentException.class, () -> TypeVariable.of(""));
     assertTrue(e.toString().contains("TypeVariable name must not be empty!"));
   }
 }

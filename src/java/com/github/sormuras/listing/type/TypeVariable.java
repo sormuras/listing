@@ -25,15 +25,13 @@ import java.lang.annotation.ElementType;
  */
 public class TypeVariable extends ReferenceType {
 
-  private String name = null;
-
-  public TypeVariable() {
-    this("T");
+  public static TypeVariable of(String name) {
+    TypeVariable variable = new TypeVariable();
+    variable.setName(name);
+    return variable;
   }
 
-  public TypeVariable(String name) {
-    setName(name);
-  }
+  private String name = "T";
 
   @Override
   public Listing apply(Listing listing) {

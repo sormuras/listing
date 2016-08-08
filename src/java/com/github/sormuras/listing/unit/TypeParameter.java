@@ -117,7 +117,7 @@ public class TypeParameter extends Annotated {
 
   /** Set single type variable as bound and clears all other bounds. */
   public void setBoundTypeVariable(String typeVariableName) {
-    setBoundTypeVariable(new TypeVariable(typeVariableName));
+    setBoundTypeVariable(TypeVariable.of(typeVariableName));
   }
 
   /** Set single type variable as bound and clears all other bounds. */

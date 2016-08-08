@@ -65,7 +65,7 @@ public interface JavaTypes {
     // bounds.add(new TypeArgument(of(bound)));
     // }
     String name = ((java.lang.reflect.TypeVariable<?>) annotatedType.getType()).getName();
-    TypeVariable result = new TypeVariable(name);
+    TypeVariable result = TypeVariable.of(name);
     result.getAnnotations().addAll(Annotation.of(annotatedType.getAnnotations()));
     return result;
   }
@@ -108,7 +108,7 @@ public interface JavaTypes {
 
   /** Create {@link JavaType} based on {@link java.lang.reflect.TypeVariable} instance. */
   static JavaType of(java.lang.reflect.TypeVariable<?> type) {
-    return new TypeVariable(type.getName());
+    return TypeVariable.of(type.getName());
   }
 
   /** Create {@link JavaType} based on {@link java.lang.reflect.WildcardType} instance. */
