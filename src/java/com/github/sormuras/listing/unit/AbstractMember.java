@@ -10,10 +10,6 @@ public abstract class AbstractMember extends AbstractAnnotatable implements List
   private TypeDeclaration enclosingDeclaration = null;
   private String name;
 
-  public AbstractMember() {
-    super();
-  }
-
   public CompilationUnit getCompilationUnit() {
     return compilationUnit;
   }

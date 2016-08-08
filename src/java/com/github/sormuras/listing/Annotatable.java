@@ -14,6 +14,7 @@
 
 package com.github.sormuras.listing;
 
+import java.io.Serializable;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +25,7 @@ import java.util.List;
 /** Default {@link Annotation} support. */
 public interface Annotatable {
 
-  abstract class AbstractAnnotatable implements Annotatable {
+  abstract class AbstractAnnotatable implements Annotatable, Serializable {
     private List<Annotation> annotations = Collections.emptyList();
 
     @Override

@@ -42,6 +42,8 @@ public class EnumDeclaration extends ClassDeclaration {
   public EnumConstantDeclaration addConstant(
       String name, Listable arguments, NormalClassDeclaration body) {
     EnumConstantDeclaration constant = new EnumConstantDeclaration();
+    constant.setEnclosingDeclaration(this);
+    constant.setCompilationUnit(getCompilationUnit());
     constant.setName(name);
     constant.setArguments(arguments);
     constant.setBody(body);

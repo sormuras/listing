@@ -190,6 +190,6 @@ class CompilationUnitTest {
 
     assertSame(simple, i.getEnclosingDeclaration());
     Tests.assertEquals(getClass(), "crazy", unit);
-    // Tests.assertSerializable(unit);
+    Tests.assertSerializable(unit);
   }
 }

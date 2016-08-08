@@ -14,7 +14,6 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
@@ -24,11 +23,10 @@ import java.lang.annotation.ElementType;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9.1
  */
-public class EnumConstantDeclaration extends AbstractAnnotatable implements Listable {
+public class EnumConstantDeclaration extends AbstractMember implements Listable {
 
   private Listable arguments;
   private NormalClassDeclaration body;
-  private String name;
 
   @Override
   public Listing apply(Listing listing) {
@@ -63,20 +61,11 @@ public class EnumConstantDeclaration extends AbstractAnnotatable implements List
     return body;
   }
 
-  public String getName() {
-    return name;
-  }
-
   public void setArguments(Listable arguments) {
     this.arguments = arguments;
   }
 
   public void setBody(NormalClassDeclaration body) {
     this.body = body;
-  }
-
-  public EnumConstantDeclaration setName(String name) {
-    this.name = name;
-    return this;
   }
 }
