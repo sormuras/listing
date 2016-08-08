@@ -37,6 +37,7 @@ public class AnnotationDeclaration extends TypeDeclaration {
   public ConstantDeclaration addConstant(JavaType type, String name, Listable initializer) {
     ConstantDeclaration constant = new ConstantDeclaration();
     constant.setEnclosingDeclaration(this);
+    constant.setCompilationUnit(getCompilationUnit());
     constant.setName(name);
     constant.setType(type);
     constant.setInitializer(initializer);
@@ -58,6 +59,7 @@ public class AnnotationDeclaration extends TypeDeclaration {
   public AnnotationElement addElement(JavaType returnType, String name, Listable defaultValue) {
     AnnotationElement element = new AnnotationElement();
     element.setEnclosingDeclaration(this);
+    element.setCompilationUnit(getCompilationUnit());
     element.setName(name);
     element.setReturnType(returnType);
     element.setDefaultValue(defaultValue);

@@ -60,17 +60,17 @@ class AnnotatableTest {
     test(new WildcardType());
   }
 
-  private void test(Annotatable a) {
+  private void test(Annotated a) {
     testInitial(a);
     testMutable(a);
   }
 
-  private void testInitial(Annotatable a) {
+  private void testInitial(Annotated a) {
     assertFalse(a.isAnnotated());
     assertTrue(a.getAnnotations().isEmpty());
   }
 
-  private void testMutable(Annotatable a) {
+  private void testMutable(Annotated a) {
     // first non-readonly access initializes annotation collection
     assertFalse(a.isAnnotated());
     assertTrue(Collections.EMPTY_LIST != a.getAnnotations());
