@@ -32,7 +32,7 @@ class AnnotatableTest {
 
   @Test
   void annotatableClassName() {
-    test(new ClassName("ClassName"));
+    test(ClassName.of("ClassName"));
   }
 
   @Test

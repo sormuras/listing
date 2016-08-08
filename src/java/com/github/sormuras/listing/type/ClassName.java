@@ -14,32 +14,27 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
+import com.github.sormuras.listing.Annotatable;
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /** Simple and(!) annotatable and(!) typed class or interface name. */
-public class ClassName extends AbstractAnnotatable implements Listable {
+public class ClassName implements Annotatable, Listable {
 
-  private final String name;
+  public static ClassName of(String name) {
+    ClassName className = new ClassName();
+    className.setName(name);
+    return className;
+  }
+
+  private List<Annotation> annotations = Collections.emptyList();
+  private String name;
   private List<TypeArgument> typeArguments = Collections.emptyList();
-
-  public ClassName(String name, Annotation... annotations) {
-    this(name, Arrays.asList(annotations));
-  }
-
-  public ClassName(String name, List<Annotation> annotations) {
-    this.name = name;
-    if (!annotations.isEmpty()) {
-      getAnnotations().addAll(annotations);
-    }
-  }
 
   @Override
   public Listing apply(Listing listing) {
@@ -49,6 +44,14 @@ public class ClassName extends AbstractAnnotatable implements Listable {
     }
     listing.add(getName()).add('<').add(getTypeArguments(), ", ").add('>');
     return listing;
+  }
+
+  @Override
+  public List<Annotation> getAnnotations() {
+    if (annotations == Collections.EMPTY_LIST) {
+      annotations = new ArrayList<>();
+    }
+    return annotations;
   }
 
   @Override
@@ -65,5 +68,14 @@ public class ClassName extends AbstractAnnotatable implements Listable {
       typeArguments = new ArrayList<>();
     }
     return typeArguments;
+  }
+
+  @Override
+  public boolean isAnnotated() {
+    return !annotations.isEmpty();
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

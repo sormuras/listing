@@ -48,7 +48,7 @@ public class ClassType extends ReferenceType {
   public ClassType(Name name, TypeArgument... typeArguments) {
     this.name = name;
     this.packageName = name.getPackageName();
-    this.names = name.getSimpleNames().stream().map(ClassName::new).collect(toList());
+    this.names = name.getSimpleNames().stream().map(ClassName::of).collect(toList());
     if (names.isEmpty()) {
       throw new IllegalArgumentException("Not a single class name given by: " + name);
     }
