@@ -14,7 +14,6 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.type.JavaType;
@@ -27,11 +26,9 @@ import java.lang.annotation.ElementType;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.6.1
  */
-public class AnnotationElement extends AbstractAnnotatable implements Listable {
+public class AnnotationElement extends AbstractMember {
 
-  private AnnotationDeclaration enclosing;
   private Listable defaultValue;
-  private String name;
   private JavaType returnType;
 
   @Override
@@ -55,35 +52,15 @@ public class AnnotationElement extends AbstractAnnotatable implements Listable {
     return defaultValue;
   }
 
-  public AnnotationDeclaration getEnclosing() {
-    return enclosing;
-  }
-
-  public String getName() {
-    return name;
-  }
-
   public JavaType getReturnType() {
     return returnType;
   }
 
-  public AnnotationElement setDefaultValue(Listable defaultValue) {
+  public void setDefaultValue(Listable defaultValue) {
     this.defaultValue = defaultValue;
-    return this;
   }
 
-  public AnnotationElement setEnclosing(AnnotationDeclaration enclosing) {
-    this.enclosing = enclosing;
-    return this;
-  }
-
-  public AnnotationElement setName(String name) {
-    this.name = name;
-    return this;
-  }
-
-  public AnnotationElement setReturnType(JavaType type) {
+  public void setReturnType(JavaType type) {
     this.returnType = type;
-    return this;
   }
 }

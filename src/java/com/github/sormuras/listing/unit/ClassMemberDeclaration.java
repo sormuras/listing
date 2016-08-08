@@ -14,35 +14,20 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
-import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Modifiable;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.Optional;
 import java.util.Set;
 import javax.lang.model.element.Modifier;
 
 /**
- * Class <b>member</b> declaration.
+ * Class <b>member</b> declaration adds modifier support.
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1.6
  */
-public abstract class ClassMemberDeclaration extends AbstractAnnotatable
-    implements Listable, Modifiable {
+public abstract class ClassMemberDeclaration extends AbstractMember implements Modifiable {
 
-  private CompilationUnit compilationUnit = null;
-  private TypeDeclaration enclosingType = null;
   private Set<Modifier> modifiers = Collections.emptySet();
-  private String name;
-
-  public Optional<CompilationUnit> getCompilationUnit() {
-    return Optional.ofNullable(compilationUnit);
-  }
-
-  public Optional<TypeDeclaration> getEnclosing() {
-    return Optional.ofNullable(enclosingType);
-  }
 
   @Override
   public Set<Modifier> getModifiers() {
@@ -52,27 +37,8 @@ public abstract class ClassMemberDeclaration extends AbstractAnnotatable
     return modifiers;
   }
 
-  public String getName() {
-    return name;
-  }
-
   @Override
   public boolean isModified() {
     return !modifiers.isEmpty();
-  }
-
-  public ClassMemberDeclaration setCompilationUnit(CompilationUnit unit) {
-    this.compilationUnit = unit;
-    return this;
-  }
-
-  public ClassMemberDeclaration setEnclosingDeclaration(TypeDeclaration enclosingType) {
-    this.enclosingType = enclosingType;
-    return this;
-  }
-
-  public ClassMemberDeclaration setName(String name) {
-    this.name = name;
-    return this;
   }
 }

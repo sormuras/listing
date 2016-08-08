@@ -24,12 +24,12 @@ class AnnotationDeclarationTest {
     assertFalse(
         new AnnotationDeclaration()
             .addConstant(JavaType.of(int.class), "constant", l -> l)
-            .getEnclosing()
+            .getEnclosingDeclaration()
             .isEmpty());
     assertFalse(
         new AnnotationDeclaration()
             .addElement(JavaType.of(int.class), "element")
-            .getEnclosing()
+            .getEnclosingDeclaration()
             .isEmpty());
   }
 

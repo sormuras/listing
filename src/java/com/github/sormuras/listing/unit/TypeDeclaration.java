@@ -19,7 +19,6 @@ import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class TypeDeclaration extends ClassMemberDeclaration
     implements DeclarationContainer {
@@ -29,13 +28,13 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
   @Override
   public void assertValidNestedDeclarationName(String name) {
     DeclarationContainer.super.assertValidNestedDeclarationName(name);
-    Optional<TypeDeclaration> enclosing = Optional.of(this);
-    while (enclosing.isPresent()) {
-      TypeDeclaration parent = enclosing.get();
+    TypeDeclaration enclosing = this;
+    while (enclosing != null) {
+      TypeDeclaration parent = enclosing;
       if (name.equals(parent.getName())) {
         throw new IllegalArgumentException("nested " + name + " hides an enclosing type");
       }
-      enclosing = parent.getEnclosing();
+      enclosing = parent.getEnclosingDeclaration();
     }
   }
 
@@ -43,7 +42,7 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
   public <T extends TypeDeclaration> T declare(T declaration, String name) {
     DeclarationContainer.super.declare(declaration, name);
     declaration.setEnclosingDeclaration(this);
-    declaration.setCompilationUnit(getCompilationUnit().orElse(null));
+    declaration.setCompilationUnit(getCompilationUnit());
     return declaration;
   }
 
@@ -69,23 +68,17 @@ public abstract class TypeDeclaration extends ClassMemberDeclaration
     return declarations.isEmpty();
   }
 
-  @Override
-  public TypeDeclaration setName(String name) {
-    super.setName(name);
-    return this;
-  }
-
   /** Return simple name representation of this type declaration. */
   public Name toName() {
     String packageName = "";
-    if (getCompilationUnit().isPresent()) {
-      packageName = getCompilationUnit().get().getPackageName();
+    if (getCompilationUnit() != null) {
+      packageName = getCompilationUnit().getPackageName();
     }
     List<String> simpleNames = new ArrayList<>();
     TypeDeclaration current = this;
     while (current != null) {
       simpleNames.add(0, current.getName());
-      current = current.getEnclosing().orElse(null);
+      current = current.getEnclosingDeclaration();
     }
     Name name = new Name(packageName, simpleNames);
     name.getModifiers().addAll(getModifiers());

@@ -175,7 +175,7 @@ class CompilationUnitTest {
     // TODO simple.declareEnum("Innum").setBody(l -> l.add("X, Y, Z").newline());
     // TODO simple.declareClass("Cinner").setBody(l -> l.add("// empty").newline());
 
-    assertSame(simple, i.getEnclosing().get());
+    assertSame(simple, i.getEnclosingDeclaration());
     Tests.assertEquals(getClass(), "crazy", unit);
   }
 }

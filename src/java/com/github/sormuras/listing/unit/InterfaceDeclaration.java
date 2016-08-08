@@ -48,6 +48,7 @@ public class InterfaceDeclaration extends TypeDeclaration {
   /** Add new constant field. */
   public ConstantDeclaration addConstant(JavaType type, String name, Listable initializer) {
     ConstantDeclaration constants = new ConstantDeclaration();
+    constants.setEnclosingDeclaration(this);
     constants.setName(name);
     constants.setType(type);
     constants.setInitializer(initializer);
@@ -73,7 +74,7 @@ public class InterfaceDeclaration extends TypeDeclaration {
   /** Declare new method. */
   public MethodDeclaration declareMethod(JavaType type, String name) {
     MethodDeclaration declaration = new MethodDeclaration();
-    declaration.setCompilationUnit(getCompilationUnit().orElse(null));
+    declaration.setCompilationUnit(getCompilationUnit());
     declaration.setEnclosingDeclaration(this);
     declaration.setReturnType(type);
     declaration.setName(name);

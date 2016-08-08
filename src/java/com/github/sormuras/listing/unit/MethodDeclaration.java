@@ -85,8 +85,8 @@ public class MethodDeclaration extends ClassMemberDeclaration {
       listing.add("> ");
     }
     if (isConstructor()) {
-      if (getEnclosing().isPresent()) {
-        listing.add(getEnclosing().get().getName());
+      if (getEnclosingDeclaration() != null) {
+        listing.add(getEnclosingDeclaration().getName());
       } else {
         listing.add("<init>");
       }
@@ -156,12 +156,6 @@ public class MethodDeclaration extends ClassMemberDeclaration {
 
   public MethodDeclaration setBody(Listable body) {
     this.body = body;
-    return this;
-  }
-
-  @Override
-  public MethodDeclaration setName(String name) {
-    super.setName(name);
     return this;
   }
 

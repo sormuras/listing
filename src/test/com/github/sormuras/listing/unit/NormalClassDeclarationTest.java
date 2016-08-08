@@ -19,7 +19,10 @@ class NormalClassDeclarationTest {
     assertTrue(declaration.isEmpty());
     assertFalse(new NormalClassDeclaration().declareInitializer(false).getEnclosing().isEmpty());
     assertFalse(
-        new NormalClassDeclaration().declareField(int.class, "i").getEnclosing().get().isEmpty());
+        new NormalClassDeclaration()
+            .declareField(int.class, "i")
+            .getEnclosingDeclaration()
+            .isEmpty());
   }
 
   @Test

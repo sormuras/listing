@@ -43,13 +43,13 @@ public class AnnotationDeclaration extends TypeDeclaration {
 
   /** Add new annotation field. */
   public ConstantDeclaration addConstant(JavaType type, String name, Listable initializer) {
-    ConstantDeclaration constants = new ConstantDeclaration();
-    constants.setEnclosing(this);
-    constants.setName(name);
-    constants.setType(type);
-    constants.setInitializer(initializer);
-    getConstants().add(constants);
-    return constants;
+    ConstantDeclaration constant = new ConstantDeclaration();
+    constant.setEnclosingDeclaration(this);
+    constant.setName(name);
+    constant.setType(type);
+    constant.setInitializer(initializer);
+    getConstants().add(constant);
+    return constant;
   }
 
   /** Add new annotation field. */
@@ -65,7 +65,7 @@ public class AnnotationDeclaration extends TypeDeclaration {
   /** Add new annotation method with default value. */
   public AnnotationElement addElement(JavaType returnType, String name, Listable defaultValue) {
     AnnotationElement element = new AnnotationElement();
-    element.setEnclosing(this);
+    element.setEnclosingDeclaration(this);
     element.setName(name);
     element.setReturnType(returnType);
     element.setDefaultValue(defaultValue);

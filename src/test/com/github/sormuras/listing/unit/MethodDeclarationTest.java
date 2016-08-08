@@ -17,7 +17,8 @@ class MethodDeclarationTest {
 
   @Test
   void constructor() {
-    MethodDeclaration m = new MethodDeclaration().setName("<init>");
+    MethodDeclaration m = new MethodDeclaration();
+    m.setName("<init>");
     assertEquals("<init>();\n", m.list());
     assertEquals(ElementType.METHOD, m.getAnnotationTarget());
     assertEquals(true, m.isConstructor());
@@ -26,13 +27,14 @@ class MethodDeclarationTest {
     Exception expected = expectThrows(IllegalStateException.class, () -> m.setVarArgs(true));
     assertEquals(true, expected.toString().contains("no parameter"));
     // put into context
-    m.setEnclosingDeclaration(new NormalClassDeclaration().setName("Abc"));
+    m.setEnclosingDeclaration(new NormalClassDeclaration("Abc"));
     assertEquals("Abc();\n", m.list());
   }
 
   @Test
   void declaration() {
-    MethodDeclaration m = new MethodDeclaration().setName("m");
+    MethodDeclaration m = new MethodDeclaration();
+    m.setName("m");
     assertEquals("void m();\n", m.list());
     assertEquals(ElementType.METHOD, m.getAnnotationTarget());
     assertEquals(false, m.isConstructor());

@@ -62,12 +62,6 @@ public class FieldDeclaration extends ClassMemberDeclaration {
     return this;
   }
 
-  @Override
-  public FieldDeclaration setName(String name) {
-    super.setName(name);
-    return this;
-  }
-
   public FieldDeclaration setType(JavaType type) {
     this.type = type;
     return this;

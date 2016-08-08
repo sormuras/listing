@@ -14,7 +14,6 @@
 
 package com.github.sormuras.listing.unit;
 
-import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.type.JavaType;
@@ -25,11 +24,9 @@ import java.lang.annotation.ElementType;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.3
  */
-public class ConstantDeclaration extends AbstractAnnotatable implements Listable {
+public class ConstantDeclaration extends AbstractMember {
 
-  private TypeDeclaration enclosing;
   private Listable initializer;
-  private String name;
   private JavaType type;
 
   @Override
@@ -46,38 +43,19 @@ public class ConstantDeclaration extends AbstractAnnotatable implements Listable
     return ElementType.FIELD;
   }
 
-  public TypeDeclaration getEnclosing() {
-    return enclosing;
-  }
-
   public Listable getInitializer() {
     return initializer;
-  }
-
-  public String getName() {
-    return name;
   }
 
   public JavaType getType() {
     return type;
   }
 
-  public void setEnclosing(TypeDeclaration enclosing) {
-    this.enclosing = enclosing;
-  }
-
-  public ConstantDeclaration setInitializer(Listable initializer) {
+  public void setInitializer(Listable initializer) {
     this.initializer = initializer;
-    return this;
   }
 
-  public ConstantDeclaration setName(String name) {
-    this.name = name;
-    return this;
-  }
-
-  public ConstantDeclaration setType(JavaType type) {
+  public void setType(JavaType type) {
     this.type = type;
-    return this;
   }
 }

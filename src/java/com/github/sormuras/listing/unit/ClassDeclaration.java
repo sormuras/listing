@@ -74,13 +74,13 @@ public abstract class ClassDeclaration extends TypeDeclaration {
 
   /** Declare new field. */
   public FieldDeclaration declareField(JavaType type, String name) {
-    FieldDeclaration declaration = new FieldDeclaration();
-    declaration.setCompilationUnit(getCompilationUnit().orElse(null));
-    declaration.setEnclosingDeclaration(this);
-    declaration.setType(type);
-    declaration.setName(name);
-    getClassBodyElements().add(declaration);
-    return declaration;
+    FieldDeclaration field = new FieldDeclaration();
+    field.setCompilationUnit(getCompilationUnit());
+    field.setEnclosingDeclaration(this);
+    field.setType(type);
+    field.setName(name);
+    getClassBodyElements().add(field);
+    return field;
   }
 
   /** Declare new initializer block. */
@@ -99,13 +99,13 @@ public abstract class ClassDeclaration extends TypeDeclaration {
 
   /** Declare new method. */
   public MethodDeclaration declareMethod(JavaType type, String name) {
-    MethodDeclaration declaration = new MethodDeclaration();
-    declaration.setCompilationUnit(getCompilationUnit().orElse(null));
-    declaration.setEnclosingDeclaration(this);
-    declaration.setReturnType(type);
-    declaration.setName(name);
-    getClassBodyElements().add(declaration);
-    return declaration;
+    MethodDeclaration method = new MethodDeclaration();
+    method.setCompilationUnit(getCompilationUnit());
+    method.setEnclosingDeclaration(this);
+    method.setReturnType(type);
+    method.setName(name);
+    getClassBodyElements().add(method);
+    return method;
   }
 
   public List<Listable> getClassBodyElements() {
