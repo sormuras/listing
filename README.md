@@ -6,7 +6,7 @@
 Java compilation unit source listing tool.
 
 ## features
- - [x] Java Bean style API
+ - [x] JavaBeans style API
  - [x] Aligned to [JLS](https://docs.oracle.com/javase/specs/jls/se8/html/jls-19.html) syntax grammar
  - [x] Runtime compilation supporting annotation processing
 

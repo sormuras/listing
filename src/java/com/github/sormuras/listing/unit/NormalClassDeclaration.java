@@ -22,15 +22,18 @@ import java.util.List;
 
 public class NormalClassDeclaration extends ClassDeclaration {
 
+  public static NormalClassDeclaration of(String name) {
+    NormalClassDeclaration declaration = new NormalClassDeclaration();
+    declaration.setName(name);
+    return declaration;
+  }
+
   private ClassType superClass = null;
   private List<TypeParameter> typeParameters = Collections.emptyList();
 
-  public NormalClassDeclaration() {
-    this("NormalClassDeclaration");
-  }
-
-  public NormalClassDeclaration(String name) {
-    setName(name);
+  public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
+    getTypeParameters().add(typeParameter);
+    return this;
   }
 
   @Override
@@ -55,11 +58,6 @@ public class NormalClassDeclaration extends ClassDeclaration {
     }
     applyClassBody(listing);
     return listing;
-  }
-
-  public ClassDeclaration addTypeParameter(TypeParameter typeParameter) {
-    getTypeParameters().add(typeParameter);
-    return this;
   }
 
   public ClassType getSuperClass() {

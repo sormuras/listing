@@ -37,14 +37,6 @@ public class InterfaceDeclaration extends TypeDeclaration {
   private final List<MethodDeclaration> methods = new ArrayList<>();
   private final List<TypeParameter> typeParameters = new ArrayList<>();
 
-  public InterfaceDeclaration() {
-    this("InterfaceDeclaration");
-  }
-
-  public InterfaceDeclaration(String name) {
-    setName(name);
-  }
-
   /** Add new constant field. */
   public ConstantDeclaration addConstant(JavaType type, String name, Listable initializer) {
     ConstantDeclaration constants = new ConstantDeclaration();

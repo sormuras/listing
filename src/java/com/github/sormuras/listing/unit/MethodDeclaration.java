@@ -40,38 +40,33 @@ public class MethodDeclaration extends ClassMemberDeclaration {
   private List<ReferenceType> throwables = new ArrayList<>();
   private List<TypeParameter> typeParameters = new ArrayList<>();
 
-  public MethodDeclaration addParameter(Class<?> type, String name) {
-    return addParameter(MethodParameter.of(type, name));
+  public void addParameter(Class<?> type, String name) {
+    addParameter(MethodParameter.of(type, name));
   }
 
-  public MethodDeclaration addParameter(MethodParameter declaration) {
+  public void addParameter(MethodParameter declaration) {
     declaration.setMethodDeclaration(this);
     getParameters().add(declaration);
-    return this;
   }
 
-  public MethodDeclaration addStatement(String line) {
+  public void addStatement(String line) {
     bodyStatements.add(l -> l.add(line).add(';'));
-    return this;
   }
 
-  public MethodDeclaration addThrows(Class<?> type) {
-    return addThrows((ClassType) JavaType.of(type));
+  public void addThrows(Class<?> type) {
+    addThrows((ClassType) JavaType.of(type));
   }
 
-  public MethodDeclaration addThrows(ClassType type) {
+  public void addThrows(ClassType type) {
     getThrows().add(type);
-    return this;
   }
 
-  public MethodDeclaration addThrows(TypeVariable type) {
+  public void addThrows(TypeVariable type) {
     getThrows().add(type);
-    return this;
   }
 
-  public MethodDeclaration addTypeParameter(TypeParameter typeParameter) {
+  public void addTypeParameter(TypeParameter typeParameter) {
     getTypeParameters().add(typeParameter);
-    return this;
   }
 
   @Override
@@ -154,21 +149,18 @@ public class MethodDeclaration extends ClassMemberDeclaration {
     return getParameters().get(getParameters().size() - 1).isVariable();
   }
 
-  public MethodDeclaration setBody(Listable body) {
+  public void setBody(Listable body) {
     this.body = body;
-    return this;
   }
 
-  public MethodDeclaration setReturnType(JavaType type) {
+  public void setReturnType(JavaType type) {
     this.returnType = type;
-    return this;
   }
 
-  public MethodDeclaration setVarArgs(boolean variable) {
+  public void setVarArgs(boolean variable) {
     if (getParameters().isEmpty()) {
       throw new IllegalStateException("no parameters defined");
     }
     getParameters().get(getParameters().size() - 1).setVariable(variable);
-    return this;
   }
 }

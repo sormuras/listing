@@ -11,6 +11,7 @@ import com.github.sormuras.listing.Compilation;
 import com.github.sormuras.listing.Tests;
 import com.github.sormuras.listing.unit.ClassDeclaration;
 import com.github.sormuras.listing.unit.CompilationUnit;
+import com.github.sormuras.listing.unit.MethodDeclaration;
 import java.net.URI;
 import javax.lang.model.type.NoType;
 import javax.lang.model.type.PrimitiveType;
@@ -36,7 +37,7 @@ class JavaMirrorsTest {
 
   @Test
   void primitivesFromCompilationUnit() throws Exception {
-    CompilationUnit unit = new CompilationUnit("test");
+    CompilationUnit unit = CompilationUnit.of("test");
     ClassDeclaration type = unit.declareClass("PrimitiveFields");
     type.declareField(boolean.class, "field1").addAnnotation(Counter.Mark.class);
     type.declareField(byte.class, "field2").addAnnotation(Counter.Mark.class);
@@ -46,9 +47,9 @@ class JavaMirrorsTest {
     type.declareField(int.class, "field6").addAnnotation(Counter.Mark.class);
     type.declareField(long.class, "field7").addAnnotation(Counter.Mark.class);
     type.declareField(short.class, "field8").addAnnotation(Counter.Mark.class);
-    type.declareMethod(void.class, "noop")
-        .setBody(l -> l.add("{}"))
-        .addAnnotation(Counter.Mark.class);
+    MethodDeclaration noop = type.declareMethod(void.class, "noop");
+    noop.setBody(l -> l.add("{}"));
+    noop.addAnnotation(Counter.Mark.class);
 
     Counter counter = new Counter();
     Compilation.compile(null, emptyList(), asList(counter), asList(unit.toJavaFileObject()));

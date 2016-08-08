@@ -14,13 +14,15 @@ class InterfaceDeclarationTest {
   @Test
   void empty() {
     TypeDeclaration declaration = new InterfaceDeclaration();
-    assertEquals("interface InterfaceDeclaration {\n}\n", declaration.list());
+    declaration.setName("Empty");
+    assertEquals("interface Empty {\n}\n", declaration.list());
   }
 
   @Test
   void everything() {
     TypeParameter t = new TypeParameter();
-    InterfaceDeclaration declaration = new InterfaceDeclaration("Everything");
+    InterfaceDeclaration declaration = new InterfaceDeclaration();
+    declaration.setName("Everything");
     declaration.getTypeParameters().add(t);
     declaration.addInterface(JavaType.of(Runnable.class));
     declaration.addConstant(JavaType.of(String.class), "EMPTY_TEXT", "");

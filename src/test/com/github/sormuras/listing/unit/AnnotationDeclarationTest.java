@@ -19,7 +19,8 @@ class AnnotationDeclarationTest {
   @Test
   void empty() {
     TypeDeclaration declaration = new AnnotationDeclaration();
-    assertEquals("@interface AnnotationDeclaration {\n}\n", declaration.list());
+    declaration.setName("Empty");
+    assertEquals("@interface Empty {\n}\n", declaration.list());
     assertTrue(declaration.isEmpty());
     assertFalse(
         new AnnotationDeclaration()
@@ -37,7 +38,8 @@ class AnnotationDeclarationTest {
   void everything() {
     WildcardType extendsFormatter = new WildcardType();
     extendsFormatter.setBoundExtends(ClassType.of(Formatter.class));
-    AnnotationDeclaration declaration = new AnnotationDeclaration("Everything");
+    AnnotationDeclaration declaration = new AnnotationDeclaration();
+    declaration.setName("Everything");
     declaration.addConstant(JavaType.of(String.class), "EMPTY_TEXT", "");
     declaration
         .addConstant(JavaType.of(float.class), "PI", l -> l.add("3.141F"))

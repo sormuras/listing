@@ -16,14 +16,19 @@ import org.junit.jupiter.api.Test;
 class PackageDeclarationTest {
 
   @Test
+  void empty() {
+    assertTrue(new PackageDeclaration().isEmpty());
+  }
+
+  @Test
   void list() {
     // unnamed
     assertEquals("", new PackageDeclaration().list());
     // simple
-    assertEquals("package abc;\n", new PackageDeclaration("abc").list());
-    assertEquals("package abc.xyz;\n", new PackageDeclaration("abc.xyz").list());
+    assertEquals("package abc;\n", PackageDeclaration.of("abc").list());
+    assertEquals("package abc.xyz;\n", PackageDeclaration.of("abc.xyz").list());
     // with annotation(s)
-    PackageDeclaration annotated = new PackageDeclaration("abc.xyz");
+    PackageDeclaration annotated = PackageDeclaration.of("abc.xyz");
     annotated.addAnnotation(new Annotation(Name.of("abc", "PackageAnnotation")));
     Tests.assertEquals(getClass(), "annotated", annotated);
     // with (hand-crafted) Javadoc
@@ -44,24 +49,24 @@ class PackageDeclarationTest {
 
   @Test
   void target() {
-    assertEquals(ElementType.PACKAGE, new PackageDeclaration("t").getAnnotationTarget());
+    assertEquals(ElementType.PACKAGE, PackageDeclaration.of("t").getAnnotationTarget());
   }
 
   @Test
   void unnamedAsStringFails() {
-    Error error = expectThrows(AssertionError.class, () -> new PackageDeclaration(""));
+    Error error = expectThrows(AssertionError.class, () -> PackageDeclaration.of(""));
     assertTrue(error.getMessage().contains("empty"));
   }
 
   @Test
   void resolve() {
     assertEquals("Tag", new PackageDeclaration().resolve("Tag"));
-    assertEquals("abc.xyz.Tag", new PackageDeclaration("abc.xyz").resolve("Tag"));
+    assertEquals("abc.xyz.Tag", PackageDeclaration.of("abc.xyz").resolve("Tag"));
   }
 
   @Test
   void uri() {
     assertEquals(URI.create("Tag"), new PackageDeclaration().toUri("Tag"));
-    assertEquals(URI.create("abc/xyz/Tag"), new PackageDeclaration("abc.xyz").toUri("Tag"));
+    assertEquals(URI.create("abc/xyz/Tag"), PackageDeclaration.of("abc.xyz").toUri("Tag"));
   }
 }

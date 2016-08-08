@@ -57,13 +57,11 @@ public class FieldDeclaration extends ClassMemberDeclaration {
     return type;
   }
 
-  public FieldDeclaration setInitializer(Listable initializer) {
+  public void setInitializer(Listable initializer) {
     this.initializer = initializer;
-    return this;
   }
 
-  public FieldDeclaration setType(JavaType type) {
+  public void setType(JavaType type) {
     this.type = type;
-    return this;
   }
 }

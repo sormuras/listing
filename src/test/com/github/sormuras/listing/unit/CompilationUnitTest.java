@@ -30,8 +30,20 @@ import org.junit.jupiter.api.Test;
 class CompilationUnitTest {
 
   @Test
+  void empty() {
+    assertTrue(new CompilationUnit().isEmpty());
+    assertFalse(CompilationUnit.of("a").isEmpty());
+    CompilationUnit unit = new CompilationUnit();
+    unit.getImportDeclarations().addSingleTypeImport(Objects.class);
+    assertFalse(unit.isEmpty());
+    unit = new CompilationUnit();
+    unit.declareClass("C");
+    assertFalse(unit.isEmpty());
+  }
+
+  @Test
   void enterprise() {
-    CompilationUnit unit = new CompilationUnit("uss");
+    CompilationUnit unit = CompilationUnit.of("uss");
     NormalClassDeclaration enterprise = unit.declareClass("Enterprise");
     enterprise.addModifier(Modifier.PUBLIC);
     enterprise.addInterface(ClassType.of(Supplier.class, String.class));
@@ -58,7 +70,7 @@ class CompilationUnitTest {
   @Test
   void packageName() {
     assertEquals("", new CompilationUnit().getPackageName());
-    assertEquals("a.b.c", new CompilationUnit("a.b.c").getPackageName());
+    assertEquals("a.b.c", CompilationUnit.of("a.b.c").getPackageName());
   }
 
   @Test
@@ -77,7 +89,7 @@ class CompilationUnitTest {
   @Test
   void top() {
     assertEquals(3, Units.simple().getDeclarations().size());
-    CompilationUnit unit = new CompilationUnit("top");
+    CompilationUnit unit = CompilationUnit.of("top");
     unit.declareAnnotation("A").declareAnnotation("X");
     unit.declareEnum("E").declareEnum("X");
     unit.declareClass("C").declareClass("X").declareClass("Z");
@@ -95,7 +107,7 @@ class CompilationUnitTest {
 
   @Test
   void processed() throws Exception {
-    CompilationUnit unit = new CompilationUnit("test");
+    CompilationUnit unit = CompilationUnit.of("test");
     ClassDeclaration enterprise = unit.declareClass("Class");
     enterprise.addModifier(Modifier.PUBLIC);
     enterprise.declareField(Object.class, "field1").addAnnotation(Counter.Mark.class);
@@ -109,7 +121,7 @@ class CompilationUnitTest {
 
   @Test
   void unnamed() throws Exception {
-    CompilationUnit unnamed = new CompilationUnit(new PackageDeclaration());
+    CompilationUnit unnamed = new CompilationUnit();
     unnamed.declareClass("Unnamed").addModifier(Modifier.PUBLIC);
     assertEquals("Unnamed", unnamed.compile(Object.class).getClass().getTypeName());
     expectThrows(Error.class, () -> unnamed.compile(Object.class, "unused", "arguments"));
@@ -131,7 +143,7 @@ class CompilationUnitTest {
     taggedThread.addAnnotation(tag);
     ClassType listOfStrings = ClassType.of(List.class, String.class);
 
-    CompilationUnit unit = new CompilationUnit("abc.xyz");
+    CompilationUnit unit = CompilationUnit.of("abc.xyz");
     unit.getPackageDeclaration()
         .addAnnotation(Generated.class, "https://", "github.com/sormuras/listing");
     unit.getImportDeclarations()
@@ -148,8 +160,8 @@ class CompilationUnitTest {
     unit.declareInterface("TestIntf");
     NormalClassDeclaration simple = unit.declareClass("SimpleClass");
     simple.addModifier("public", "final");
-    simple.addTypeParameter(new TypeParameter("S").addBounds(taggedRunnable));
-    simple.addTypeParameter(new TypeParameter("T").setBoundTypeVariable("S"));
+    simple.addTypeParameter(TypeParameter.of("S", taggedRunnable));
+    simple.addTypeParameter(TypeParameter.of("T", "S"));
     simple.setSuperClass(taggedThread);
     simple.addInterface(JavaType.of(Cloneable.class));
     simple.addInterface(JavaType.of(Runnable.class));
@@ -168,7 +180,7 @@ class CompilationUnitTest {
     run.setBody(l -> l.add("System.out.println(\"Hallo Welt!\");").newline());
     MethodDeclaration calc = simple.declareMethod(new TypeVariable("N"), "calc");
     calc.addModifier(Modifier.STATIC);
-    calc.addTypeParameter(new TypeParameter("N").addBounds(JavaType.of(Number.class)));
+    calc.addTypeParameter(TypeParameter.of("N", JavaType.of(Number.class)));
     calc.addParameter(int.class, "i");
     calc.addThrows(Exception.class);
     calc.setBody(l -> l.add("return null;").newline());

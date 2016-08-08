@@ -29,10 +29,9 @@ class NormalClassDeclarationTest {
   void generic() {
     NormalClassDeclaration declaration = new NormalClassDeclaration();
     declaration.setName("G");
-    declaration.addTypeParameter(new TypeParameter("T"));
+    declaration.addTypeParameter(new TypeParameter());
     assertEquals("class G<T> {\n}\n", declaration.list());
-    declaration.addTypeParameter(
-        new TypeParameter("I").addBounds(ClassType.of(Iterable.class, Long.class)));
+    declaration.addTypeParameter(TypeParameter.of("I", ClassType.of(Iterable.class, Long.class)));
     assertEquals(
         "class G<T, I extends java.lang.Iterable<java.lang.Long>> {\n}\n", declaration.list());
   }

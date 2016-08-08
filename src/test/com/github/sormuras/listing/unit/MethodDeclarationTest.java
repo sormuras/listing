@@ -27,7 +27,7 @@ class MethodDeclarationTest {
     Exception expected = expectThrows(IllegalStateException.class, () -> m.setVarArgs(true));
     assertEquals(true, expected.toString().contains("no parameter"));
     // put into context
-    m.setEnclosingDeclaration(new NormalClassDeclaration("Abc"));
+    m.setEnclosingDeclaration(NormalClassDeclaration.of("Abc"));
     assertEquals("Abc();\n", m.list());
   }
 
@@ -49,7 +49,7 @@ class MethodDeclarationTest {
     MethodDeclaration emptyList = new MethodDeclaration();
     emptyList.addAnnotation(SuppressWarnings.class, "unchecked");
     emptyList.addModifier("public", "static", "final");
-    emptyList.addTypeParameter(new TypeParameter("T"));
+    emptyList.addTypeParameter(new TypeParameter());
     emptyList.setReturnType(
         new ClassType(Name.of(List.class), new TypeArgument(new TypeVariable("T"))));
     emptyList.setName("emptyList");

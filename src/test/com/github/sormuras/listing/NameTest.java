@@ -165,8 +165,8 @@ class NameTest {
         "java.lang.Thread.State.NEW",
         ElementType.FIELD,
         "public, static, final");
-    testToString(new NormalClassDeclaration("Abc").toName(), "Abc", "");
-    testToString(new CompilationUnit("abc").declareClass("Abc").toName(), "abc.Abc", "");
+    testToString(NormalClassDeclaration.of("Abc").toName(), "Abc", "");
+    testToString(CompilationUnit.of("abc").declareClass("Abc").toName(), "abc.Abc", "");
   }
 
   private void testToString(Name name, String canonical, String modifiers) {

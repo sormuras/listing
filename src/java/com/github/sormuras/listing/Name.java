@@ -41,8 +41,8 @@ import javax.lang.model.element.Modifier;
  * <p>Names in programs are either simple, consisting of a single identifier, or qualified,
  * consisting of a sequence of identifiers separated by "." tokens (§6.2).
  *
- * <p>JavaName also stores an optional set of modifiers and an optional target element type
- * describing the purpose of the name.
+ * <p><code>Name</code> also stores an optional set of modifiers and an optional element type
+ * describing the purpose of the name target.
  *
  * @see JLS: <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-6.html">Names</a>
  */

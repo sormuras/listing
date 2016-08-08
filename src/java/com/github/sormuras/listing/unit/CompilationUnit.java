@@ -16,6 +16,7 @@ package com.github.sormuras.listing.unit;
 
 import com.github.sormuras.listing.Compilation;
 import com.github.sormuras.listing.Listing;
+import com.github.sormuras.listing.Name;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,23 +36,15 @@ import javax.tools.JavaFileObject;
  */
 public class CompilationUnit implements DeclarationContainer {
 
-  private final List<TypeDeclaration> declarations;
-  private final ImportDeclarations importDeclarations;
-  private final PackageDeclaration packageDeclaration;
-
-  public CompilationUnit() {
-    this(new PackageDeclaration());
+  public static CompilationUnit of(String packageName) {
+    CompilationUnit unit = new CompilationUnit();
+    unit.setPackageName(packageName);
+    return unit;
   }
 
-  public CompilationUnit(PackageDeclaration packageDeclaration) {
-    this.packageDeclaration = packageDeclaration;
-    this.importDeclarations = new ImportDeclarations();
-    this.declarations = new ArrayList<>();
-  }
-
-  public CompilationUnit(String packageName) {
-    this(new PackageDeclaration(packageName));
-  }
+  private List<TypeDeclaration> declarations = new ArrayList<>();
+  private ImportDeclarations importDeclarations = new ImportDeclarations();
+  private PackageDeclaration packageDeclaration = new PackageDeclaration();
 
   @Override
   public Listing apply(Listing listing) {
@@ -133,6 +126,17 @@ public class CompilationUnit implements DeclarationContainer {
       return "";
     }
     return getPackageDeclaration().getName().getPackageName();
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return getDeclarations().isEmpty()
+        && getPackageDeclaration().isEmpty()
+        && getImportDeclarations().isEmpty();
+  }
+
+  public void setPackageName(String packageName) {
+    getPackageDeclaration().setName(Name.of(packageName));
   }
 
   public JavaFileObject toJavaFileObject() {

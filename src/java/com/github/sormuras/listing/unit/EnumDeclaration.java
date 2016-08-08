@@ -28,14 +28,6 @@ public class EnumDeclaration extends ClassDeclaration {
 
   private final List<EnumConstantDeclaration> constants = new ArrayList<>();
 
-  public EnumDeclaration() {
-    this("EnumDeclaration");
-  }
-
-  public EnumDeclaration(String name) {
-    setName(name);
-  }
-
   /** Add new enum constant. */
   public EnumConstantDeclaration addConstant(String name) {
     return addConstant(name, null);

@@ -14,8 +14,6 @@
 
 package com.github.sormuras.listing.unit;
 
-import static java.util.Objects.requireNonNull;
-
 import com.github.sormuras.listing.Annotatable.AbstractAnnotatable;
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
@@ -45,36 +43,47 @@ import javax.lang.model.SourceVersion;
  */
 public class TypeParameter extends AbstractAnnotatable implements Listable {
 
-  private final List<ClassType> bounds = new ArrayList<>();
-  private TypeVariable boundTypeVariable = null;
-  private final String name;
-
-  public TypeParameter() {
-    this("T");
-  }
-
-  public TypeParameter(String name) {
-    this.name = requireNonNull(name, "name");
+  public static TypeParameter of(String name, JavaType... bounds) {
     Tool.assume(SourceVersion.isIdentifier(name), "expected legal identifier, but got: " + name);
+    TypeParameter parameter = new TypeParameter();
+    parameter.setName(name);
+    parameter.addBounds(bounds);
+    return parameter;
   }
 
-  /** Add bound(s) to the list of bounds and clears bound type variable. */
-  public TypeParameter addBounds(JavaType... bounds) {
-    return addBounds(Arrays.stream(bounds).map(t -> (ClassType) t).toArray(ClassType[]::new));
+  public static TypeParameter of(String name, String boundTypeVariableName) {
+    TypeParameter parameter = of(name);
+    parameter.setBoundTypeVariable(boundTypeVariableName);
+    return parameter;
   }
 
+  private List<ClassType> bounds = Collections.emptyList();
+  private TypeVariable boundTypeVariable = null;
+  private String name = "T";
+
   /** Add bound(s) to the list of bounds and clears bound type variable. */
-  public TypeParameter addBounds(ClassType... bounds) {
+  public void addBounds(ClassType... bounds) {
     this.boundTypeVariable = null;
-    Collections.addAll(this.bounds, bounds);
-    this.bounds.removeIf(ct -> ct.isJavaLangObject());
-    return this;
+    if (bounds.length == 0) {
+      return;
+    }
+    Collections.addAll(getBounds(), bounds);
+    getBounds().removeIf(ct -> ct.isJavaLangObject());
+  }
+
+  /** Add bound(s) to the list of bounds and clears bound type variable. */
+  public void addBounds(JavaType... bounds) {
+    this.boundTypeVariable = null;
+    if (bounds.length == 0) {
+      return;
+    }
+    addBounds(Arrays.stream(bounds).map(t -> (ClassType) t).toArray(ClassType[]::new));
   }
 
   @Override
   public Listing apply(Listing listing) {
     listing.add(toAnnotationsListable());
-    listing.add(name);
+    listing.add(getName());
     if (boundTypeVariable == null && bounds.isEmpty()) {
       return listing;
     }
@@ -93,6 +102,9 @@ public class TypeParameter extends AbstractAnnotatable implements Listable {
   }
 
   public List<ClassType> getBounds() {
+    if (bounds == Collections.EMPTY_LIST) {
+      bounds = new ArrayList<>();
+    }
     return bounds;
   }
 
@@ -105,14 +117,19 @@ public class TypeParameter extends AbstractAnnotatable implements Listable {
   }
 
   /** Set single type variable as bound and clears all other bounds. */
-  public TypeParameter setBoundTypeVariable(String typeVariableName) {
-    return setBoundTypeVariable(new TypeVariable(typeVariableName));
+  public void setBoundTypeVariable(String typeVariableName) {
+    setBoundTypeVariable(new TypeVariable(typeVariableName));
   }
 
   /** Set single type variable as bound and clears all other bounds. */
-  public TypeParameter setBoundTypeVariable(TypeVariable boundTypeVariable) {
+  public void setBoundTypeVariable(TypeVariable boundTypeVariable) {
     this.boundTypeVariable = boundTypeVariable;
-    this.bounds.clear();
-    return this;
+    if (!bounds.isEmpty()) {
+      getBounds().clear();
+    }
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

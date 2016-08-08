@@ -22,27 +22,28 @@ import java.lang.annotation.ElementType;
 import java.net.URI;
 
 /**
+ * Package declaration.
+ *
+ * <pre>
  * PackageDeclaration:<br>
  * {PackageModifier} package Identifier {. Identifier} ;
+ * </pre>
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html#jls-7.4
  */
 public class PackageDeclaration extends AbstractAnnotatable implements Listable {
 
-  private final Name name;
-
-  /** Unnamed package declaration constructor - use it sparsely. */
-  public PackageDeclaration() {
-    this.name = null;
+  public static PackageDeclaration of(Name packageName) {
+    PackageDeclaration name = new PackageDeclaration();
+    name.setName(packageName);
+    return name;
   }
 
-  public PackageDeclaration(Name packageName) {
-    this.name = packageName;
+  public static PackageDeclaration of(String packageName) {
+    return of(Name.of(packageName));
   }
 
-  public PackageDeclaration(String packageName) {
-    this(Name.of(packageName));
-  }
+  private Name name = null;
 
   @Override
   public Listing apply(Listing listing) {
@@ -62,6 +63,11 @@ public class PackageDeclaration extends AbstractAnnotatable implements Listable 
     return name;
   }
 
+  @Override
+  public boolean isEmpty() {
+    return isUnnamed();
+  }
+
   public boolean isUnnamed() {
     return getName() == null;
   }
@@ -71,6 +77,10 @@ public class PackageDeclaration extends AbstractAnnotatable implements Listable 
       return simpleName;
     }
     return getName().getCanonicalName() + '.' + simpleName;
+  }
+
+  public void setName(Name name) {
+    this.name = name;
   }
 
   public URI toUri(String simpleName) {

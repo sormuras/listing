@@ -33,14 +33,6 @@ public class AnnotationDeclaration extends TypeDeclaration {
   private final List<ConstantDeclaration> constants = new ArrayList<>();
   private final List<AnnotationElement> elements = new ArrayList<>();
 
-  public AnnotationDeclaration() {
-    this("AnnotationDeclaration");
-  }
-
-  public AnnotationDeclaration(String name) {
-    setName(name);
-  }
-
   /** Add new annotation field. */
   public ConstantDeclaration addConstant(JavaType type, String name, Listable initializer) {
     ConstantDeclaration constant = new ConstantDeclaration();

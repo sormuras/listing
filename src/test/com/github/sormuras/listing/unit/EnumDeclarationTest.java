@@ -34,14 +34,15 @@ class EnumDeclarationTest {
     assertEquals("enum Everything {\n\n  A\n}\n", declaration.list());
     declaration.addConstant("B", Listable.IDENTITY).addAnnotation(Deprecated.class);
     NormalClassDeclaration cbody = new NormalClassDeclaration();
-    cbody
-        .declareMethod(String.class, "toString")
-        .addStatement("return \"c\" + i")
-        .addModifier(Modifier.PUBLIC);
+    MethodDeclaration toString = cbody.declareMethod(String.class, "toString");
+    toString.addStatement("return \"c\" + i");
+    toString.addModifier(Modifier.PUBLIC);
     declaration.addConstant("C", l -> l.add("123"), cbody);
     declaration.declareField(int.class, "i");
     declaration.declareConstructor().addStatement("this(0)");
-    declaration.declareConstructor().addParameter(int.class, "i").addStatement("this.i = i");
+    MethodDeclaration ctor = declaration.declareConstructor();
+    ctor.addParameter(int.class, "i");
+    ctor.addStatement("this.i = i");
     Tests.assertEquals(getClass(), "everything", declaration);
   }
 
