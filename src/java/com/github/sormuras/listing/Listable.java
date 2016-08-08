@@ -14,10 +14,11 @@
 
 package com.github.sormuras.listing;
 
+import java.io.Serializable;
 import java.util.function.UnaryOperator;
 
 @FunctionalInterface
-public interface Listable extends UnaryOperator<Listing>, Comparable<Listable> {
+public interface Listable extends UnaryOperator<Listing>, Comparable<Listable>, Serializable {
 
   class Identity implements Listable {
 
