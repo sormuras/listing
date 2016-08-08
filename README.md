@@ -6,9 +6,9 @@
 Java compilation unit source listing tool.
 
 ## features
- - [x] [JLS] productions aligned
- - [x] Runtime compilation supporting annotation processing
  - [x] Java Bean style API
+ - [x] Aligned to [JLS](https://docs.oracle.com/javase/specs/jls/se8/html/jls-19.html) syntax grammar
+ - [x] Runtime compilation supporting annotation processing
 
 ## license
 
@@ -27,5 +27,3 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 ```
-
-[JLS]: https://docs.oracle.com/javase/specs/jls/se8/html/jls-19.html "JLS syntax grammar"
