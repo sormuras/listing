@@ -11,6 +11,12 @@ import org.junit.Assert;
 
 @javax.annotation.Generated("An enum for testing")
 protected enum TestEnum implements java.io.Serializable {
+
+  A,
+
+  B,
+
+  C
 }
 
 interface TestIntf {

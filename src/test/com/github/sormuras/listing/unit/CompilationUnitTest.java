@@ -39,6 +39,7 @@ class CompilationUnitTest {
     unit = new CompilationUnit();
     unit.declareClass("C");
     assertFalse(unit.isEmpty());
+    Tests.assertSerializable(unit);
   }
 
   @Test
@@ -156,7 +157,9 @@ class CompilationUnitTest {
     e1.addAnnotation(Generated.class, "An enum for testing");
     e1.addModifier(Modifier.PROTECTED);
     e1.addInterface(JavaType.of(Serializable.class));
-    // TODO e1.setBody(l -> l.add("A, B, C").newline());
+    e1.addConstant("A");
+    e1.addConstant("B");
+    e1.addConstant("C");
     unit.declareInterface("TestIntf");
     NormalClassDeclaration simple = unit.declareClass("SimpleClass");
     simple.addModifier("public", "final");
@@ -189,5 +192,6 @@ class CompilationUnitTest {
 
     assertSame(simple, i.getEnclosingDeclaration());
     Tests.assertEquals(getClass(), "crazy", unit);
+    Tests.assertSerializable(unit);
   }
 }
