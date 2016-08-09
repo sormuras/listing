@@ -23,7 +23,7 @@ import java.lang.annotation.ElementType;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9.1
  */
-public class EnumConstant extends NamedMember implements Listable {
+public class EnumConstant extends NamedMember {
 
   private Listable arguments;
   private ClassDeclaration body;

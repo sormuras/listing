@@ -20,6 +20,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Normal class declaration.
+ *
+ * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1
+ */
 public class NormalClassDeclaration extends ClassDeclaration {
 
   public static NormalClassDeclaration of(String name) {
