@@ -1,5 +1,5 @@
 # listing
-[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+[![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
 [![travis](https://travis-ci.org/sormuras/listing.svg?branch=master)](https://travis-ci.org/sormuras/listing)
 [![jacoco](https://codecov.io/gh/sormuras/listing/branch/master/graph/badge.svg)](https://codecov.io/gh/sormuras/listing)
 
