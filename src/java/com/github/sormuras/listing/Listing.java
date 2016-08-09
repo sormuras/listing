@@ -66,7 +66,11 @@ public class Listing {
     return this;
   }
 
+  /** Applies the passed listable instance to this listing. */
   public Listing add(Listable listable) {
+    if (listable == null) {
+      return this;
+    }
     // prevent stack overflow by delegating to specialized method
     if (listable instanceof Name) {
       return add((Name) listable);

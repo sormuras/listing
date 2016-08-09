@@ -142,6 +142,7 @@ class AnnotatedTest {
   private void test(Supplier<? extends Annotated> supplier) {
     testInitial(supplier.get());
     testMutable(supplier.get());
+    Tests.assertSerializable(supplier.get());
   }
 
   private void testInitial(Annotated a) {
