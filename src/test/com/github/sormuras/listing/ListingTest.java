@@ -9,7 +9,10 @@ import static java.util.Locale.GERMAN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -69,7 +72,7 @@ class ListingTest {
 
   @Test
   void indent() {
-    Listing listing = new Listing("\n", "\t");
+    Listing listing = new Listing("\n", "\t", Collections.emptyMap());
     listing.add("BEGIN").newline();
     listing.indent(1).add("writeln('Hello, world.')").newline().indent(-1);
     listing.add("END.").newline();
@@ -77,6 +80,15 @@ class ListingTest {
     assertEquals("BEGIN\n\twriteln('Hello, world.')\nEND.\n", listing.toString());
     listing.indent(-100);
     assertEquals(0, listing.getIndentationDepth());
+  }
+
+  @Test
+  void names() {
+    Map<Name, String> names = new HashMap<>();
+    names.put(Name.of(Map.class), "Map");
+    Listing listing = new Listing("\n", "  ", names);
+    listing.add(Name.of(Map.class));
+    assertEquals("Map", listing.toString());
   }
 
   @Test

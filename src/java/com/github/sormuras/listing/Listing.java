@@ -16,9 +16,11 @@ package com.github.sormuras.listing;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Spliterator;
 import java.util.stream.IntStream;
 
@@ -30,14 +32,16 @@ public class Listing {
   private final String indentationString;
   private final String lineSeparator;
   private final Deque<String> nameDeck = new ArrayDeque<>();
+  private final Map<Name, String> names;
 
   public Listing() {
-    this("\n", "  ");
+    this("\n", "  ", Collections.emptyMap());
   }
 
-  public Listing(String lineSeparator, String indentationString) {
+  public Listing(String lineSeparator, String indentationString, Map<Name, String> names) {
     this.lineSeparator = lineSeparator;
     this.indentationString = indentationString;
+    this.names = names;
   }
 
   /** Add list of listables using newline separator. */
@@ -92,7 +96,7 @@ public class Listing {
 
   public Listing add(Name name) {
     // never call `name.apply(this)` here - looping alert!
-    return add(name.getCanonicalName());
+    return add(names.getOrDefault(name, name.getCanonicalName()));
   }
 
   public Listing add(String text) {
