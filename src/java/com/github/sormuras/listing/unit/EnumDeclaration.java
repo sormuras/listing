@@ -44,6 +44,7 @@ public class EnumDeclaration extends ClassDeclaration {
     }
     listing.add(' ').add('{').newline();
     listing.indent(1);
+    listing.push(getName());
     // [EnumConstantList]
     listing.add(getConstants(), l -> l.add(",").newline());
     if (!isEmpty()) {
@@ -53,7 +54,7 @@ public class EnumDeclaration extends ClassDeclaration {
     } else if (!getConstants().isEmpty()) {
       listing.newline();
     }
-
+    listing.pop();
     listing.indent(-1).add('}').newline();
     return listing;
   }

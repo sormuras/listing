@@ -14,7 +14,9 @@
 
 package com.github.sormuras.listing;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Locale;
 import java.util.Spliterator;
@@ -27,6 +29,7 @@ public class Listing {
   private int indentationDepth = 0;
   private final String indentationString;
   private final String lineSeparator;
+  private final Deque<String> nameDeck = new ArrayDeque<>();
 
   public Listing() {
     this("\n", "  ");
@@ -158,6 +161,19 @@ public class Listing {
     IntStream.range(0, indentationDepth).forEach(i -> indentedLine.append(indentationString));
     indentedLine.append(newline);
     collectedLines.add(indentedLine.toString());
+    return this;
+  }
+
+  public Listing pop() {
+    nameDeck.pop();
+    return this;
+  }
+
+  public Listing push(String name) {
+    if (name == null) {
+      name = "<null>";
+    }
+    nameDeck.push(name);
     return this;
   }
 
