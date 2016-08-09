@@ -78,14 +78,14 @@ public abstract class JavaType extends Annotated {
       if (classType == void.class) {
         return new VoidType();
       }
-      return new PrimitiveType(classType);
+      return PrimitiveType.of(classType);
     }
     if (classType.isArray()) {
       int dimensions = 1;
       while (true) {
         classType = classType.getComponentType();
         if (!classType.isArray()) {
-          return new ArrayType(of(classType), dimensions);
+          return ArrayType.of(classType, dimensions);
         }
         dimensions++;
       }

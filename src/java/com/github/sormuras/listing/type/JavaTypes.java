@@ -40,7 +40,7 @@ public interface JavaTypes {
       dimensions.add(dimension);
       component = ((AnnotatedArrayType) component).getAnnotatedGenericComponentType();
     }
-    return new ArrayType(JavaType.of(component), dimensions);
+    return ArrayType.of(JavaType.of(component), dimensions);
   }
 
   /** Create {@link JavaType} based on {@link AnnotatedParameterizedType} instance. */
@@ -92,7 +92,7 @@ public interface JavaTypes {
       dimensions.add(dimension);
       component = ((GenericArrayType) component).getGenericComponentType();
     }
-    return new ArrayType(JavaType.of(component), dimensions);
+    return ArrayType.of(JavaType.of(component), dimensions);
   }
 
   /** Create {@link JavaType} based on {@link AnnotatedWildcardType} instance. */

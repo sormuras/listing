@@ -22,7 +22,7 @@ class TypeArgumentTest {
   @Test
   void constructorFailsWithWrongJavaType() {
     AssertionError e =
-        expectThrows(AssertionError.class, () -> new TypeArgument(new PrimitiveType(int.class)));
+        expectThrows(AssertionError.class, () -> new TypeArgument(PrimitiveType.of(int.class)));
     assertTrue(e.toString().contains("neither reference nor wildcard set"));
   }
 }

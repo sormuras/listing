@@ -8,7 +8,6 @@ import com.github.sormuras.listing.type.ArrayDimension;
 import com.github.sormuras.listing.type.ArrayType;
 import com.github.sormuras.listing.type.ClassName;
 import com.github.sormuras.listing.type.ClassType;
-import com.github.sormuras.listing.type.JavaType;
 import com.github.sormuras.listing.type.PrimitiveType;
 import com.github.sormuras.listing.type.TypeVariable;
 import com.github.sormuras.listing.type.U;
@@ -50,8 +49,7 @@ class AnnotatedTest {
 
   @Test
   void annotatableArrayType() {
-    testInitial(new ArrayType(JavaType.of(int.class), 1));
-    testMutable(new ArrayType(JavaType.of(int.class), 1));
+    test(() -> ArrayType.of(int.class, 1));
   }
 
   @Test
@@ -61,8 +59,7 @@ class AnnotatedTest {
 
   @Test
   void annotatableClassType() {
-    testInitial(new ClassType(Name.of("pack.age", "ClassType")));
-    testMutable(new ClassType(Name.of("pack.age", "ClassType")));
+    test(() -> ClassType.of("pack.age", "ClassType"));
   }
 
   @Test
@@ -111,9 +108,15 @@ class AnnotatedTest {
   }
 
   @Test
-  void annotatablePrimitiveType() {
-    testInitial(new PrimitiveType(int.class));
-    testMutable(new PrimitiveType(int.class));
+  void annotatablePrimitiveTypes() {
+    test(PrimitiveType.BooleanType::new);
+    test(PrimitiveType.ByteType::new);
+    test(PrimitiveType.CharType::new);
+    test(PrimitiveType.DoubleType::new);
+    test(PrimitiveType.FloatType::new);
+    test(PrimitiveType.IntType::new);
+    test(PrimitiveType.LongType::new);
+    test(PrimitiveType.ShortType::new);
   }
 
   @Test

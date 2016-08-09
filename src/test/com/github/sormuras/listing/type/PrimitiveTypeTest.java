@@ -20,21 +20,24 @@ class PrimitiveTypeTest {
     assertEquals("int", JavaType.of(int.class).list());
     assertEquals("long", JavaType.of(long.class).list());
     assertEquals("short", JavaType.of(short.class).list());
-    assertThrows(AssertionError.class, () -> new PrimitiveType(void.class));
-    assertThrows(AssertionError.class, () -> new PrimitiveType(Byte.class));
+    assertThrows(AssertionError.class, () -> PrimitiveType.of(void.class));
+    assertThrows(AssertionError.class, () -> PrimitiveType.of(Byte.class));
   }
 
   @Test
   void primitiveTypeEqualsAndHashcode() {
-    assertEquals(new PrimitiveType(boolean.class), JavaType.of(boolean.class));
-    assertEquals(new PrimitiveType(byte.class), JavaType.of(byte.class));
-    assertEquals(new PrimitiveType(char.class), JavaType.of(char.class));
-    assertEquals(new PrimitiveType(double.class), JavaType.of(double.class));
-    assertEquals(new PrimitiveType(float.class), JavaType.of(float.class));
-    assertEquals(new PrimitiveType(int.class), JavaType.of(int.class));
-    assertEquals(new PrimitiveType(long.class), JavaType.of(long.class));
-    assertEquals(new PrimitiveType(short.class), JavaType.of(short.class));
-    assertNotEquals(new PrimitiveType(byte.class), JavaType.of(char.class));
+    assertEquals(PrimitiveType.of(boolean.class), JavaType.of(boolean.class));
+    assertEquals(PrimitiveType.of(byte.class), JavaType.of(byte.class));
+    assertEquals(PrimitiveType.of(char.class), JavaType.of(char.class));
+    assertEquals(PrimitiveType.of(double.class), JavaType.of(double.class));
+    assertEquals(PrimitiveType.of(float.class), JavaType.of(float.class));
+    assertEquals(PrimitiveType.of(int.class), JavaType.of(int.class));
+    assertEquals(PrimitiveType.of(long.class), JavaType.of(long.class));
+    assertEquals(PrimitiveType.of(short.class), JavaType.of(short.class));
+    assertNotEquals(PrimitiveType.of(byte.class), JavaType.of(char.class));
+    JavaType intAnnotatedWithU = new PrimitiveType.IntType();
+    intAnnotatedWithU.addAnnotation(U.class);
+    assertNotEquals(intAnnotatedWithU, JavaType.of(int.class));
   }
 
   @Test
@@ -43,7 +46,7 @@ class PrimitiveTypeTest {
     JavaType uint = JavaType.of(int.class);
     uint.addAnnotation(u);
     assertEquals(U.USE + " int", uint.list());
-    JavaType uvint = new PrimitiveType(int.class);
+    JavaType uvint = PrimitiveType.of(int.class);
     uvint.addAnnotation(U.class);
     uvint.addAnnotation(V.class);
     assertEquals(U.USE + " " + V.USE + " int", uvint.list());

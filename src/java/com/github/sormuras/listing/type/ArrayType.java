@@ -33,17 +33,23 @@ public class ArrayType extends ReferenceType {
     return dimensions;
   }
 
-  private final JavaType componentType;
-  private final List<ArrayDimension> dimensions;
-
-  public ArrayType(JavaType componentType, int size) {
-    this(componentType, createArrayDimensions(size));
+  public static ArrayType of(Class<?> componentType, int size) {
+    return of(JavaType.of(componentType), size);
   }
 
-  public ArrayType(JavaType componentType, List<ArrayDimension> dimensions) {
-    this.componentType = componentType;
-    this.dimensions = Collections.unmodifiableList(dimensions);
+  public static ArrayType of(JavaType componentType, int size) {
+    return of(componentType, createArrayDimensions(size));
   }
+
+  public static ArrayType of(JavaType componentType, List<ArrayDimension> dimensions) {
+    ArrayType array = new ArrayType();
+    array.setComponentType(componentType);
+    array.setDimensions(dimensions);
+    return array;
+  }
+
+  private JavaType componentType;
+  private List<ArrayDimension> dimensions = Collections.emptyList();
 
   public void addAnnotations(int index, Annotation... annotations) {
     dimensions.get(index).getAnnotations().addAll(Arrays.asList(annotations));
@@ -56,6 +62,9 @@ public class ArrayType extends ReferenceType {
 
   @Override
   public List<Annotation> getAnnotations() {
+    if (isEmpty()) {
+      return Collections.emptyList();
+    }
     return dimensions.get(0).getAnnotations();
   }
 
@@ -64,12 +73,31 @@ public class ArrayType extends ReferenceType {
   }
 
   public List<ArrayDimension> getDimensions() {
+    if (dimensions == Collections.EMPTY_LIST) {
+      dimensions = new ArrayList<>();
+    }
     return dimensions;
   }
 
   @Override
   public boolean isAnnotated() {
+    if (isEmpty()) {
+      return false;
+    }
     return dimensions.get(0).isAnnotated();
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return dimensions.isEmpty();
+  }
+
+  public void setComponentType(JavaType componentType) {
+    this.componentType = componentType;
+  }
+
+  public void setDimensions(List<ArrayDimension> dimensions) {
+    this.dimensions = dimensions;
   }
 
   @Override
