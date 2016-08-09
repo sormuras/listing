@@ -14,13 +14,14 @@
 
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
 import java.util.Collections;
 import java.util.List;
 
-public class VoidType extends JavaType {
+public class VoidType extends Annotated implements JavaType {
 
   @Override
   public Listing apply(Listing listing) {

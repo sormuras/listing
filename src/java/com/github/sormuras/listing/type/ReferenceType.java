@@ -14,10 +14,12 @@
 
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.Annotated;
+
 /**
  * There are four kinds of reference types: class types (§8.1), interface types (§9.1), type
  * variables (§4.4), and array types (§10.1).
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.3
  */
-public abstract class ReferenceType extends JavaType {}
+public abstract class ReferenceType extends Annotated implements JavaType {}

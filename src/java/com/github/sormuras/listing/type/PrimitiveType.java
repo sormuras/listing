@@ -14,6 +14,7 @@
 
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Listing;
 
 /**
@@ -21,58 +22,76 @@ import com.github.sormuras.listing.Listing;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.2
  */
-public abstract class PrimitiveType extends JavaType {
+public interface PrimitiveType extends JavaType {
 
-  public static final class BooleanType extends PrimitiveType {
-    public BooleanType() {
-      super(boolean.class);
+  class BooleanType extends Annotated implements PrimitiveType {
+    @Override
+    public Class<?> getType() {
+      return boolean.class;
+    }
+
+    @Override
+    public char toArrayClassNameIndicator() {
+      return 'Z';
     }
   }
 
-  public static final class ByteType extends PrimitiveType {
-    public ByteType() {
-      super(byte.class);
+  class ByteType extends Annotated implements PrimitiveType {
+    @Override
+    public Class<?> getType() {
+      return byte.class;
     }
   }
 
-  public static final class CharType extends PrimitiveType {
-    public CharType() {
-      super(char.class);
+  class CharType extends Annotated implements PrimitiveType {
+    @Override
+    public Class<?> getType() {
+      return char.class;
     }
   }
 
-  public static final class DoubleType extends PrimitiveType {
-    public DoubleType() {
-      super(double.class);
+  class DoubleType extends Annotated implements PrimitiveType {
+    @Override
+    public Class<?> getType() {
+      return double.class;
     }
   }
 
-  public static final class FloatType extends PrimitiveType {
-    public FloatType() {
-      super(float.class);
+  class FloatType extends Annotated implements PrimitiveType {
+    @Override
+    public Class<?> getType() {
+      return float.class;
     }
   }
 
-  public static final class IntType extends PrimitiveType {
-    public IntType() {
-      super(int.class);
+  class IntType extends Annotated implements PrimitiveType {
+    @Override
+    public Class<?> getType() {
+      return int.class;
     }
   }
 
-  public static final class LongType extends PrimitiveType {
-    public LongType() {
-      super(long.class);
+  class LongType extends Annotated implements PrimitiveType {
+    @Override
+    public Class<?> getType() {
+      return long.class;
+    }
+
+    @Override
+    public char toArrayClassNameIndicator() {
+      return 'J';
     }
   }
 
-  public static final class ShortType extends PrimitiveType {
-    public ShortType() {
-      super(short.class);
+  class ShortType extends Annotated implements PrimitiveType {
+    @Override
+    public Class<?> getType() {
+      return short.class;
     }
   }
 
   /** Creates new instance for passed primitive class <code>type</code>. */
-  public static PrimitiveType of(Class<?> type) {
+  static JavaType of(Class<?> type) {
     if (type == void.class) {
       throw new AssertionError("expected primitive type, got " + type);
     }
@@ -103,23 +122,20 @@ public abstract class PrimitiveType extends JavaType {
     throw new AssertionError("expected primitive type, got " + type);
   }
 
-  private final Class<?> type;
+  @Override
+  default Listing apply(Listing listing) {
+    JavaType type = this;
+    return listing.add(type.toAnnotationsListable()).add(toClassName());
+  }
 
-  private PrimitiveType(Class<?> type) {
-    this.type = type;
+  Class<?> getType();
+
+  default char toArrayClassNameIndicator() {
+    return getClass().getSimpleName().substring(0, 1).charAt(0);
   }
 
   @Override
-  public Listing apply(Listing listing) {
-    return listing.add(toAnnotationsListable()).add(getType().getTypeName());
-  }
-
-  public Class<?> getType() {
-    return type;
-  }
-
-  @Override
-  public String toClassName() {
-    return getType().getName();
+  default String toClassName() {
+    return getType().getTypeName();
   }
 }

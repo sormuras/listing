@@ -14,39 +14,16 @@
 
 package com.github.sormuras.listing;
 
-import java.lang.annotation.ElementType;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 /** Base {@link Annotation}-collecting implementation. */
-public abstract class Annotated implements Listable {
+public abstract class Annotated implements Annotatable {
 
   private List<Annotation> annotations = Collections.emptyList();
 
-  public void addAnnotation(Annotation annotation) {
-    getAnnotations().add(annotation);
-  }
-
-  public void addAnnotation(
-      Class<? extends java.lang.annotation.Annotation> annotation, Object... values) {
-    addAnnotation(Annotation.of(annotation, values));
-  }
-
-  public void addAnnotation(java.lang.annotation.Annotation annotation) {
-    addAnnotation(Annotation.of(annotation));
-  }
-
-  public void addAnnotations(Annotation... annotations) {
-    addAnnotations(Arrays.asList(annotations));
-  }
-
-  public void addAnnotations(Collection<Annotation> annotations) {
-    getAnnotations().addAll(annotations);
-  }
-
+  @Override
   public List<Annotation> getAnnotations() {
     if (annotations == Collections.EMPTY_LIST) {
       annotations = new ArrayList<>();
@@ -54,32 +31,27 @@ public abstract class Annotated implements Listable {
     return annotations;
   }
 
-  /** Return listable separator depending on the annotation target element type. */
-  public Listable getAnnotationSeparator() {
-    ElementType target = getAnnotationTarget();
-    boolean inline =
-        target == ElementType.TYPE_PARAMETER
-            || target == ElementType.TYPE_USE
-            || target == ElementType.PARAMETER;
-    return inline ? Listable.SPACE : Listable.NEWLINE;
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    return hashCode() == obj.hashCode();
   }
 
-  public abstract ElementType getAnnotationTarget();
+  @Override
+  public int hashCode() {
+    return list().hashCode();
+  }
 
+  @Override
   public boolean isAnnotated() {
     return !annotations.isEmpty();
-  }
-
-  public void setAnnotations(Annotation... annotations) {
-    getAnnotations().clear();
-    addAnnotations(annotations);
-  }
-
-  public Listable toAnnotationsListable() {
-    if (isAnnotated()) {
-      Listable separator = getAnnotationSeparator();
-      return listing -> listing.add(getAnnotations(), separator).add(separator);
-    }
-    return Listable.IDENTITY;
   }
 }

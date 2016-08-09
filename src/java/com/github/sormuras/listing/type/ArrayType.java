@@ -106,30 +106,7 @@ public class ArrayType extends ReferenceType {
     IntStream.range(0, getDimensions().size()).forEach(i -> builder.append('['));
     JavaType componentType = getComponentType();
     if (componentType instanceof PrimitiveType) {
-      PrimitiveType primitive = (PrimitiveType) componentType;
-      if (primitive.getType() == boolean.class) {
-        return builder.append('Z').toString();
-      }
-      if (primitive.getType() == byte.class) {
-        return builder.append('B').toString();
-      }
-      if (primitive.getType() == char.class) {
-        return builder.append('C').toString();
-      }
-      if (primitive.getType() == double.class) {
-        return builder.append('D').toString();
-      }
-      if (primitive.getType() == float.class) {
-        return builder.append('F').toString();
-      }
-      if (primitive.getType() == int.class) {
-        return builder.append('I').toString();
-      }
-      if (primitive.getType() == long.class) {
-        return builder.append('J').toString();
-      }
-      // if (primitive.getType() == short.class) {...}
-      return builder.append('S').toString();
+      return builder.append(((PrimitiveType) componentType).toArrayClassNameIndicator()).toString();
     }
     return builder.append('L').append(componentType.toClassName()).append(';').toString();
   }

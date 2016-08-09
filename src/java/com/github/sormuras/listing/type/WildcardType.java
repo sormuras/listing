@@ -14,6 +14,7 @@
 
 package com.github.sormuras.listing.type;
 
+import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
 import java.util.Optional;
@@ -24,7 +25,7 @@ import java.util.Optional;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-Wildcard
  */
-public class WildcardType extends JavaType {
+public class WildcardType extends Annotated implements JavaType {
 
   private ReferenceType boundExtends = ClassType.of(Object.class);
   private ReferenceType boundSuper = null;

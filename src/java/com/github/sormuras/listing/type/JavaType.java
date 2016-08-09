@@ -14,7 +14,7 @@
 
 package com.github.sormuras.listing.type;
 
-import com.github.sormuras.listing.Annotated;
+import com.github.sormuras.listing.Annotatable;
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Name;
 import java.lang.annotation.ElementType;
@@ -27,9 +27,6 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * The Java programming language is a statically typed language, which means that every variable and
@@ -46,7 +43,7 @@ import java.util.List;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html
  */
-public abstract class JavaType extends Annotated {
+public interface JavaType extends Annotatable {
 
   /** Create {@link JavaType} based on {@link AnnotatedType} instance. */
   public static JavaType of(AnnotatedType annotatedType) {
@@ -114,46 +111,12 @@ public abstract class JavaType extends Annotated {
     return of((Class<?>) type);
   }
 
-  private List<Annotation> annotations = Collections.emptyList();
-
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    return hashCode() == obj.hashCode();
-  }
-
-  @Override
-  public List<Annotation> getAnnotations() {
-    if (annotations == Collections.EMPTY_LIST) {
-      annotations = new ArrayList<>();
-    }
-    return annotations;
-  }
-
-  @Override
-  public ElementType getAnnotationTarget() {
+  default ElementType getAnnotationTarget() {
     return ElementType.TYPE_USE;
   }
 
-  @Override
-  public int hashCode() {
-    return list().hashCode();
-  }
-
-  @Override
-  public boolean isAnnotated() {
-    return !annotations.isEmpty();
-  }
-
-  public boolean isJavaLangObject() {
+  default boolean isJavaLangObject() {
     return false;
   }
 
@@ -165,7 +128,7 @@ public abstract class JavaType extends Annotated {
    * @see Class#forName(String)
    * @return (binary) class name
    */
-  public String toClassName() {
+  default String toClassName() {
     throw new UnsupportedOperationException(getClass() + " does not support toClassName()");
   }
 }
