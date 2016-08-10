@@ -16,8 +16,8 @@ package com.github.sormuras.listing;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -31,17 +31,16 @@ public class Listing {
   private int indentationDepth = 0;
   private final String indentationString;
   private final String lineSeparator;
-  private final Deque<String> nameDeck = new ArrayDeque<>();
-  private final Map<Name, String> names;
+  private final Map<Name, String> nameMap = new HashMap<>(32);
+  private final Deque<String> nameStack = new ArrayDeque<>(8);
 
   public Listing() {
-    this("\n", "  ", Collections.emptyMap());
+    this("\n", "  ");
   }
 
-  public Listing(String lineSeparator, String indentationString, Map<Name, String> names) {
+  public Listing(String lineSeparator, String indentationString) {
     this.lineSeparator = lineSeparator;
     this.indentationString = indentationString;
-    this.names = names;
   }
 
   /** Add list of listables using newline separator. */
@@ -94,9 +93,16 @@ public class Listing {
     return add(args.length == 0 ? format : String.format(locale, format, args));
   }
 
+  /** Add name respecting name map. */
   public Listing add(Name name) {
     // never call `name.apply(this)` here - looping alert!
-    return add(names.getOrDefault(name, name.getCanonicalName()));
+    if (name.getEnclosing().isPresent()) {
+      List<String> names = name.getSimpleNames();
+      if (nameMap.containsKey(new Name(name.getPackageName(), names))) {
+        return add(name.getSimpleNames().get(name.getSimpleNames().size() - 1));
+      }
+    }
+    return add(nameMap.getOrDefault(name, name.getCanonicalName()));
   }
 
   public Listing add(String text) {
@@ -126,6 +132,14 @@ public class Listing {
 
   public String getLineSeparator() {
     return lineSeparator;
+  }
+
+  public Map<Name, String> getNameMap() {
+    return nameMap;
+  }
+
+  public Deque<String> getNameStack() {
+    return nameStack;
   }
 
   public Listing indent(int times) {
@@ -169,7 +183,7 @@ public class Listing {
   }
 
   public Listing pop() {
-    nameDeck.pop();
+    nameStack.pop();
     return this;
   }
 
@@ -177,7 +191,7 @@ public class Listing {
     if (name == null) {
       name = "<null>";
     }
-    nameDeck.push(name);
+    nameStack.push(name);
     return this;
   }
 

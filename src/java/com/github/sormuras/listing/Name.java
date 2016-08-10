@@ -48,13 +48,24 @@ import javax.lang.model.element.Modifier;
  */
 public class Name implements Listable, Modifiable {
 
-  /** Create new Name based on the class type and field name. */
+  /** Create new Name based on the class type and member name. */
   public static Name of(Class<?> type, String name) {
     try {
-      return of(type.getField(name));
-    } catch (Exception exception) {
-      throw new AssertionError("Field lookup failed!", exception);
+      Member field = type.getDeclaredField(name);
+      return of(field);
+    } catch (Exception expected) {
+      // fall-through
     }
+    try {
+      for (Member method : type.getDeclaredMethods()) {
+        if (method.getName().equals(name)) {
+          return of(method);
+        }
+      }
+    } catch (Exception expected) {
+      // fall-through
+    }
+    throw new AssertionError("Member '" + name + "' of '" + type + "' lookup failed!");
   }
 
   /** Create new Name based on the class type. */
@@ -88,6 +99,7 @@ public class Name implements Listable, Modifiable {
     Name name = new Name(packageName, names);
     name.setTarget(Tool.elementOf(member));
     name.setModifiers(member.getModifiers());
+    // Tool.assume(name.isStatic(), "%s is not static!", member);
     return name;
   }
 

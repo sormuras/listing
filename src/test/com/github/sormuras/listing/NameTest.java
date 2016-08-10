@@ -12,6 +12,7 @@ import com.github.sormuras.listing.unit.NormalClassDeclaration;
 import java.lang.annotation.ElementType;
 import java.util.Optional;
 import javax.lang.model.element.Modifier;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class NameTest {
@@ -41,6 +42,20 @@ class NameTest {
   void field() {
     assertEquals("java.lang.Math.PI", of(Math.class, "PI").list());
     expectThrows(Error.class, () -> of(Object.class, "PI").list());
+    //    SecurityManager man = System.getSecurityManager();
+    //    System.setSecurityManager(
+    //    new SecurityManager() {
+    //
+    //      @Override
+    //      public void checkPermission(Permission perm) {
+    //        if (perm.getName().equals("accessDeclaredMembers")) {
+    //          throw new SecurityException("123");
+    //        }
+    //      }
+    //    });
+    expectThrows(Error.class, () -> of(Class.class, "PO").list());
+    //    System.setSecurityManager(man);
+
   }
 
   @Test
@@ -133,6 +148,27 @@ class NameTest {
   @Test
   void list() {
     assertEquals("a.b.X", of("a.b", "X").list());
+  }
+
+  @Test
+  void listWithImports() {
+    Listing listing = new Listing();
+    Name pi = of(Math.class, "PI");
+    Name abs = of(Math.class, "abs");
+    listing.getNameMap().put(pi, pi.getSimpleNames().get(1));
+    listing.getNameMap().put(abs, abs.getSimpleNames().get(1));
+    assertEquals("abs(PI)", listing.add(abs).add('(').add(pi).add(')').toString());
+  }
+
+  @Test
+  @Disabled
+  void listWithImportsOnDemons() {
+    Listing listing = new Listing();
+    Name pi = of(Math.class, "PI");
+    Name abs = of(Math.class, "abs");
+    Name importAllOfMath = of("java.lang", "Math", "*");
+    listing.getNameMap().put(importAllOfMath, "*");
+    assertEquals("abs(PI)", listing.add(abs).add('(').add(pi).add(')').toString());
   }
 
   @Test

@@ -9,8 +9,6 @@ import static java.util.Locale.GERMAN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.script.Invocable;
@@ -72,7 +70,7 @@ class ListingTest {
 
   @Test
   void indent() {
-    Listing listing = new Listing("\n", "\t", Collections.emptyMap());
+    Listing listing = new Listing("\n", "\t");
     listing.add("BEGIN").newline();
     listing.indent(1).add("writeln('Hello, world.')").newline().indent(-1);
     listing.add("END.").newline();
@@ -83,12 +81,19 @@ class ListingTest {
   }
 
   @Test
+  void nameStack() {
+    assertEquals(true, new Listing().getNameStack().isEmpty());
+  }
+
+  @Test
   void names() {
-    Map<Name, String> names = new HashMap<>();
-    names.put(Name.of(Map.class), "Map");
-    Listing listing = new Listing("\n", "  ", names);
+    Listing listing = new Listing();
+    listing.getNameMap().put(Name.of(Map.class), "Map");
+    listing.getNameMap().put(Name.of(Map.Entry.class), "Entry");
     listing.add(Name.of(Map.class));
-    assertEquals("Map", listing.toString());
+    listing.newline();
+    listing.add(Name.of(Map.Entry.class));
+    assertEquals("Map\nEntry", listing.toString());
   }
 
   @Test
