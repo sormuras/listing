@@ -124,11 +124,14 @@ public class Name implements Listable, Modifiable {
   private Set<Modifier> modifiers;
   private final String packageName;
   private final List<String> simpleNames;
+  private final String lastSimpleName;
   private ElementType target;
 
+  /** Initialize this {@link Name} instance. */
   public Name(String packageName, List<String> simpleNames) {
     this.packageName = requireNonNull(packageName, "packageName");
     this.simpleNames = unmodifiableList(requireNonNull(simpleNames, "simpleNames"));
+    this.lastSimpleName = simpleNames.isEmpty() ? "" : simpleNames.get(simpleNames.size() - 1);
     this.modifiers = Collections.emptySet();
     this.canonicalName = Tool.canonical(packageName, simpleNames);
     this.target = null;
@@ -137,6 +140,11 @@ public class Name implements Listable, Modifiable {
   @Override
   public Listing apply(Listing listing) {
     return listing.add(this);
+  }
+
+  @Override
+  public String comparisonKey() {
+    return canonicalName;
   }
 
   @Override
@@ -159,12 +167,27 @@ public class Name implements Listable, Modifiable {
     return canonicalName;
   }
 
+  /** Crop last name. */
   public Optional<Name> getEnclosing() {
-    if (isEnclosed()) {
+    if (getSimpleNames().size() > 1) {
       List<String> names = getSimpleNames().subList(0, getSimpleNames().size() - 1);
       return Optional.of(new Name(getPackageName(), names));
     }
+    if (getSimpleNames().size() == 1) {
+      if (getPackageName().isEmpty()) {
+        return Optional.empty();
+      }
+      return Optional.of(new Name(getPackageName(), Collections.emptyList()));
+    }
+    int endIndex = getPackageName().lastIndexOf('.');
+    if (endIndex > 0) {
+      return Optional.of(of(getPackageName().substring(0, endIndex)));
+    }
     return Optional.empty();
+  }
+
+  public String getLastSimpleName() {
+    return lastSimpleName;
   }
 
   @Override
@@ -200,10 +223,6 @@ public class Name implements Listable, Modifiable {
   @Override
   public int hashCode() {
     return canonicalName.hashCode();
-  }
-
-  public boolean isEnclosed() {
-    return getSimpleNames().size() > 1;
   }
 
   public boolean isJavaLangObject() {

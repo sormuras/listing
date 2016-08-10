@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -83,17 +82,6 @@ class ListingTest {
   @Test
   void nameStack() {
     assertEquals(true, new Listing().getNameStack().isEmpty());
-  }
-
-  @Test
-  void names() {
-    Listing listing = new Listing();
-    listing.getNameMap().put(Name.of(Map.class), "Map");
-    listing.getNameMap().put(Name.of(Map.Entry.class), "Entry");
-    listing.add(Name.of(Map.class));
-    listing.newline();
-    listing.add(Name.of(Map.Entry.class));
-    assertEquals("Map\nEntry", listing.toString());
   }
 
   @Test

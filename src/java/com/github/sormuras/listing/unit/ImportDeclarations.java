@@ -22,8 +22,10 @@ import com.github.sormuras.listing.Name;
 import com.github.sormuras.listing.Tool;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
 /**
  * An import declaration allows a named type or a static member to be referred to by a simple name
@@ -31,7 +33,7 @@ import java.util.TreeSet;
  *
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html#jls-7.5
  */
-public class ImportDeclarations implements Listable {
+public class ImportDeclarations implements Listable, Predicate<Name> {
 
   private Set<Name> onDemandStaticImports = new TreeSet<>();
   private Set<Name> onDemandTypeImports = new TreeSet<>();
@@ -143,5 +145,22 @@ public class ImportDeclarations implements Listable {
         && onDemandTypeImports.isEmpty()
         && singleStaticImports.isEmpty()
         && onDemandStaticImports.isEmpty();
+  }
+
+  @Override
+  public boolean test(Name name) {
+    // simple 1:1 match with a single (static) import
+    if (singleTypeImports.contains(name) || singleStaticImports.contains(name)) {
+      return true;
+    }
+    // on demand test...
+    Optional<Name> enclosing = name.getEnclosing();
+    if (enclosing.isPresent()) {
+      name = enclosing.get();
+      if (onDemandStaticImports.contains(name) || onDemandTypeImports.contains(name)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

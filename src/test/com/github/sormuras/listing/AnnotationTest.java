@@ -164,7 +164,7 @@ class AnnotationTest {
 
   @Test
   void singleElementNotNamedValue() {
-    Annotation a = new Annotation(Name.of("a.A"));
+    Annotation a = new Annotation(Name.of("a", "A"));
     a.addMember("a", Annotation.value("zzz"));
     assertEquals("@a.A(a = \"zzz\")", a.list());
     a.addMember("b", Annotation.value(4711));

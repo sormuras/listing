@@ -17,11 +17,10 @@ package com.github.sormuras.listing;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Spliterator;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class Listing {
@@ -31,8 +30,8 @@ public class Listing {
   private int indentationDepth = 0;
   private final String indentationString;
   private final String lineSeparator;
-  private final Map<Name, String> nameMap = new HashMap<>(32);
   private final Deque<String> nameStack = new ArrayDeque<>(8);
+  private Predicate<Name> imported = (name) -> false;
 
   public Listing() {
     this("\n", "  ");
@@ -96,13 +95,10 @@ public class Listing {
   /** Add name respecting name map. */
   public Listing add(Name name) {
     // never call `name.apply(this)` here - looping alert!
-    if (name.getEnclosing().isPresent()) {
-      List<String> names = name.getSimpleNames();
-      if (nameMap.containsKey(new Name(name.getPackageName(), names))) {
-        return add(name.getSimpleNames().get(name.getSimpleNames().size() - 1));
-      }
+    if (imported.test(name)) {
+      return add(name.getLastSimpleName());
     }
-    return add(nameMap.getOrDefault(name, name.getCanonicalName()));
+    return add(name.getCanonicalName());
   }
 
   public Listing add(String text) {
@@ -134,8 +130,8 @@ public class Listing {
     return lineSeparator;
   }
 
-  public Map<Name, String> getNameMap() {
-    return nameMap;
+  public Predicate<Name> getImported() {
+    return imported;
   }
 
   public Deque<String> getNameStack() {
@@ -193,6 +189,10 @@ public class Listing {
     }
     nameStack.push(name);
     return this;
+  }
+
+  public void setImported(Predicate<Name> imported) {
+    this.imported = imported;
   }
 
   @Override

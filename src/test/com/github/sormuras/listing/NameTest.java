@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.expectThrows;
 import com.github.sormuras.listing.unit.CompilationUnit;
 import com.github.sormuras.listing.unit.NormalClassDeclaration;
 import java.lang.annotation.ElementType;
+import java.util.Objects;
 import java.util.Optional;
 import javax.lang.model.element.Modifier;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class NameTest {
@@ -23,48 +23,32 @@ class NameTest {
   }
 
   @Test
-  void enclosed() {
-    assertEquals(false, of(byte.class).isEnclosed());
-    assertEquals(false, of(Object.class).isEnclosed());
-    assertEquals(false, of(Thread.class).isEnclosed());
-    assertEquals(true, of(Thread.State.class).isEnclosed());
-  }
-
-  @Test
   void enclosing() {
     assertEquals(Optional.empty(), of(byte.class).getEnclosing());
-    assertEquals(Optional.empty(), of(Object.class).getEnclosing());
-    assertEquals(Optional.empty(), of(Thread.class).getEnclosing());
+    assertEquals(Optional.empty(), of("a").getEnclosing());
+    assertEquals(Optional.empty(), of("java").getEnclosing());
+    assertEquals(of("java"), of("java.lang").getEnclosing().get());
+    assertEquals(of("java.lang"), of(Object.class).getEnclosing().get());
+    assertEquals(of("java.lang"), of(Thread.class).getEnclosing().get());
     assertEquals(of(Thread.class), of(Thread.State.class).getEnclosing().get());
+    assertEquals(of(Objects.class), of(Objects.class, "requireNonNull").getEnclosing().get());
   }
 
   @Test
   void field() {
-    assertEquals("java.lang.Math.PI", of(Math.class, "PI").list());
-    expectThrows(Error.class, () -> of(Object.class, "PI").list());
-    //    SecurityManager man = System.getSecurityManager();
-    //    System.setSecurityManager(
-    //    new SecurityManager() {
-    //
-    //      @Override
-    //      public void checkPermission(Permission perm) {
-    //        if (perm.getName().equals("accessDeclaredMembers")) {
-    //          throw new SecurityException("123");
-    //        }
-    //      }
-    //    });
-    expectThrows(Error.class, () -> of(Class.class, "PO").list());
-    //    System.setSecurityManager(man);
-
+    assertEquals("java.lang.Math.PI", of(Math.class, "PI").getCanonicalName());
+    expectThrows(Error.class, () -> of(Object.class, "PI"));
+    expectThrows(Error.class, () -> of(Class.class, "PO"));
   }
 
   @Test
   void equalsAndHashcode() {
     assertEquals(of(byte.class), of("", "byte"));
     assertEquals(of(Object.class), of("java.lang", "Object"));
+    assertEquals(of(Objects.class), of("java.util", "Objects"));
     assertEquals(of(Thread.class), of("java.lang", "Thread"));
     assertEquals(of(Thread.State.class), of("java.lang", "Thread", "State"));
-    // single instance
+    // same instance
     Name integer = of(int.class);
     assertEquals(integer, integer);
     // falsify
@@ -148,27 +132,6 @@ class NameTest {
   @Test
   void list() {
     assertEquals("a.b.X", of("a.b", "X").list());
-  }
-
-  @Test
-  void listWithImports() {
-    Listing listing = new Listing();
-    Name pi = of(Math.class, "PI");
-    Name abs = of(Math.class, "abs");
-    listing.getNameMap().put(pi, pi.getSimpleNames().get(1));
-    listing.getNameMap().put(abs, abs.getSimpleNames().get(1));
-    assertEquals("abs(PI)", listing.add(abs).add('(').add(pi).add(')').toString());
-  }
-
-  @Test
-  @Disabled
-  void listWithImportsOnDemons() {
-    Listing listing = new Listing();
-    Name pi = of(Math.class, "PI");
-    Name abs = of(Math.class, "abs");
-    Name importAllOfMath = of("java.lang", "Math", "*");
-    listing.getNameMap().put(importAllOfMath, "*");
-    assertEquals("abs(PI)", listing.add(abs).add('(').add(pi).add(')').toString());
   }
 
   @Test
