@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 public class MethodParameterTest {
 
   @Test
-  public void simple() {
+  void simple() {
     assertEquals("int i", MethodParameter.of(int.class, "i").list());
     assertEquals("int... ia1", MethodParameter.of(int[].class, "ia1").setVariable(true).list());
     assertEquals("int[]... ia2", MethodParameter.of(int[][].class, "ia2").setVariable(true).list());

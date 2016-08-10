@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 
 public class ImportDeclarationsTest {
 
-  static void check(Consumer<ImportDeclarations> consumer, String... expected) {
+  private static void check(Consumer<ImportDeclarations> consumer, String... expected) {
     ImportDeclarations declarations = new ImportDeclarations();
     assertTrue(declarations.isEmpty());
     consumer.accept(declarations);
@@ -33,16 +33,16 @@ public class ImportDeclarationsTest {
     }
   }
 
-  static void empty(ImportDeclarations declarations) {}
+  private static void empty(ImportDeclarations declarations) {}
 
   @Test
-  public void emptyIsEmpty() {
+  void emptyIsEmpty() {
     check(ImportDeclarationsTest::empty);
     assertTrue(new ImportDeclarations().isEmpty());
   }
 
   @Test
-  public void imports() throws Exception {
+  void imports() throws Exception {
     ImportDeclarations imports = new ImportDeclarations();
     imports.addSingleStaticImport(Name.of(STATIC));
     imports.addSingleStaticImport(Name.of("org.junit", "Assert", "assertEquals"));
@@ -56,7 +56,7 @@ public class ImportDeclarationsTest {
   }
 
   @Test
-  public void singleStaticImport() throws Exception {
+  void singleStaticImport() throws Exception {
     Member micros = TimeUnit.class.getField("MICROSECONDS");
     Name parameter = Name.of("java.lang.annotation", "ElementType", "PARAMETER");
 
@@ -74,7 +74,7 @@ public class ImportDeclarationsTest {
   }
 
   @Test
-  public void singleTypeImport() {
+  void singleTypeImport() {
     check(i -> i.addSingleTypeImport(Set.class), "import java.util.Set;");
     check(
         imports ->
@@ -88,14 +88,14 @@ public class ImportDeclarationsTest {
   }
 
   @Test
-  public void staticImportOnDemand() {
+  void staticImportOnDemand() {
     check(
         imports -> imports.addStaticImportOnDemand(Name.of("java.lang", "Thread", "State")),
         "import static java.lang.Thread.State.*;");
   }
 
   @Test
-  public void typeImportOnDemand() {
+  void typeImportOnDemand() {
     check(imports -> imports.addTypeImportOnDemand(Name.of("java.util")), "import java.util.*;");
   }
 }
