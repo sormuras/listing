@@ -48,22 +48,6 @@ import javax.lang.model.element.Modifier;
  */
 public class Name implements Listable, Modifiable {
 
-  /** Create new Name based on the class type and member name. */
-  public static Name of(Class<?> type, String name) {
-    try {
-      Member field = type.getDeclaredField(name);
-      return of(field);
-    } catch (Exception expected) {
-      // fall-through
-    }
-    for (Member method : type.getDeclaredMethods()) {
-      if (method.getName().equals(name)) {
-        return of(method);
-      }
-    }
-    throw new AssertionError("Member '" + name + "' of '" + type + "' lookup failed!");
-  }
-
   /** Create new Name based on the class type. */
   public static Name of(Class<?> type) {
     requireNonNull(type, "type");
@@ -73,6 +57,22 @@ public class Name implements Listable, Modifiable {
     name.setTarget(ElementType.TYPE);
     name.setModifiers(type.getModifiers());
     return name;
+  }
+
+  /** Create new Name based on the class type and member name. */
+  public static Name of(Class<?> type, String declaredMemberName) {
+    try {
+      Member field = type.getDeclaredField(declaredMemberName);
+      return of(field);
+    } catch (Exception expected) {
+      // fall-through
+    }
+    for (Member method : type.getDeclaredMethods()) {
+      if (method.getName().equals(declaredMemberName)) {
+        return of(method);
+      }
+    }
+    throw new AssertionError("Member '" + declaredMemberName + "' of " + type + " lookup failed!");
   }
 
   /** Create new Name based on the enum constant. */
@@ -95,7 +95,6 @@ public class Name implements Listable, Modifiable {
     Name name = new Name(packageName, names);
     name.setTarget(Tool.elementOf(member));
     name.setModifiers(member.getModifiers());
-    // Tool.assume(name.isStatic(), "%s is not static!", member);
     return name;
   }
 
