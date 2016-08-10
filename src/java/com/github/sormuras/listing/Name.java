@@ -56,14 +56,10 @@ public class Name implements Listable, Modifiable {
     } catch (Exception expected) {
       // fall-through
     }
-    try {
-      for (Member method : type.getDeclaredMethods()) {
-        if (method.getName().equals(name)) {
-          return of(method);
-        }
+    for (Member method : type.getDeclaredMethods()) {
+      if (method.getName().equals(name)) {
+        return of(method);
       }
-    } catch (Exception expected) {
-      // fall-through
     }
     throw new AssertionError("Member '" + name + "' of '" + type + "' lookup failed!");
   }
