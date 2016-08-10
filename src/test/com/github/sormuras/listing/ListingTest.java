@@ -56,7 +56,7 @@ class ListingTest {
     listing.add("BEGIN").newline();
     listing.add("END.").newline();
     assertEquals("BEGIN\nEND.\n", listing.toString());
-    assertEquals(asList("BEGIN", "END."), listing.getCollectedLines());
+    assertEquals(asList("BEGIN", "END."), new ArrayList<>(listing.getCollectedLines()));
   }
 
   @Test
@@ -65,6 +65,9 @@ class ListingTest {
     assertEquals(0, listing.getIndentationDepth());
     assertEquals("  ", listing.getIndentationString());
     assertEquals("\n", listing.getLineSeparator());
+    assertEquals("", listing.getCurrentLine().toString());
+    assertEquals(1, listing.getCurrentLineNumber());
+    assertEquals("", listing.trim().toString());
   }
 
   @Test
@@ -96,7 +99,7 @@ class ListingTest {
     assertEquals(0, listing.getCurrentLine().length());
     assertEquals("BEGIN\n\nEND.\n\n", listing.toString());
     assertEquals(0, listing.getCurrentLine().length());
-    assertEquals(asList("BEGIN", "", "END.", ""), listing.getCollectedLines());
+    assertEquals(asList("BEGIN", "", "END.", ""), new ArrayList<>(listing.getCollectedLines()));
   }
 
   @Test
@@ -107,5 +110,21 @@ class ListingTest {
     engine.eval(listing.toString());
     Invocable invocable = (Invocable) engine;
     assertEquals("Hi Bob", invocable.invokeFunction("fun1", "Bob"));
+  }
+
+  @Test
+  void trim() {
+    Listing listing = new Listing();
+    listing.add(' ');
+    listing.trim();
+    assertEquals("", listing.toString());
+    listing.getCurrentLine().setLength(0);
+    listing.add(" abc  ");
+    listing.trim();
+    assertEquals(" abc", listing.toString());
+    listing.getCurrentLine().setLength(0);
+    listing.add("abcef").newline().newline().newline();
+    listing.trim();
+    assertEquals("abcef\n", listing.toString());
   }
 }

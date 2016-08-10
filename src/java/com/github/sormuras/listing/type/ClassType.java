@@ -57,7 +57,10 @@ public class ClassType extends ReferenceType {
 
   @Override
   public Listing apply(Listing listing) {
-    if (!getPackageName().isEmpty()) {
+    boolean skipPackageName = getPackageName().isEmpty();
+    skipPackageName |= listing.getImported().test(name);
+    // skipPackageName |= name.isJavaLangPackage();
+    if (!skipPackageName) {
       listing.add(getPackageName()).add('.');
     }
     return listing.add(getNames(), ".");

@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
@@ -191,5 +192,19 @@ class CompilationUnitTest {
     assertSame(simple, i.getEnclosingDeclaration());
     Tests.assertEquals(getClass(), "crazy", unit);
     Tests.assertSerializable(unit);
+  }
+
+  @Test
+  void imports() throws Exception {
+    CompilationUnit unit = CompilationUnit.of("abc.xyz");
+    unit.getImportDeclarations().addSingleTypeImport(Callable.class);
+    unit.getImportDeclarations().addSingleStaticImport(Name.of(Math.class, "E"));
+    NormalClassDeclaration imports = unit.declareClass("Imports");
+    imports.addInterface(ClassType.of(Callable.class, Number.class));
+    MethodDeclaration call = imports.declareMethod(Number.class, "call");
+    call.addModifier("public");
+    call.setBody(l -> l.add("return ").add(Name.of(Math.class, "E")).add(';').newline());
+    unit.compile();
+    // TODO Tests.assertEquals(getClass(), "imports", unit); System.out.println(unit.list());
   }
 }

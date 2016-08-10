@@ -135,6 +135,14 @@ public class CompilationUnit implements DeclarationContainer {
         && getImportDeclarations().isEmpty();
   }
 
+  @Override
+  public String list() {
+    Listing listing = new Listing();
+    listing.setImported(getImportDeclarations());
+    listing.add(this);
+    return listing.toString();
+  }
+
   public void setPackageName(String packageName) {
     getPackageDeclaration().setName(Name.of(packageName));
   }

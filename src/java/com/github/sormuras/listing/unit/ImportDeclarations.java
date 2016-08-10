@@ -128,6 +128,7 @@ public class ImportDeclarations implements Listable, Predicate<Name> {
       singleStaticImports.forEach(
           n -> listing.add("import static ").add(n.getCanonicalName()).add(';').newline());
     }
+    listing.newline();
     if (!onDemandTypeImports.isEmpty()) {
       onDemandTypeImports.forEach(
           n -> listing.add("import ").add(n.getCanonicalName()).add(".*;").newline());
@@ -136,6 +137,7 @@ public class ImportDeclarations implements Listable, Predicate<Name> {
       singleTypeImports.forEach(
           n -> listing.add("import ").add(n.getCanonicalName()).add(';').newline());
     }
+    listing.trim();
     return listing;
   }
 

@@ -11,6 +11,7 @@ import com.github.sormuras.listing.Name;
 import com.github.sormuras.listing.Tests;
 import java.lang.annotation.ElementType;
 import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
@@ -28,7 +29,7 @@ public class ImportDeclarationsTest {
     consumer.accept(declarations);
     Listing listing = new Listing();
     listing.add(declarations);
-    assertEquals(Arrays.asList(expected), listing.getCollectedLines());
+    assertEquals(Arrays.asList(expected), new ArrayList<>(listing.getCollectedLines()));
     if (expected.length > 0) {
       assertFalse(declarations.isEmpty());
     }

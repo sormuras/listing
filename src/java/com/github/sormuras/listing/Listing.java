@@ -15,7 +15,6 @@
 package com.github.sormuras.listing;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.Locale;
@@ -25,13 +24,13 @@ import java.util.stream.IntStream;
 
 public class Listing {
 
-  private final List<String> collectedLines = new ArrayList<>(512);
+  private final Deque<String> collectedLines = new ArrayDeque<>(512);
   private final StringBuilder currentLine = new StringBuilder(512);
+  private Predicate<Name> imported = (name) -> false;
   private int indentationDepth = 0;
   private final String indentationString;
   private final String lineSeparator;
   private final Deque<String> nameStack = new ArrayDeque<>(8);
-  private Predicate<Name> imported = (name) -> false;
 
   public Listing() {
     this("\n", "  ");
@@ -42,18 +41,14 @@ public class Listing {
     this.indentationString = indentationString;
   }
 
+  public Listing add(char character) {
+    currentLine.append(character);
+    return this;
+  }
+
   /** Add list of listables using newline separator. */
   public Listing add(List<? extends Listable> listables) {
     return add(listables, Listable.NEWLINE);
-  }
-
-  /**
-   * Add list of listables using given text separator inline.
-   *
-   * <p>For example: {@code "a, b, c"}, {@code "a & b & c"} or {@code "[][][]"}
-   */
-  public Listing add(List<? extends Listable> listables, String separator) {
-    return add(listables, listing -> listing.add(separator));
   }
 
   /** Add list of listables using given listable separator. */
@@ -71,6 +66,15 @@ public class Listing {
     return this;
   }
 
+  /**
+   * Add list of listables using given text separator inline.
+   *
+   * <p>For example: {@code "a, b, c"}, {@code "a & b & c"} or {@code "[][][]"}
+   */
+  public Listing add(List<? extends Listable> listables, String separator) {
+    return add(listables, listing -> listing.add(separator));
+  }
+
   /** Applies the passed listable instance to this listing. */
   public Listing add(Listable listable) {
     if (listable == null) {
@@ -83,11 +87,6 @@ public class Listing {
     return listable.apply(this);
   }
 
-  public Listing add(char character) {
-    currentLine.append(character);
-    return this;
-  }
-
   public Listing add(Locale locale, String format, Object... args) {
     return add(args.length == 0 ? format : String.format(locale, format, args));
   }
@@ -98,6 +97,10 @@ public class Listing {
     if (imported.test(name)) {
       return add(name.getLastSimpleName());
     }
+    // // "java.lang" member
+    // if (name.isJavaLangPackage()) {
+    // return add(String.join(".", name.getSimpleNames()));
+    // }
     return add(name.getCanonicalName());
   }
 
@@ -110,12 +113,20 @@ public class Listing {
     return add(args.length == 0 ? format : String.format(format, args));
   }
 
-  public List<String> getCollectedLines() {
+  public Deque<String> getCollectedLines() {
     return collectedLines;
   }
 
   public StringBuilder getCurrentLine() {
     return currentLine;
+  }
+
+  public int getCurrentLineNumber() {
+    return collectedLines.size() + 1;
+  }
+
+  public Predicate<Name> getImported() {
+    return imported;
   }
 
   public int getIndentationDepth() {
@@ -128,10 +139,6 @@ public class Listing {
 
   public String getLineSeparator() {
     return lineSeparator;
-  }
-
-  public Predicate<Name> getImported() {
-    return imported;
   }
 
   public Deque<String> getNameStack() {
@@ -150,7 +157,7 @@ public class Listing {
     if (collectedLines.isEmpty()) {
       return true;
     }
-    return collectedLines.get(collectedLines.size() - 1).isEmpty();
+    return collectedLines.getLast().isEmpty();
   }
 
   /** Carriage return and line feed. */
@@ -201,5 +208,19 @@ public class Listing {
       return currentLine.toString();
     }
     return String.join(lineSeparator, collectedLines) + lineSeparator + currentLine.toString();
+  }
+
+  /** Removes empty lines from the end of the collected lines. */
+  public Listing trim() {
+    while (currentLine.length() > 0 && currentLine.lastIndexOf(" ") == currentLine.length() - 1) {
+      currentLine.setLength(currentLine.length() - 1);
+    }
+    while (isLastLineEmpty()) {
+      if (collectedLines.isEmpty()) {
+        return this;
+      }
+      collectedLines.removeLast();
+    }
+    return this;
   }
 }
