@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -48,6 +49,20 @@ class ListingTest {
     list.add(Annotation.value('z'));
     assertEquals("'a'\n'z'", new Listing().add(list).toString());
     assertEquals("'a'-'z'", new Listing().add(list, "-").toString());
+  }
+
+  @Test
+  void addName() {
+    Listing listing = Listing.builder().setOmitJavaLangPackage(false).build();
+    listing.add(Name.of(Object.class)).add('-');
+    listing.add(Name.of(Objects.class)).add('-');
+    listing.add(Name.of(Thread.State.class));
+    assertEquals("java.lang.Object-java.util.Objects-java.lang.Thread.State", listing.toString());
+    listing = Listing.builder().setOmitJavaLangPackage(true).build();
+    listing.add(Name.of(Object.class)).add('-');
+    listing.add(Name.of(Objects.class)).add('-');
+    listing.add(Name.of(Thread.State.class));
+    assertEquals("Object-java.util.Objects-Thread.State", listing.toString());
   }
 
   @Test
