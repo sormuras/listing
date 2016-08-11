@@ -59,7 +59,7 @@ public class ClassType extends ReferenceType {
   public Listing apply(Listing listing) {
     boolean skipPackageName = getPackageName().isEmpty();
     skipPackageName |= listing.getImported().test(name);
-    // skipPackageName |= name.isJavaLangPackage();
+    skipPackageName |= listing.isOmitJavaLangPackage() && name.isJavaLangPackage();
     if (!skipPackageName) {
       listing.add(getPackageName()).add('.');
     }

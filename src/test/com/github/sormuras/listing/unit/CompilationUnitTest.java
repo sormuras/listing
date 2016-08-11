@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Compilation;
+import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.Name;
 import com.github.sormuras.listing.Tests;
 import com.github.sormuras.listing.Tool;
@@ -203,8 +204,19 @@ class CompilationUnitTest {
     imports.addInterface(ClassType.of(Callable.class, Number.class));
     MethodDeclaration call = imports.declareMethod(Number.class, "call");
     call.addModifier("public");
-    call.setBody(l -> l.add("return ").add(Name.of(Math.class, "E")).add(';').newline());
+    call.setBody(
+        l ->
+            l.add("return ")
+                .add(Name.of(Math.class, "E"))
+                .add(" * ")
+                .add(Name.of(Math.class, "PI"))
+                .add(';')
+                .newline());
     unit.compile();
-    // TODO Tests.assertEquals(getClass(), "imports", unit); System.out.println(unit.list());
+    Listing.Builder builder = Listing.builder();
+    builder.omitJavaLangPackage = true;
+    builder.imported = unit.getImportDeclarations();
+    String text = builder.build().add(unit).toString();
+    Tests.assertEquals(getClass(), "imports", text);
   }
 }

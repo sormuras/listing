@@ -72,7 +72,9 @@ class ListingTest {
 
   @Test
   void indent() {
-    Listing listing = new Listing("\n", "\t");
+    Listing.Builder builder = Listing.builder();
+    builder.indentationString = "\t";
+    Listing listing = builder.build();
     listing.add("BEGIN").newline();
     listing.indent(1).add("writeln('Hello, world.')").newline().indent(-1);
     listing.add("END.").newline();

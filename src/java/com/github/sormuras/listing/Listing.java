@@ -24,21 +24,39 @@ import java.util.stream.IntStream;
 
 public class Listing {
 
+  public static class Builder {
+    public Predicate<Name> imported = (name) -> false;
+    public String indentationString = "  ";
+    public String lineSeparator = "\n";
+    public boolean omitJavaLangPackage = false;
+
+    public Listing build() {
+      return new Listing(this);
+    }
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
   private final Deque<String> collectedLines = new ArrayDeque<>(512);
   private final StringBuilder currentLine = new StringBuilder(512);
-  private Predicate<Name> imported = (name) -> false;
+  private final Predicate<Name> imported;
   private int indentationDepth = 0;
   private final String indentationString;
   private final String lineSeparator;
   private final Deque<String> nameStack = new ArrayDeque<>(8);
+  private final boolean omitJavaLangPackage;
 
   public Listing() {
-    this("\n", "  ");
+    this(builder());
   }
 
-  public Listing(String lineSeparator, String indentationString) {
-    this.lineSeparator = lineSeparator;
-    this.indentationString = indentationString;
+  public Listing(Builder builder) {
+    this.lineSeparator = builder.lineSeparator;
+    this.indentationString = builder.indentationString;
+    this.omitJavaLangPackage = builder.omitJavaLangPackage;
+    this.imported = builder.imported;
   }
 
   public Listing add(char character) {
@@ -97,10 +115,10 @@ public class Listing {
     if (imported.test(name)) {
       return add(name.getLastSimpleName());
     }
-    // // "java.lang" member
-    // if (name.isJavaLangPackage()) {
-    // return add(String.join(".", name.getSimpleNames()));
-    // }
+    // "java.lang" member
+    if (omitJavaLangPackage && name.isJavaLangPackage()) {
+      return add(String.join(".", name.getSimpleNames()));
+    }
     return add(name.getCanonicalName());
   }
 
@@ -160,6 +178,10 @@ public class Listing {
     return collectedLines.getLast().isEmpty();
   }
 
+  public boolean isOmitJavaLangPackage() {
+    return omitJavaLangPackage;
+  }
+
   /** Carriage return and line feed. */
   public Listing newline() {
     String newline = currentLine.toString(); // Tool.trimRight(currentLine.toString());
@@ -196,10 +218,6 @@ public class Listing {
     }
     nameStack.push(name);
     return this;
-  }
-
-  public void setImported(Predicate<Name> imported) {
-    this.imported = imported;
   }
 
   @Override

@@ -26,12 +26,16 @@ public interface Tests {
   }
 
   static void assertEquals(Class<?> testClass, String testName, Listable listable) {
-    assertEquals(testClass, testName, new Listing().add(listable));
+    assertEquals(testClass, testName, listable.list());
   }
 
   static void assertEquals(Class<?> testClass, String testName, Listing listing) {
+    assertEquals(testClass, testName, listing.toString());
+  }
+
+  static void assertEquals(Class<?> testClass, String testName, String actual) {
     try {
-      Assertions.assertEquals(load(testClass, testName), listing.toString());
+      Assertions.assertEquals(load(testClass, testName), actual);
     } catch (Exception e) {
       Assertions.fail(e.toString());
     }

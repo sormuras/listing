@@ -137,10 +137,9 @@ public class CompilationUnit implements DeclarationContainer {
 
   @Override
   public String list() {
-    Listing listing = new Listing();
-    listing.setImported(getImportDeclarations());
-    listing.add(this);
-    return listing.toString();
+    Listing.Builder builder = Listing.builder();
+    builder.imported = getImportDeclarations();
+    return builder.build().add(this).toString();
   }
 
   public void setPackageName(String packageName) {

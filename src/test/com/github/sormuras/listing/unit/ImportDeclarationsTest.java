@@ -62,8 +62,9 @@ public class ImportDeclarationsTest {
     assertTrue(imports.test(Name.of("org.junit", "Assert", "assertTrue")));
     assertFalse(imports.test(Name.of("org")));
     assertFalse(imports.test(Name.of(Test.class)));
-    Listing listing = new Listing();
-    listing.setImported(imports);
+    Listing.Builder builder = Listing.builder();
+    builder.imported = imports;
+    Listing listing = builder.build();
     assertSame(imports, listing.getImported());
     listing.add(Name.of(STATIC)).newline();
     listing.add(Name.of(Objects.class, "requireNonNull")).newline();
