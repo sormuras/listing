@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Compilation;
-import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.Name;
 import com.github.sormuras.listing.Tests;
 import com.github.sormuras.listing.Tool;
@@ -213,10 +212,6 @@ class CompilationUnitTest {
                 .add(';')
                 .newline());
     unit.compile();
-    Listing.Builder builder = Listing.builder();
-    builder.omitJavaLangPackage = true;
-    builder.imported = unit.getImportDeclarations();
-    String text = builder.build().add(unit).toString();
-    Tests.assertEquals(getClass(), "imports", text);
+    Tests.assertEquals(getClass(), "imports", unit.list(b -> b.setOmitJavaLangPackage(true)));
   }
 }

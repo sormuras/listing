@@ -65,6 +65,26 @@ class ListingTest {
     assertEquals(0, listing.getIndentationDepth());
     assertEquals("  ", listing.getIndentationString());
     assertEquals("\n", listing.getLineSeparator());
+    assertEquals(false, listing.getImported().test(Name.of(Test.class)));
+    assertEquals(false, listing.isOmitJavaLangPackage());
+    assertEquals("", listing.getCurrentLine().toString());
+    assertEquals(1, listing.getCurrentLineNumber());
+    assertEquals("", listing.trim().toString());
+  }
+
+  @Test
+  void builder() {
+    Listing.Builder builder = Listing.builder();
+    builder.setImported(name -> !name.isEmpty());
+    builder.setIndentationString(" ");
+    builder.setLineSeparator("\r\n");
+    builder.setOmitJavaLangPackage(true);
+    Listing listing = builder.build();
+    assertEquals(true, listing.getImported().test(Name.of(Test.class)));
+    assertEquals(0, listing.getIndentationDepth());
+    assertEquals(" ", listing.getIndentationString());
+    assertEquals("\r\n", listing.getLineSeparator());
+    assertEquals(true, listing.isOmitJavaLangPackage());
     assertEquals("", listing.getCurrentLine().toString());
     assertEquals(1, listing.getCurrentLineNumber());
     assertEquals("", listing.trim().toString());
@@ -72,9 +92,7 @@ class ListingTest {
 
   @Test
   void indent() {
-    Listing.Builder builder = Listing.builder();
-    builder.indentationString = "\t";
-    Listing listing = builder.build();
+    Listing listing = Listing.builder().setIndentationString("\t").build();
     listing.add("BEGIN").newline();
     listing.indent(1).add("writeln('Hello, world.')").newline().indent(-1);
     listing.add("END.").newline();

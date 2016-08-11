@@ -25,13 +25,37 @@ import java.util.stream.IntStream;
 public class Listing {
 
   public static class Builder {
-    public Predicate<Name> imported = (name) -> false;
+    private static boolean not(Name name) {
+      return false;
+    }
+
+    public Predicate<Name> imported = Builder::not;
     public String indentationString = "  ";
     public String lineSeparator = "\n";
     public boolean omitJavaLangPackage = false;
 
     public Listing build() {
       return new Listing(this);
+    }
+
+    public Builder setImported(Predicate<Name> imported) {
+      this.imported = imported;
+      return this;
+    }
+
+    public Builder setIndentationString(String indentationString) {
+      this.indentationString = indentationString;
+      return this;
+    }
+
+    public Builder setLineSeparator(String lineSeparator) {
+      this.lineSeparator = lineSeparator;
+      return this;
+    }
+
+    public Builder setOmitJavaLangPackage(boolean omitJavaLangPackage) {
+      this.omitJavaLangPackage = omitJavaLangPackage;
+      return this;
     }
   }
 

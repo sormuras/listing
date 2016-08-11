@@ -21,6 +21,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import javax.tools.JavaFileObject;
 
@@ -137,9 +138,14 @@ public class CompilationUnit implements DeclarationContainer {
 
   @Override
   public String list() {
+    return list(Function.identity());
+  }
+
+  public String list(Function<Listing.Builder, Listing.Builder> visitor) {
     Listing.Builder builder = Listing.builder();
-    builder.imported = getImportDeclarations();
-    return builder.build().add(this).toString();
+    builder.setImported(getImportDeclarations());
+    Listing listing = visitor.apply(builder).build();
+    return listing.add(this).toString();
   }
 
   public void setPackageName(String packageName) {
