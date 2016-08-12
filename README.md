@@ -15,7 +15,7 @@ Java compilation unit source listing tool.
 ```java
 CompilationUnit unit = CompilationUnit.of("listing");
 
-NormalClassDeclaration world = unit.declareClass("HelloWorld");
+NormalClassDeclaration world = unit.declareClass("World");
 world.addModifier(Modifier.PUBLIC);
 
 MethodDeclaration main = world.declareMethod(void.class, "main");
@@ -30,6 +30,33 @@ Object[] arguments = {new String[] {"world!"}};
 hello.getMethod("main", String[].class).invoke(null, arguments);
 ```
 
+The console should read like:
+```text
+package listing;
+
+public class World {
+
+  public static void main(java.lang.String[] args) {
+    System.out.println("Hello " + args[0]);
+  }
+}
+
+Hello world!
+```
+
+Current lambda language for spilling statements:
+ 
+```java
+    main.setBody(
+        listable ->
+            listable
+                .add(Name.of(System.class, "out"))
+                .add(".println(")
+                .add(Tool.escape("Hello "))
+                .add(" + args[0]")
+                .add(");")
+                .newline());
+```
 ## license
 
 ```text
