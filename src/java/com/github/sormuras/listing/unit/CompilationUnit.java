@@ -16,13 +16,14 @@ package com.github.sormuras.listing.unit;
 
 import com.github.sormuras.listing.Compilation;
 import com.github.sormuras.listing.Listing;
+import com.github.sormuras.listing.Listing.Builder;
 import com.github.sormuras.listing.Name;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 import javax.tools.JavaFileObject;
 
 /**
@@ -137,15 +138,8 @@ public class CompilationUnit implements DeclarationContainer {
   }
 
   @Override
-  public String list() {
-    return list(Function.identity());
-  }
-
-  public String list(Function<Listing.Builder, Listing.Builder> visitor) {
-    Listing.Builder builder = Listing.builder();
-    builder.setImported(getImportDeclarations());
-    Listing listing = visitor.apply(builder).build();
-    return listing.add(this).toString();
+  public UnaryOperator<Builder> listOperator() {
+    return builder -> builder.setImported(getImportDeclarations());
   }
 
   public void setPackageName(String packageName) {

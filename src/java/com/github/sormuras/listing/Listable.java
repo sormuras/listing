@@ -63,6 +63,16 @@ public interface Listable extends UnaryOperator<Listing>, Comparable<Listable>, 
   }
 
   default String list() {
-    return new Listing().add(this).toString();
+    return list(UnaryOperator.identity());
+  }
+
+  default String list(UnaryOperator<Listing.Builder> customOperator) {
+    Listing.Builder builder = Listing.builder();
+    Listing listing = listOperator().andThen(customOperator).apply(builder).build();
+    return listing.add(this).toString();
+  }
+
+  default UnaryOperator<Listing.Builder> listOperator() {
+    return UnaryOperator.identity();
   }
 }

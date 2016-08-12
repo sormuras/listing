@@ -33,7 +33,7 @@
   <target name="format" depends="init" description="apply google-java-format">
     <!-- <property name="format.jar" value="google-java-format-1.0-all-deps.jar" /> -->
     <property name="format.jar" value="google-java-format-1.1-SNAPSHOT-all-deps.jar" />
-  	<echo>Running ${format.jar}</echo>
+    <echo>Running ${format.jar}</echo>
     <fileset dir="${dir.src}" id="src.files">
       <include name="**/*.java" />
       <exclude name="generated/**/*" />
@@ -56,7 +56,7 @@
     </condition>
     <fail unless="files.match">Formatter ${format.jar} changed at least one source file</fail>
 
-  	<!-- CheckStyle -->
+    <!-- CheckStyle -->
     <checkstyle config="${dir.lib}/build/checkstyle-config-google.xml"
                 maxErrors="0"
                 maxWarnings="0"
@@ -102,7 +102,7 @@
         </section>
       </manifest>
     </jar>
-  	<length file="${dir.out}/listing-${version.number}.jar" />
+    <length file="${dir.out}/listing-${version.number}.jar" />
   </target>
 
   <target name="test" depends="compile" description="execute all tests">
@@ -151,7 +151,7 @@
         </sourcefiles>
       </structure>
       <xml destfile="${dir.out}/jacoco-report.xml" />
-      <html destdir="${dir.out}/jacoco-report"/>
+      <html destdir="${dir.out}/jacoco-report" />
       <check>
         <rule element="PACKAGE">
           <limit counter="LINE" value="COVEREDRATIO" minimum="1" />
@@ -160,7 +160,17 @@
       </check>
     </jacoco:report>
 
-  	<echo>Created and tested listing-${version.number}.jar</echo>
+    <echo>Created and tested listing-${version.number}.jar</echo>
+  </target>
+
+  <target name="report" depends="test">
+    <property name="jacoco-report" location="${dir.out}/jacoco-report/index.html" />
+    <script language="javascript">
+      <![CDATA[
+      var location = "file:///"+project.getProperty("jacoco-report").toString().replaceAll("\\\\","/");
+      java.awt.Desktop.getDesktop().browse(java.net.URI.create(location));
+      ]]>
+    </script>
   </target>
 
 </project>
