@@ -10,6 +10,26 @@ Java compilation unit source listing tool.
  - [x] Aligned to [JLS](https://docs.oracle.com/javase/specs/jls/se8/html/jls-19.html) syntax grammar
  - [x] Runtime compilation supporting annotation processing
 
+## hello world
+
+```java
+CompilationUnit unit = CompilationUnit.of("listing");
+
+NormalClassDeclaration world = unit.declareClass("HelloWorld");
+world.addModifier(Modifier.PUBLIC);
+
+MethodDeclaration main = world.declareMethod(void.class, "main");
+main.addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+main.addParameter(String[].class, "args");
+main.addStatement("System.out.println(\"Hello \" + args[0])");
+
+System.out.println(unit.list());
+
+Class<?> hello = unit.compile();
+Object[] arguments = {new String[] {"world!"}};
+hello.getMethod("main", String[].class).invoke(null, arguments);
+```
+
 ## license
 
 ```text
