@@ -19,6 +19,12 @@ import org.junit.jupiter.api.Test;
 
 class ListingTest {
 
+  static class Face {
+    public Listable smile() {
+      return listing -> listing.add("(:");
+    }
+  }
+
   @Test
   void addChar() {
     assertEquals("\0", new Listing().add('\0').toString());
@@ -36,10 +42,14 @@ class ListingTest {
 
   @Test
   void addTemplate() {
-    String expected = "java.lang.System.out.println(\"123\"); // 0";
-    String source = "{N}.out.println({S}); // {hashCode}";
-    assertEquals(expected, new Listing().add(source, System.class, "123", "").toString());
+    String expected = "java.lang.System.out.println(\"123\"); // 0 String";
+    String source = "{N}.out.println({S}); // {hashCode} {getClass.getSimpleName}";
+    assertEquals(expected, new Listing().add(source, System.class, "123", "", "$").toString());
+    assertEquals(" ", new Listing().add("{L}", Listable.SPACE).toString());
+    assertEquals("x.Y", new Listing().add("{getEnclosing}", Name.of("x", "Y", "Z")).toString());
+    assertEquals("(:", new Listing().add("{smile}", new Face()).toString());
     assertThrows(Exception.class, () -> new Listing().add("{xxx}", ""));
+    assertThrows(Exception.class, () -> new Listing().add("{toString.toString.xxx}", ""));
   }
 
   @Test

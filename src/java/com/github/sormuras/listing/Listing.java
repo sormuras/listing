@@ -18,6 +18,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.Scanner;
 import java.util.Spliterator;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -61,6 +63,7 @@ public class Listing {
     }
   }
 
+  public static final Pattern METHODCHAIN_PATTERN = Pattern.compile("\\{|\\.|\\}");
   public static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\{.+?\\}");
 
   public static Builder builder() {
@@ -165,22 +168,43 @@ public class Listing {
         add(source.substring(sourceIndex, matcher.start()));
       }
       sourceIndex = matcher.end();
-
+      // handle simple placeholder
       String placeholder = matcher.group(0);
       if (placeholder.equals("{S}")) {
         add(Tool.escape(args[argumentIndex++].toString()));
-      } else if (placeholder.equals("{N}")) {
+        continue;
+      }
+      if (placeholder.equals("{N}")) {
         add(Name.cast(args[argumentIndex++]));
-      } else {
-        String methodName = placeholder.substring(1, placeholder.length() - 1);
-        Object argument = args[argumentIndex++];
-        try {
-          Object result = argument.getClass().getMethod(methodName).invoke(argument);
-          add(result.toString());
-        } catch (Exception exception) {
-          throw new IllegalArgumentException(
-              "unknown placeholder: " + placeholder + " in \"" + source + "\"", exception);
+        continue;
+      }
+      if (placeholder.equals("{L}")) {
+        add((Listable) args[argumentIndex++]);
+        continue;
+      }
+      // convert unknown placeholder to chained method call sequence
+      Object argument = args[argumentIndex++];
+      try (Scanner scanner = new Scanner(placeholder)) {
+        scanner.useDelimiter(METHODCHAIN_PATTERN);
+        Object result = argument;
+        while (scanner.hasNext()) {
+          result = result.getClass().getMethod(scanner.next()).invoke(result);
         }
+        if (result instanceof Optional) {
+          result = ((Optional<?>) result).get();
+        }
+        if (result instanceof Name) {
+          add((Name) result);
+          continue;
+        }
+        if (result instanceof Listable) {
+          add((Listable) result);
+          continue;
+        }
+        add(String.valueOf(result));
+      } catch (Exception exception) {
+        throw new IllegalArgumentException(
+            "error parsing: '" + placeholder + "' source='" + source + "'", exception);
       }
     }
     add(source.substring(sourceIndex));

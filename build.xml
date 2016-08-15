@@ -152,10 +152,10 @@
       </structure>
       <xml destfile="${dir.out}/jacoco-report.xml" />
       <html destdir="${dir.out}/jacoco-report" />
-      <check failonviolation="false">
-        <rule element="PACKAGE">
-          <limit counter="LINE" value="COVEREDRATIO" minimum="1" />
-          <limit counter="CLASS" value="MISSEDCOUNT" maximum="0" />
+      <check>
+        <rule>
+          <limit counter="LINE" value="COVEREDRATIO" minimum="0.99"/>
+          <limit counter="CLASS" value="MISSEDCOUNT" maximum="0"/>
         </rule>
       </check>
     </jacoco:report>
