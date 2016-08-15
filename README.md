@@ -13,17 +13,21 @@ Java compilation unit source listing tool.
 ## hello world
 
 ```java
+Name out = Name.of(System.class, "out");
+
 CompilationUnit unit = CompilationUnit.of("listing");
+unit.getImportDeclarations().addSingleStaticImport(out);
 
 NormalClassDeclaration world = unit.declareClass("World");
 world.addModifier(Modifier.PUBLIC);
 
+MethodParameter strings = MethodParameter.of(String[].class, "strings");
 MethodDeclaration main = world.declareMethod(void.class, "main");
 main.addModifiers(Modifier.PUBLIC, Modifier.STATIC);
-main.addParameter(String[].class, "args");
-main.addStatement("System.out.println(\"Hello \" + args[0])");
+main.addParameter(strings);
+main.addStatement("{N}.println({S} + {getName}[0]);", out, "Hello ", strings);
 
-System.out.println(unit.list());
+System.out.println(unit.list(b -> b.setOmitJavaLangPackage(true)));
 
 Class<?> hello = unit.compile();
 Object[] arguments = {new String[] {"world!"}};
@@ -34,29 +38,18 @@ The console should read like:
 ```text
 package listing;
 
+import static java.lang.System.out;
+
 public class World {
 
-  public static void main(java.lang.String[] args) {
-    System.out.println("Hello " + args[0]);
+  public static void main(String[] strings) {
+    out.println("Hello " + strings[0]);;
   }
 }
 
 Hello world!
 ```
 
-Current lambda language for spilling statements:
- 
-```java
-    main.setBody(
-        listable ->
-            listable
-                .add(Name.of(System.class, "out"))
-                .add(".println(")
-                .add(Tool.escape("Hello "))
-                .add(" + args[0]")
-                .add(");")
-                .newline());
-```
 ## license
 
 ```text
