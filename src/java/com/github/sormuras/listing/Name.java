@@ -48,6 +48,29 @@ import javax.lang.model.element.Modifier;
  */
 public class Name implements Listable, Modifiable {
 
+  /** Cast/convert any object to an instance of {@link Name}. */
+  public static Name cast(Object any) {
+    if (any == null) {
+      return null;
+    }
+    if (any instanceof Name) {
+      return (Name) any;
+    }
+    if (any instanceof Class) {
+      return of((Class<?>) any);
+    }
+    if (any instanceof Enum) {
+      return of((Enum<?>) any);
+    }
+    if (any instanceof Member) {
+      return of((Member) any);
+    }
+    if (any instanceof String[]) {
+      return of((String[]) any);
+    }
+    throw new IllegalArgumentException("can't cast/convert instance of " + any.getClass());
+  }
+
   /** Create new Name based on the class type. */
   public static Name of(Class<?> type) {
     requireNonNull(type, "type");
@@ -121,10 +144,10 @@ public class Name implements Listable, Modifiable {
   }
 
   private final String canonicalName;
+  private final String lastSimpleName;
   private Set<Modifier> modifiers;
   private final String packageName;
   private final List<String> simpleNames;
-  private final String lastSimpleName;
   private ElementType target;
 
   /** Initialize this {@link Name} instance. */

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Spliterator;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 public class Listing {
@@ -59,6 +61,8 @@ public class Listing {
     }
   }
 
+  public static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\{.+?\\}");
+
   public static Builder builder() {
     return new Builder();
   }
@@ -88,6 +92,11 @@ public class Listing {
     return this;
   }
 
+  public Listing add(CharSequence text) {
+    currentLine.append(text);
+    return this;
+  }
+
   /** Add list of listables using newline separator. */
   public Listing add(List<? extends Listable> listables) {
     return add(listables, Listable.NEWLINE);
@@ -109,11 +118,11 @@ public class Listing {
   }
 
   /**
-   * Add list of listables using given text separator inline.
+   * Add list of listables using given textual separator inline.
    *
    * <p>For example: {@code "a, b, c"}, {@code "a & b & c"} or {@code "[][][]"}
    */
-  public Listing add(List<? extends Listable> listables, String separator) {
+  public Listing add(List<? extends Listable> listables, CharSequence separator) {
     return add(listables, listing -> listing.add(separator));
   }
 
@@ -129,10 +138,6 @@ public class Listing {
     return listable.apply(this);
   }
 
-  public Listing add(Locale locale, String format, Object... args) {
-    return add(args.length == 0 ? format : String.format(locale, format, args));
-  }
-
   /** Add name respecting name map. */
   public Listing add(Name name) {
     // never call `name.apply(this)` here - looping alert!
@@ -146,12 +151,47 @@ public class Listing {
     return add(name.getCanonicalName());
   }
 
-  public Listing add(String text) {
-    currentLine.append(text);
+  /**
+   * Parse source string and replace placeholder with {@link #add()}-calls to this {@link Listing}
+   * instance.
+   */
+  public Listing add(String source, Object... args) {
+    Matcher matcher = PLACEHOLDER_PATTERN.matcher(source);
+
+    int argumentIndex = 0;
+    int sourceIndex = 0;
+    while (matcher.find()) {
+      if (sourceIndex < matcher.start()) {
+        add(source.substring(sourceIndex, matcher.start()));
+      }
+      sourceIndex = matcher.end();
+
+      String placeholder = matcher.group(0);
+      if (placeholder.equals("{S}")) {
+        add(Tool.escape(args[argumentIndex++].toString()));
+      } else if (placeholder.equals("{N}")) {
+        add(Name.cast(args[argumentIndex++]));
+      } else {
+        String methodName = placeholder.substring(1, placeholder.length() - 1);
+        Object argument = args[argumentIndex++];
+        try {
+          Object result = argument.getClass().getMethod(methodName).invoke(argument);
+          add(result.toString());
+        } catch (Exception exception) {
+          throw new IllegalArgumentException(
+              "unknown placeholder: " + placeholder + " in \"" + source + "\"", exception);
+        }
+      }
+    }
+    add(source.substring(sourceIndex));
     return this;
   }
 
-  public Listing add(String format, Object... args) {
+  public Listing fmt(Locale locale, String format, Object... args) {
+    return add(args.length == 0 ? format : String.format(locale, format, args));
+  }
+
+  public Listing fmt(String format, Object... args) {
     return add(args.length == 0 ? format : String.format(format, args));
   }
 

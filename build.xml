@@ -137,7 +137,7 @@
         <arg line="--xml-reports-dir ${dir.out}/test-reports" />
       </java>
     </jacoco:coverage>
-    <fail message="Test failure detected, check test results." if="test.failed" />
+    
     <jacoco:report>
       <executiondata>
         <file file="${dir.out}/jacoco.exec" />
@@ -152,7 +152,7 @@
       </structure>
       <xml destfile="${dir.out}/jacoco-report.xml" />
       <html destdir="${dir.out}/jacoco-report" />
-      <check>
+      <check failonviolation="false">
         <rule element="PACKAGE">
           <limit counter="LINE" value="COVEREDRATIO" minimum="1" />
           <limit counter="CLASS" value="MISSEDCOUNT" maximum="0" />
@@ -171,6 +171,7 @@
       java.awt.Desktop.getDesktop().browse(java.net.URI.create(location));
       ]]>
     </script>
+    <fail message="Test failure detected, check test results." if="test.failed" />
   </target>
 
 </project>

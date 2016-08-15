@@ -4,12 +4,15 @@ import static com.github.sormuras.listing.Compilation.compile;
 import static com.github.sormuras.listing.Name.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import com.github.sormuras.listing.unit.CompilationUnit;
 import com.github.sormuras.listing.unit.NormalClassDeclaration;
 import java.lang.annotation.ElementType;
+import java.math.BigInteger;
 import java.util.Objects;
 import java.util.Optional;
 import javax.lang.model.element.Modifier;
@@ -20,6 +23,18 @@ class NameTest {
   @Test
   void apply() {
     assertEquals("byte", of(byte.class).apply(new Listing()).toString());
+  }
+
+  @Test
+  void cast() throws Exception {
+    Name name = of(Objects.class, "hash");
+    assertNull(Name.cast(null));
+    assertSame(name, Name.cast(name));
+    assertEquals(of(Object.class), Name.cast(Object.class));
+    assertEquals(of(Thread.State.BLOCKED), Name.cast(Thread.State.BLOCKED));
+    assertEquals(of("abc", "X"), Name.cast(new String[] {"abc", "X"}));
+    assertEquals(of(Math.class.getField("PI")), Name.cast(Math.class.getField("PI")));
+    expectThrows(IllegalArgumentException.class, () -> Name.cast(BigInteger.ZERO));
   }
 
   @Test

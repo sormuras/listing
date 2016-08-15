@@ -7,6 +7,7 @@ import static java.lang.Math.PI;
 import static java.util.Arrays.asList;
 import static java.util.Locale.GERMAN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +28,18 @@ class ListingTest {
 
   @Test
   void addFormattedString() {
-    assertEquals("abc", new Listing().add("a%sc", "b").toString());
-    assertEquals("abc", new Listing().add("abc", new Object[0]).toString());
-    assertEquals("3,14159", new Listing().add(GERMAN, "%.5f", PI).toString());
-    assertEquals("3,14159", new Listing().add(GERMAN, "3,14159").toString());
+    assertEquals("abc", new Listing().fmt("a%sc", "b").toString());
+    assertEquals("abc", new Listing().fmt("abc", new Object[0]).toString());
+    assertEquals("3,14159", new Listing().fmt(GERMAN, "%.5f", PI).toString());
+    assertEquals("3,14159", new Listing().fmt(GERMAN, "3,14159").toString());
+  }
+
+  @Test
+  void addTemplate() {
+    String expected = "java.lang.System.out.println(\"123\"); // 0";
+    String source = "{N}.out.println({S}); // {hashCode}";
+    assertEquals(expected, new Listing().add(source, System.class, "123", "").toString());
+    assertThrows(Exception.class, () -> new Listing().add("{xxx}", ""));
   }
 
   @Test

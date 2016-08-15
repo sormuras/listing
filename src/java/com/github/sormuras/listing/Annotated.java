@@ -24,14 +24,6 @@ public abstract class Annotated implements Annotatable {
   private List<Annotation> annotations = Collections.emptyList();
 
   @Override
-  public List<Annotation> getAnnotations() {
-    if (annotations == Collections.EMPTY_LIST) {
-      annotations = new ArrayList<>();
-    }
-    return annotations;
-  }
-
-  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -43,6 +35,14 @@ public abstract class Annotated implements Annotatable {
       return false;
     }
     return hashCode() == obj.hashCode();
+  }
+
+  @Override
+  public List<Annotation> getAnnotations() {
+    if (annotations == Collections.EMPTY_LIST) {
+      annotations = new ArrayList<>();
+    }
+    return annotations;
   }
 
   @Override

@@ -97,10 +97,10 @@ public class Annotation implements Listable {
       return listing -> listing.add(escape((String) object));
     }
     if (object instanceof Float) {
-      return listing -> listing.add(Locale.US, "%fF", object);
+      return listing -> listing.fmt(Locale.US, "%fF", object);
     }
     if (object instanceof Long) {
-      return listing -> listing.add(Locale.US, "%dL", object);
+      return listing -> listing.fmt(Locale.US, "%dL", object);
     }
     if (object instanceof Character) {
       return listing -> listing.add("'").add(escape((char) object)).add("'");
