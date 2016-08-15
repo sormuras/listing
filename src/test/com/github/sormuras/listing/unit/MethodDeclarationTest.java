@@ -66,7 +66,7 @@ class MethodDeclarationTest {
     runnable.addParameter(getClass(), "this");
     runnable.addThrows(RuntimeException.class);
     runnable.addThrows(TypeVariable.of("X"));
-    runnable.setBody(code -> code.add("java.lang.System.out.println(\"Running!\");").newline());
+    runnable.addStatement("java.lang.System.out.println({S})", "Running!");
     Tests.assertEquals(getClass(), "runnable", runnable);
     assertEquals(true, runnable.isModified());
     assertEquals(false, runnable.isVarArgs());

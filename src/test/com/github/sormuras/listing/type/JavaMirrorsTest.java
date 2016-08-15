@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import com.github.sormuras.listing.Compilation;
 import com.github.sormuras.listing.Tests;
+import com.github.sormuras.listing.unit.Block;
 import com.github.sormuras.listing.unit.ClassDeclaration;
 import com.github.sormuras.listing.unit.CompilationUnit;
 import com.github.sormuras.listing.unit.MethodDeclaration;
@@ -48,7 +49,7 @@ class JavaMirrorsTest {
     type.declareField(long.class, "field7").addAnnotation(Counter.Mark.class);
     type.declareField(short.class, "field8").addAnnotation(Counter.Mark.class);
     MethodDeclaration noop = type.declareMethod(void.class, "noop");
-    noop.setBody(l -> l.add("{}"));
+    noop.setBody(new Block());
     noop.addAnnotation(Counter.Mark.class);
 
     Counter counter = new Counter();

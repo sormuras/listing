@@ -181,13 +181,13 @@ class CompilationUnitTest {
     MethodDeclaration run = simple.declareMethod(void.class, "run");
     run.addAnnotation(Override.class);
     run.addModifiers(Modifier.PUBLIC, Modifier.FINAL);
-    run.setBody(l -> l.add("System.out.println(\"Hallo Welt!\");").newline());
+    run.addStatement("System.out.println({S})", "Hallo Welt!");
     MethodDeclaration calc = simple.declareMethod(TypeVariable.of("N"), "calc");
     calc.addModifier(Modifier.STATIC);
     calc.addTypeParameter(TypeParameter.of("N", JavaType.of(Number.class)));
     calc.addParameter(int.class, "i");
     calc.addThrows(Exception.class);
-    calc.setBody(l -> l.add("return null;").newline());
+    calc.addStatement("return null");
 
     assertSame(simple, i.getEnclosingDeclaration());
     Tests.assertEquals(getClass(), "crazy", unit);
@@ -203,7 +203,8 @@ class CompilationUnitTest {
     imports.addInterface(ClassType.of(Callable.class, Number.class));
     MethodDeclaration call = imports.declareMethod(Number.class, "call");
     call.addModifier("public");
-    call.setBody(
+    Block body = new Block();
+    body.add(
         l ->
             l.add("return ")
                 .add(Name.of(Math.class, "E"))
@@ -211,6 +212,7 @@ class CompilationUnitTest {
                 .add(Name.of(Math.class, "PI"))
                 .add(';')
                 .newline());
+    call.setBody(body);
     unit.compile();
     Tests.assertEquals(getClass(), "imports", unit.list(b -> b.setOmitJavaLangPackage(true)));
   }

@@ -22,15 +22,7 @@ public class HelloWorld2 {
     MethodDeclaration main = world.declareMethod(void.class, "main");
     main.addModifiers(Modifier.PUBLIC, Modifier.STATIC);
     main.addParameter(strings);
-    main.setBody(
-        l ->
-            l.add(
-                    "{N}.println({S} + {getName}[0]); // {getEnclosingDeclaration}",
-                    out,
-                    "Hello ",
-                    strings,
-                    main)
-                .newline());
+    main.addStatement("{N}.println({S} + {getName}[0]);", out, "Hello ", strings);
 
     System.out.println(unit.list(b -> b.setOmitJavaLangPackage(true)));
 

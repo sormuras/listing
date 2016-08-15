@@ -33,7 +33,7 @@ import java.util.Optional;
  */
 public class MethodDeclaration extends ClassMemberDeclaration {
 
-  private Listable body = null;
+  private Block body = null;
   private List<Listable> bodyStatements = new ArrayList<>();
   private List<MethodParameter> parameters = new ArrayList<>();
   private JavaType returnType = JavaType.of(void.class);
@@ -51,6 +51,10 @@ public class MethodDeclaration extends ClassMemberDeclaration {
 
   public void addStatement(String line) {
     bodyStatements.add(l -> l.add(line).add(';'));
+  }
+
+  public void addStatement(String source, Object... args) {
+    bodyStatements.add(l -> l.add(source, args).add(';'));
   }
 
   public void addThrows(Class<?> type) {
@@ -98,18 +102,18 @@ public class MethodDeclaration extends ClassMemberDeclaration {
       listing.add(getThrows(), ", ");
     }
     if (getBody().isPresent()) {
-      listing.add(" {").newline().indent(1);
+      listing.add(' ');
       listing.add(getBody().get());
-      listing.indent(-1).add('}');
     } else if (!bodyStatements.isEmpty()) {
       listing.add(" {").newline().indent(1);
       listing.add(bodyStatements, Listable.NEWLINE);
       listing.newline();
       listing.indent(-1).add('}');
+      listing.newline();
     } else {
       listing.add(';');
+      listing.newline();
     }
-    listing.newline();
     return listing;
   }
 
@@ -118,7 +122,7 @@ public class MethodDeclaration extends ClassMemberDeclaration {
     return ElementType.METHOD;
   }
 
-  public Optional<Listable> getBody() {
+  public Optional<Block> getBody() {
     return Optional.ofNullable(body);
   }
 
@@ -149,7 +153,7 @@ public class MethodDeclaration extends ClassMemberDeclaration {
     return getParameters().get(getParameters().size() - 1).isVariable();
   }
 
-  public void setBody(Listable body) {
+  public void setBody(Block body) {
     this.body = body;
   }
 
