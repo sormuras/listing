@@ -16,10 +16,13 @@ import com.github.sormuras.listing.Tool;
 import com.github.sormuras.listing.type.ClassType;
 import com.github.sormuras.listing.type.Counter;
 import com.github.sormuras.listing.type.JavaType;
+import com.github.sormuras.listing.type.TypeArgument;
 import com.github.sormuras.listing.type.TypeVariable;
+import com.github.sormuras.listing.type.WildcardType;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
@@ -114,11 +117,19 @@ class CompilationUnitTest {
     enterprise.addModifier(Modifier.PUBLIC);
     enterprise.declareField(Object.class, "field1").addAnnotation(Counter.Mark.class);
     enterprise.declareField(Object.class, "field2").addAnnotation(Counter.Mark.class);
+    enterprise
+        .declareField(
+            ClassType.of(
+                Name.of(Map.Entry.class),
+                TypeArgument.of(String.class),
+                TypeArgument.of(WildcardType.subtypeOf(Runnable.class))),
+            "field3")
+        .addAnnotation(Counter.Mark.class);
     Tests.assertEquals(getClass(), "processed", unit);
 
     Counter counter = new Counter();
     Compilation.compile(null, emptyList(), asList(counter), asList(unit.toJavaFileObject()));
-    assertEquals(2, counter.listOfElements.size());
+    assertEquals(3, counter.listOfElements.size());
   }
 
   @Test

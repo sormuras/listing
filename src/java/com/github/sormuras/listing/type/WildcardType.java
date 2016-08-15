@@ -17,6 +17,7 @@ package com.github.sormuras.listing.type;
 import com.github.sormuras.listing.Annotated;
 import com.github.sormuras.listing.Listing;
 import java.lang.annotation.ElementType;
+import java.lang.reflect.Type;
 import java.util.Optional;
 
 /**
@@ -26,6 +27,30 @@ import java.util.Optional;
  * @see https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-Wildcard
  */
 public class WildcardType extends Annotated implements JavaType {
+
+  /** {@code ? extends java.lang.Runnable}. */
+  public static WildcardType subtypeOf(JavaType upperBound) {
+    WildcardType wildcard = new WildcardType();
+    wildcard.setBoundExtends((ReferenceType) upperBound);
+    return wildcard;
+  }
+
+  /** {@code ? extends java.lang.Runnable}. */
+  public static WildcardType subtypeOf(Type upperBound) {
+    return subtypeOf(JavaType.of(upperBound));
+  }
+
+  /** {@code ? super java.lang.String}. */
+  public static WildcardType supertypeOf(JavaType lowerBound) {
+    WildcardType wildcard = new WildcardType();
+    wildcard.setBoundSuper((ReferenceType) lowerBound);
+    return wildcard;
+  }
+
+  /** {@code ? super java.lang.String}. */
+  public static WildcardType supertypeOf(Type lowerBound) {
+    return supertypeOf(JavaType.of(lowerBound));
+  }
 
   private ReferenceType boundExtends = ClassType.of(Object.class);
   private ReferenceType boundSuper = null;

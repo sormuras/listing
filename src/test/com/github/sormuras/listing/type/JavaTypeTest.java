@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.github.sormuras.listing.Listing;
+import com.github.sormuras.listing.Tests;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -33,22 +34,37 @@ class JavaTypeTest<T> {
   private String asAnno(String fieldName) throws Exception {
     AnnotatedType annotatedType = getClass().getDeclaredField(fieldName).getAnnotatedType();
     Listing listing = new Listing();
-    // listing.getImportDeclarations().add(U.class);
-    // listing.getImportDeclarations().add(List.class);
     return listing.add(JavaType.of(annotatedType)).toString();
   }
 
   private String asGenericType(String fieldName) throws Exception {
     Type type = getClass().getDeclaredField(fieldName).getGenericType();
     Listing listing = new Listing();
-    // listing.getImportDeclarations().add(U.class);
-    // listing.getImportDeclarations().add(List.class);
     return listing.add(JavaType.of(type)).toString();
   }
 
   @Test
   void voidType() {
     assertEquals("void", JavaType.of(void.class).list());
+  }
+
+  @Test
+  void wildcard() {
+    assertEquals(
+        "?",
+        JavaTypes.of(
+                Tests.proxy(
+                    java.lang.reflect.WildcardType.class,
+                    (p, m, a) -> {
+                      if (m.getName().equals("getLowerBounds")) {
+                        return new Type[0];
+                      }
+                      if (m.getName().equals("getUpperBounds")) {
+                        return new Type[0];
+                      }
+                      return null;
+                    }))
+            .list());
   }
 
   @Test

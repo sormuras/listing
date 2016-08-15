@@ -24,23 +24,26 @@ import com.github.sormuras.listing.Listing;
  */
 public class TypeArgument implements Listable {
 
-  private ReferenceType reference;
-  private WildcardType wildcard;
-
-  public TypeArgument(Class<?> argument) {
-    this(JavaType.of(argument));
+  public static TypeArgument of(Class<?> argument) {
+    return of(JavaType.of(argument));
   }
 
   /** Initializes this {@link TypeArgument} instance. */
-  public TypeArgument(JavaType argument) {
+  public static TypeArgument of(JavaType argument) {
+    TypeArgument typeArgument = new TypeArgument();
     if (argument instanceof WildcardType) {
-      setWildcard((WildcardType) argument);
-    } else if (argument instanceof ReferenceType) {
-      setReference((ReferenceType) argument);
-    } else {
-      throw new AssertionError("neither reference nor wildcard set");
+      typeArgument.setWildcard((WildcardType) argument);
+      return typeArgument;
     }
+    if (argument instanceof ReferenceType) {
+      typeArgument.setReference((ReferenceType) argument);
+      return typeArgument;
+    }
+    throw new AssertionError("neither reference nor wildcard: " + argument);
   }
+
+  private ReferenceType reference;
+  private WildcardType wildcard;
 
   @Override
   public Listing apply(Listing listing) {

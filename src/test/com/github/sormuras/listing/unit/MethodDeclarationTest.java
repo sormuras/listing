@@ -50,8 +50,7 @@ class MethodDeclarationTest {
     emptyList.addAnnotation(SuppressWarnings.class, "unchecked");
     emptyList.addModifier("public", "static", "final");
     emptyList.addTypeParameter(new TypeParameter());
-    emptyList.setReturnType(
-        new ClassType(Name.of(List.class), new TypeArgument(new TypeVariable())));
+    emptyList.setReturnType(ClassType.of(Name.of(List.class), TypeArgument.of(new TypeVariable())));
     emptyList.setName("emptyList");
     emptyList.addStatement("return (List<T>) EMPTY_LIST");
     Tests.assertEquals(getClass(), "emptyList", emptyList);

@@ -50,7 +50,7 @@ class AnnotationDeclarationTest {
         .declareElement(JavaType.of(String.class), "date", "201608032129")
         .addAnnotation(Deprecated.class);
     declaration.declareElement(
-        new ClassType(Name.of(Class.class), new TypeArgument(extendsFormatter)), "formatterClass");
+        ClassType.of(Name.of(Class.class), TypeArgument.of(extendsFormatter)), "formatterClass");
     Tests.assertEquals(getClass(), "everything", declaration);
     assertFalse(declaration.isEmpty());
   }

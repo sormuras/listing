@@ -87,7 +87,7 @@ public interface JavaType extends Annotatable {
         dimensions++;
       }
     }
-    return new ClassType(Name.of(classType));
+    return ClassType.of(Name.of(classType));
   }
 
   /**

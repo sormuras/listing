@@ -11,10 +11,10 @@ class TypeArgumentTest {
 
   @Test
   void constructor() {
-    TypeArgument argumentWithReference = new TypeArgument(Object.class);
+    TypeArgument argumentWithReference = TypeArgument.of(Object.class);
     assertNotNull(argumentWithReference.getReference());
     assertNull(argumentWithReference.getWildcard());
-    TypeArgument argumentWithWildcard = new TypeArgument(new WildcardType());
+    TypeArgument argumentWithWildcard = TypeArgument.of(new WildcardType());
     assertNull(argumentWithWildcard.getReference());
     assertNotNull(argumentWithWildcard.getWildcard());
   }
@@ -22,7 +22,7 @@ class TypeArgumentTest {
   @Test
   void constructorFailsWithWrongJavaType() {
     AssertionError e =
-        expectThrows(AssertionError.class, () -> new TypeArgument(PrimitiveType.of(int.class)));
-    assertTrue(e.toString().contains("neither reference nor wildcard set"));
+        expectThrows(AssertionError.class, () -> TypeArgument.of(PrimitiveType.of(int.class)));
+    assertTrue(e.toString().contains("neither reference nor wildcard"));
   }
 }

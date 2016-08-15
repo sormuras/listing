@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.Name;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -28,35 +29,38 @@ import java.util.Optional;
 public class ClassType extends ReferenceType {
 
   public static ClassType of(Class<?> type) {
-    return new ClassType(Name.of(type));
+    return of(Name.of(type));
   }
 
   public static ClassType of(Class<?> type, Class<?>... arguments) {
-    TypeArgument[] args = stream(arguments).map(TypeArgument::new).toArray(TypeArgument[]::new);
-    return new ClassType(Name.of(type), args);
+    TypeArgument[] args = stream(arguments).map(TypeArgument::of).toArray(TypeArgument[]::new);
+    return of(Name.of(type), args);
   }
 
   public static ClassType of(String... names) {
-    return new ClassType(Name.of(names));
+    return of(Name.of(names));
   }
 
-  private final List<ClassName> names;
-  private final String packageName;
-  private final Name name;
-
-  /** Initialize this ClassType instance. */
-  public ClassType(Name name, TypeArgument... typeArguments) {
-    this.name = name;
-    this.packageName = name.getPackageName();
-    this.names = name.getSimpleNames().stream().map(ClassName::of).collect(toList());
-    if (names.isEmpty()) {
+  /** Create class type for name and optional type arguments. */
+  public static ClassType of(Name name, TypeArgument... typeArguments) {
+    ClassType classType = new ClassType();
+    classType.setPackageName(name.getPackageName());
+    classType
+        .getNames()
+        .addAll(name.getSimpleNames().stream().map(ClassName::of).collect(toList()));
+    if (classType.getNames().isEmpty()) {
       throw new IllegalArgumentException("Not a single class name given by: " + name);
     }
-    Collections.addAll(getTypeArguments(), typeArguments);
+    Collections.addAll(classType.getTypeArguments(), typeArguments);
+    return classType;
   }
+
+  private final List<ClassName> names = new ArrayList<>();
+  private String packageName;
 
   @Override
   public Listing apply(Listing listing) {
+    Name name = getName();
     boolean skipPackageName = getPackageName().isEmpty();
     skipPackageName |= listing.getImported().test(name);
     skipPackageName |= listing.isOmitJavaLangPackage() && name.isJavaLangPackage();
@@ -75,11 +79,13 @@ public class ClassType extends ReferenceType {
     if (names.size() == 1) {
       return Optional.empty();
     }
-    return Optional.of(new ClassType(getName().getEnclosing().get()));
+    return Optional.of(of(getName().getEnclosing().get()));
   }
 
   public Name getName() {
-    return name;
+    List<String> simpleNames = new ArrayList<>();
+    names.forEach(n -> simpleNames.add(n.getName()));
+    return new Name(getPackageName(), simpleNames);
   }
 
   public List<ClassName> getNames() {
@@ -102,6 +108,10 @@ public class ClassType extends ReferenceType {
   @Override
   public boolean isJavaLangObject() {
     return getName().isJavaLangObject();
+  }
+
+  public void setPackageName(String packageName) {
+    this.packageName = packageName;
   }
 
   @Override
