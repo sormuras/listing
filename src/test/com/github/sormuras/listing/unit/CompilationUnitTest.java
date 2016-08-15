@@ -116,12 +116,15 @@ class CompilationUnitTest {
     ClassDeclaration enterprise = unit.declareClass("Class");
     enterprise.addModifier(Modifier.PUBLIC);
     enterprise.declareField(Object.class, "field1").addAnnotation(Counter.Mark.class);
-    enterprise.declareField(Object.class, "field2").addAnnotation(Counter.Mark.class);
+    enterprise
+        .declareField(
+            ClassType.of(Name.of(Comparable.class), TypeArgument.of(new WildcardType())), "field2")
+        .addAnnotation(Counter.Mark.class);
     enterprise
         .declareField(
             ClassType.of(
                 Name.of(Map.Entry.class),
-                TypeArgument.of(String.class),
+                TypeArgument.of(WildcardType.supertypeOf(String.class)),
                 TypeArgument.of(WildcardType.subtypeOf(Runnable.class))),
             "field3")
         .addAnnotation(Counter.Mark.class);
@@ -130,6 +133,19 @@ class CompilationUnitTest {
     Counter counter = new Counter();
     Compilation.compile(null, emptyList(), asList(counter), asList(unit.toJavaFileObject()));
     assertEquals(3, counter.listOfElements.size());
+    assertEquals(
+        "java.util.Map.Entry<? super java.lang.String, ? extends java.lang.Runnable>",
+        counter.map.get("field3").list());
+  }
+
+  @Test
+  void abc() throws Exception {
+    CompilationUnit unit = Units.abc();
+    Counter counter = new Counter();
+    Compilation.compile(null, emptyList(), asList(counter), asList(unit.toJavaFileObject()));
+    assertEquals(2, counter.listOfElements.size());
+    assertEquals("A.B.C", counter.map.get("raw").list());
+    assertEquals("A<I>.B<I, I>.C<I, I, I>", counter.map.get("parametered").list());
   }
 
   @Test

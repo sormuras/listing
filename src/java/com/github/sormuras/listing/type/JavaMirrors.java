@@ -14,7 +14,9 @@
 
 package com.github.sormuras.listing.type;
 
-import javax.lang.model.type.DeclaredType;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.PackageElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.SimpleTypeVisitor8;
@@ -48,20 +50,28 @@ public interface JavaMirrors {
   /** Create {@link ClassType} based on {@link javax.lang.model.type.DeclaredType} instance. */
   static ClassType of(javax.lang.model.type.DeclaredType type) {
     ClassType classType = new ClassType();
-    while (true) {
-      String elementName = type.asElement().getSimpleName().toString();
-      if (type.getKind().equals(TypeKind.PACKAGE)) {
-        classType.setPackageName(elementName);
-        break;
-      }
+    // extract package name
+    Element packageElement = type.asElement();
+    while (packageElement.getKind() != ElementKind.PACKAGE) {
+      packageElement = packageElement.getEnclosingElement();
+    }
+    PackageElement casted = (PackageElement) packageElement;
+    classType.setPackageName(casted.getQualifiedName().toString());
+    // extract simple names and type arguments
+    TypeMirror actualType = type;
+    for (Element e = type.asElement();
+        e.getKind().isClass() || e.getKind().isInterface();
+        e = e.getEnclosingElement()) {
       ClassName name = new ClassName();
-      name.setName(elementName);
-      type.getTypeArguments().forEach(t -> name.getTypeArguments().add(TypeArgument.of(of(t))));
+      name.setName(e.getSimpleName().toString());
       classType.getNames().add(0, name);
-      if (!(type.getEnclosingType() instanceof DeclaredType)) {
-        break;
+      if ((actualType instanceof javax.lang.model.type.DeclaredType)) {
+        javax.lang.model.type.DeclaredType dt = (javax.lang.model.type.DeclaredType) actualType;
+        for (TypeMirror ta : dt.getTypeArguments()) {
+          name.getTypeArguments().add(TypeArgument.of(JavaMirrors.of(ta)));
+        }
+        actualType = dt.getEnclosingType();
       }
-      type = (DeclaredType) type.getEnclosingType();
     }
     return classType;
   }

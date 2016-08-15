@@ -30,7 +30,7 @@ class ClassTypeTest {
     assertEquals(
         "java.lang.Comparable<java.lang.String>",
         ClassType.of(Comparable.class, String.class).list());
-    assertThrows(IllegalArgumentException.class, () -> ClassType.of("pack.age"));
+    assertThrows(IllegalArgumentException.class, () -> ClassType.of("pack.age", ""));
   }
 
   @Test

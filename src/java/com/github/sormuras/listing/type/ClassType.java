@@ -22,6 +22,7 @@ import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Listing;
 import com.github.sormuras.listing.Name;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -37,10 +38,6 @@ public class ClassType extends ReferenceType {
     return of(Name.of(type), args);
   }
 
-  public static ClassType of(String... names) {
-    return of(Name.of(names));
-  }
-
   /** Create class type for name and optional type arguments. */
   public static ClassType of(Name name, TypeArgument... typeArguments) {
     ClassType classType = new ClassType();
@@ -48,15 +45,23 @@ public class ClassType extends ReferenceType {
     classType
         .getNames()
         .addAll(name.getSimpleNames().stream().map(ClassName::of).collect(toList()));
-    if (classType.getNames().isEmpty()) {
-      throw new IllegalArgumentException("Not a single class name given by: " + name);
-    }
     Collections.addAll(classType.getTypeArguments(), typeArguments);
     return classType;
   }
 
+  public static ClassType of(String... names) {
+    return of(Name.of(names));
+  }
+
+  public static ClassType of(String packageName, ClassName... names) {
+    ClassType classType = new ClassType();
+    classType.setPackageName(packageName);
+    classType.getNames().addAll(Arrays.asList(names));
+    return classType;
+  }
+
   private final List<ClassName> names = new ArrayList<>();
-  private String packageName;
+  private String packageName = "";
 
   @Override
   public Listing apply(Listing listing) {

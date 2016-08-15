@@ -6,8 +6,8 @@ public class Class {
   java.lang.Object field1;
 
   @com.github.sormuras.listing.type.Counter.Mark
-  java.lang.Object field2;
+  java.lang.Comparable<?> field2;
 
   @com.github.sormuras.listing.type.Counter.Mark
-  java.util.Map.Entry<java.lang.String, ? extends java.lang.Runnable> field3;
+  java.util.Map.Entry<? super java.lang.String, ? extends java.lang.Runnable> field3;
 }

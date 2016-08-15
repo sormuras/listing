@@ -16,6 +16,7 @@ package com.github.sormuras.listing.type;
 
 import com.github.sormuras.listing.Listable;
 import com.github.sormuras.listing.Listing;
+import java.util.Objects;
 
 /**
  * Type arguments may be either reference types or wildcards.
@@ -30,6 +31,7 @@ public class TypeArgument implements Listable {
 
   /** Initializes this {@link TypeArgument} instance. */
   public static TypeArgument of(JavaType argument) {
+    Objects.requireNonNull(argument, "argument");
     TypeArgument typeArgument = new TypeArgument();
     if (argument instanceof WildcardType) {
       typeArgument.setWildcard((WildcardType) argument);
