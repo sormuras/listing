@@ -8,10 +8,11 @@ Java compilation unit source listing tool.
 ## features
  - [x] JavaBeans style API
  - [x] Aligned to [JLS](https://docs.oracle.com/javase/specs/jls/se8/html/jls-19.html) syntax grammar
- - [x] Runtime compilation supporting annotation processing
+ - [x] Runtime compilation supporting custom annotation processors
 
 ## hello world
-
+Here's a simple [HelloWorld](https://github.com/sormuras/listing/blob/master/src/test/readme/HelloWorld.java)
+program. It demonstrates basic usage of the main features.
 ```java
 Name out = Name.of(System.class, "out");
 
@@ -34,7 +35,7 @@ Object[] arguments = {new String[] {"world!"}};
 hello.getMethod("main", String[].class).invoke(null, arguments);
 ```
 
-The console should read like:
+The console reads like:
 ```text
 package listing;
 
