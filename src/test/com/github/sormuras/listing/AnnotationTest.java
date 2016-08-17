@@ -1,71 +1,20 @@
 package com.github.sormuras.listing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import java.beans.Transient;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Native;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.math.BigInteger;
 import javax.annotation.Generated;
 import org.junit.jupiter.api.Test;
+import test.All;
+import test.IllegalAnnotation;
 
-@Retention(RetentionPolicy.RUNTIME)
-@interface Crazy {
-
-  byte a() default 5;
-
-  short b() default 6;
-
-  int c() default 7;
-
-  long d() default 8;
-
-  float e() default 9.0f;
-
-  double f() default 10.0;
-
-  char[] g() default {0, 0xCAFE, 'z', '€', 'ℕ', '"', '\'', '\t', '\n'};
-
-  boolean h() default true;
-
-  Thread.State i() default Thread.State.BLOCKED;
-
-  Documented j() default @Documented;
-
-  String k() default "kk";
-
-  Class<? extends java.lang.annotation.Annotation> l() default Native.class;
-
-  int[] m() default {1, 2, 3};
-
-  ElementType[] n() default {ElementType.FIELD, ElementType.METHOD};
-
-  Target o();
-
-  int p();
-
-  Transient q() default @Transient(value = false);
-
-  Class<? extends Number>[] r() default {Byte.class, Short.class, Integer.class, Long.class};
-}
-
-class IllegalAnnotation implements java.lang.annotation.Annotation {
-  public void fail() {
-    throw new AssertionError("illegal annotation implementation is illegal");
-  }
-
-  @Override
-  public Class<? extends java.lang.annotation.Annotation> annotationType() {
-    return IllegalAnnotation.class;
-  }
-}
-
-@Crazy(
+@All(
   o = @Target(ElementType.TYPE),
   p = 1701,
   f = 11.1,
@@ -80,20 +29,16 @@ class AnnotationTest {
 
   @Test
   void illegalAnnotationFails() {
-    try {
-      Annotation.of(new IllegalAnnotation());
-      fail("reflected illegal annotation implementation?!");
-    } catch (AssertionError e) {
-      assertEquals(true, e.toString().contains("IllegalAnnotation"));
-    }
+    Error error = expectThrows(AssertionError.class, () -> Annotation.of(new IllegalAnnotation()));
+    assertTrue(error.getMessage().contains("IllegalAnnotation"));
   }
 
   @Test
   void reflect() {
-    Annotation annotation = Annotation.of(getClass().getAnnotation(Crazy.class));
+    Annotation annotation = Annotation.of(getClass().getAnnotation(All.class));
     assertEquals(
         "@"
-            + Crazy.class.getCanonicalName()
+            + All.class.getCanonicalName()
             + "("
             + "e = 2.718282F, "
             + "f = 11.1, "
@@ -105,10 +50,10 @@ class AnnotationTest {
             + "r = {java.lang.Float.class, java.lang.Double.class}"
             + ")",
         annotation.list());
-    Annotation annodefaults = Annotation.of(getClass().getAnnotation(Crazy.class), true);
+    Annotation annodefaults = Annotation.of(getClass().getAnnotation(All.class), true);
     assertEquals(
         "@"
-            + Crazy.class.getCanonicalName()
+            + All.class.getCanonicalName()
             + "("
             + "a = 5, "
             + "b = 6, "
@@ -178,6 +123,7 @@ class AnnotationTest {
     assertEquals("java.lang.Thread.State.NEW", Annotation.value(Thread.State.NEW).list());
     assertEquals("\"a\"", Annotation.value("a").list());
     assertEquals("2.718282F", Annotation.value((float) Math.E).list());
+    assertEquals("2.718281828459045", Annotation.value(Math.E).list());
     assertEquals("9223372036854775807L", Annotation.value(Long.MAX_VALUE).list());
     assertEquals("'!'", Annotation.value('!').list());
     assertEquals("null", Annotation.value(null).list());

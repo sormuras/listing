@@ -2,6 +2,7 @@ package com.github.sormuras.listing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.sormuras.listing.type.ArrayDimension;
@@ -148,6 +149,7 @@ class AnnotatedTest {
   private void testInitial(Annotated a) {
     assertFalse(a.isAnnotated());
     assertTrue(a.getAnnotations().isEmpty());
+    assertNotNull(a.toString());
   }
 
   private void testMutable(Annotated a) {
@@ -158,7 +160,8 @@ class AnnotatedTest {
     a.addAnnotation(U.class);
     assertTrue(a.isAnnotated());
     assertEquals(1, a.getAnnotations().size());
-    a.setAnnotations();
+    assertNotNull(a.toString());
+    a.setAnnotations(); // clear
     assertFalse(a.isAnnotated());
     a.addAnnotations(Annotation.of(U.class), Annotation.of(V.class));
     assertTrue(a.isAnnotated());

@@ -54,4 +54,9 @@ public abstract class Annotated implements Annotatable {
   public boolean isAnnotated() {
     return !annotations.isEmpty();
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{@ " + (isAnnotated() ? getAnnotations().size() : 0) + "}";
+  }
 }

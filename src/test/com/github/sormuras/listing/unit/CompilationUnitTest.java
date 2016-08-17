@@ -128,19 +128,27 @@ class CompilationUnitTest {
                 TypeArgument.of(WildcardType.subtypeOf(Runnable.class))),
             "field3")
         .addAnnotation(Counter.Mark.class);
+    enterprise.declareField(int[].class, "field4").addAnnotation(Counter.Mark.class);
+    enterprise.declareField(int[][][].class, "field5").addAnnotation(Counter.Mark.class);
+    enterprise.declareField(String[][].class, "field6").addAnnotation(Counter.Mark.class);
     Tests.assertEquals(getClass(), "processed", unit);
 
     Counter counter = new Counter();
     Compilation.compile(null, emptyList(), asList(counter), asList(unit.toJavaFileObject()));
-    assertEquals(3, counter.listOfElements.size());
+    assertEquals(6, counter.listOfElements.size());
     assertEquals(
         "java.util.Map.Entry<? super java.lang.String, ? extends java.lang.Runnable>",
         counter.map.get("field3").list());
+    assertEquals("int[]", counter.map.get("field4").list());
+    assertEquals("int[][][]", counter.map.get("field5").list());
+    assertEquals("java.lang.String[][]", counter.map.get("field6").list());
   }
 
   @Test
   void abc() throws Exception {
     CompilationUnit unit = Units.abc();
+    Tests.assertEquals(getClass(), "abc", unit);
+
     Counter counter = new Counter();
     Compilation.compile(null, emptyList(), asList(counter), asList(unit.toJavaFileObject()));
     assertEquals(2, counter.listOfElements.size());

@@ -28,7 +28,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.PackageElement;
+import javax.lang.model.element.TypeElement;
 
 /**
  * Names are used to refer to entities declared in a program.
@@ -141,6 +145,19 @@ public class Name implements Listable, Modifiable {
       name.setTarget(ElementType.TYPE);
     }
     return name;
+  }
+
+  /** Create new Name based on type element instance. */
+  public static Name of(TypeElement element) {
+    List<String> simpleNames = new ArrayList<>();
+    for (Element e = element; true; e = e.getEnclosingElement()) {
+      if (e.getKind() == ElementKind.PACKAGE) {
+        PackageElement casted = (PackageElement) e;
+        String packageName = casted.getQualifiedName().toString();
+        return new Name(packageName, simpleNames);
+      }
+      simpleNames.add(0, e.getSimpleName().toString());
+    }
   }
 
   private final String canonicalName;
@@ -259,6 +276,12 @@ public class Name implements Listable, Modifiable {
   @Override
   public boolean isModified() {
     return !modifiers.isEmpty();
+  }
+
+  public Name resolve(String newLastName) {
+    List<String> names = new ArrayList<>(simpleNames);
+    names.add(newLastName);
+    return new Name(getPackageName(), names);
   }
 
   public void setTarget(ElementType target) {

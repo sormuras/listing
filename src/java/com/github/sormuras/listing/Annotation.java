@@ -105,6 +105,9 @@ public class Annotation implements Listable {
     if (object instanceof Character) {
       return listing -> listing.add("'").add(escape((char) object)).add("'");
     }
+    if (object instanceof Listable) {
+      return listing -> listing.add((Listable) object);
+    }
     return listing -> listing.add(Objects.toString(object));
   }
 
