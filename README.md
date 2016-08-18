@@ -26,7 +26,7 @@ MethodParameter strings = MethodParameter.of(String[].class, "strings");
 MethodDeclaration main = world.declareMethod(void.class, "main");
 main.addModifiers(Modifier.PUBLIC, Modifier.STATIC);
 main.addParameter(strings);
-main.addStatement("{N}.println({S} + {getName}[0]);", out, "Hello ", strings);
+main.addStatement("{N}.println({S} + {getName}[0])", out, "Hello ", strings);
 
 System.out.println(unit.list(b -> b.setOmitJavaLangPackage(true)));
 
@@ -44,7 +44,7 @@ import static java.lang.System.out;
 public class World {
 
   public static void main(String[] strings) {
-    out.println("Hello " + strings[0]);;
+    out.println("Hello " + strings[0]);
   }
 }
 
