@@ -18,6 +18,7 @@ import com.github.sormuras.listing.Annotatable;
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Name;
 import java.util.List;
+import java.util.Map;
 import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
@@ -126,10 +127,14 @@ public interface JavaMirrors {
   static Annotation of(AnnotationMirror mirror) {
     TypeElement element = (TypeElement) mirror.getAnnotationType().asElement();
     Annotation annotation = new Annotation(Name.of(element));
+    Map<? extends ExecutableElement, ? extends AnnotationValue> values = mirror.getElementValues();
+    if (values.isEmpty()) {
+      return annotation;
+    }
     AnnotationVisitor visitor = new AnnotationVisitor(annotation);
-    for (ExecutableElement executableElement : mirror.getElementValues().keySet()) {
+    for (ExecutableElement executableElement : values.keySet()) {
       String name = executableElement.getSimpleName().toString();
-      AnnotationValue value = mirror.getElementValues().get(executableElement);
+      AnnotationValue value = values.get(executableElement);
       value.accept(visitor, name);
     }
     return annotation;

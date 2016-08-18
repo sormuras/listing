@@ -34,7 +34,11 @@ import java.util.Optional;
 public class MethodParameter extends Annotated {
 
   public static MethodParameter of(Class<?> type, String name) {
-    return new MethodParameter().setType(JavaType.of(type)).setName(name);
+    return of(JavaType.of(type), name);
+  }
+
+  public static MethodParameter of(JavaType type, String name) {
+    return new MethodParameter().setType(type).setName(name);
   }
 
   private boolean finalModifier;

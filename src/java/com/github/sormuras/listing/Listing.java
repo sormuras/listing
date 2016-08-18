@@ -184,7 +184,8 @@ public class Listing {
       }
       // convert unknown placeholder to chained method call sequence
       Object argument = args[argumentIndex++];
-      try (Scanner scanner = new Scanner(placeholder)) {
+      Scanner scanner = new Scanner(placeholder);
+      try {
         scanner.useDelimiter(METHODCHAIN_PATTERN);
         Object result = argument;
         while (scanner.hasNext()) {
@@ -202,6 +203,7 @@ public class Listing {
           continue;
         }
         add(String.valueOf(result));
+        scanner.close();
       } catch (Exception exception) {
         throw new IllegalArgumentException(
             "error parsing: '" + placeholder + "' source='" + source + "'", exception);

@@ -14,7 +14,9 @@ import com.github.sormuras.listing.Tests;
 import com.github.sormuras.listing.unit.Block;
 import com.github.sormuras.listing.unit.ClassDeclaration;
 import com.github.sormuras.listing.unit.CompilationUnit;
+import com.github.sormuras.listing.unit.InterfaceDeclaration;
 import com.github.sormuras.listing.unit.MethodDeclaration;
+import com.github.sormuras.listing.unit.MethodParameter;
 import com.github.sormuras.listing.unit.NormalClassDeclaration;
 import com.github.sormuras.listing.unit.TypeParameter;
 import java.lang.annotation.ElementType;
@@ -134,5 +136,20 @@ class JavaMirrorsTest {
     ErrorType errorType = new DeclaredTypeAsErrorType(dt);
     JavaMirrors.Visitor visitor = new JavaMirrors.Visitor();
     assertEquals(JavaType.of(Byte.class), visitor.visitError(errorType, null));
+  }
+
+  @Test
+  void intersectionType() {
+    CompilationUnit unit = CompilationUnit.of("test");
+
+    InterfaceDeclaration intersection = unit.declareInterface("Intersection");
+    MethodDeclaration method = mark(intersection.declareMethod(void.class, "test"));
+    method.addTypeParameter(
+        TypeParameter.of("T", JavaType.of(Number.class), JavaType.of(Runnable.class)));
+    method.addParameter(MethodParameter.of(TypeVariable.of("T"), "t"));
+
+    Counter counter = new Counter();
+    Compilation.compile(null, emptyList(), asList(counter), asList(unit.toJavaFileObject()));
+    assertEquals(1, counter.map.size());
   }
 }
