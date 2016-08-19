@@ -5,8 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.github.sormuras.listing.Annotation;
-import com.github.sormuras.listing.Name;
 import org.junit.jupiter.api.Test;
+import test.U;
+import test.V;
 
 class PrimitiveTypeTest {
 
@@ -42,7 +43,7 @@ class PrimitiveTypeTest {
 
   @Test
   void primitiveTypeUseWithAnnotation() throws Exception {
-    Annotation u = new Annotation(Name.of("com.github.sormuras.listing.type", "U"));
+    Annotation u = Annotation.of(U.class);
     JavaType uint = JavaType.of(int.class);
     uint.addAnnotation(u);
     assertEquals(U.USE + " int", uint.list());

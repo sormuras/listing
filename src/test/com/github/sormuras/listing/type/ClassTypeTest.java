@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.lang.annotation.ElementType;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import test.U;
 
 class ClassTypeTest {
 
@@ -16,7 +17,7 @@ class ClassTypeTest {
 
   @Test
   void annotated() {
-    String expected = "java.lang.@com.github.sormuras.listing.type.U Comparable<java.lang.String>";
+    String expected = "java.lang.@test.U Comparable<java.lang.String>";
     ClassType type = ClassType.of(Comparable.class, String.class);
     type.addAnnotation(U.class);
     assertEquals(expected, type.list());

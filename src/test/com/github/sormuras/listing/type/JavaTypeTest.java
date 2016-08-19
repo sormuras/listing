@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import test.U;
 
 class JavaTypeTest<T> {
 

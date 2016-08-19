@@ -11,8 +11,6 @@ import com.github.sormuras.listing.type.ClassName;
 import com.github.sormuras.listing.type.ClassType;
 import com.github.sormuras.listing.type.PrimitiveType;
 import com.github.sormuras.listing.type.TypeVariable;
-import com.github.sormuras.listing.type.U;
-import com.github.sormuras.listing.type.V;
 import com.github.sormuras.listing.type.VoidType;
 import com.github.sormuras.listing.type.WildcardType;
 import com.github.sormuras.listing.unit.AnnotationDeclaration;
@@ -30,6 +28,8 @@ import com.github.sormuras.listing.unit.TypeParameter;
 import java.util.Collections;
 import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
+import test.U;
+import test.V;
 
 class AnnotatedTest {
 
