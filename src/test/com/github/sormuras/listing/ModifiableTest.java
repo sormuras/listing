@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -33,6 +34,9 @@ class ModifiableTest implements Modifiable {
     assertTrue(getModifiers().equals(EnumSet.of(ABSTRACT, FINAL, PUBLIC, STATIC)));
     assertTrue(isPublic());
     assertTrue(isStatic());
+    setModifiers(Collections.emptySet());
+    assertFalse(isPublic());
+    assertFalse(isStatic());
   }
 
   @Test

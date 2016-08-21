@@ -84,6 +84,11 @@ public interface Modifiable {
     addModifiers(mod);
   }
 
+  default void setModifiers(Set<Modifier> modifiers) {
+    getModifiers().clear();
+    addModifiers(modifiers);
+  }
+
   /** Replace current modifiers by with new ones. */
   default void setModifiers(Modifier... modifiers) {
     getModifiers().clear();
