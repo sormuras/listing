@@ -32,7 +32,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.TypeElement;
 
 /**
  * Names are used to refer to entities declared in a program.
@@ -148,7 +147,7 @@ public class Name implements Listable, Modifiable {
   }
 
   /** Create new Name based on type element instance. */
-  public static Name of(TypeElement element) {
+  public static Name of(Element element) {
     List<String> simpleNames = new ArrayList<>();
     for (Element e = element; true; e = e.getEnclosingElement()) {
       if (e.getKind() == ElementKind.PACKAGE) {

@@ -144,7 +144,7 @@ public class Annotation implements Listable {
   public Listing apply(Listing listing) {
     // always emit "@" and the typename
     listing.add('@').add(getTypeName());
-    Map<String, List<Listable>> members = getMembers(true);
+    Map<String, List<Listable>> members = this.members;
     // trivial case: marker annotation w/o members
     if (members.isEmpty()) {
       return listing;
@@ -166,11 +166,7 @@ public class Annotation implements Listable {
   }
 
   public Map<String, List<Listable>> getMembers() {
-    return getMembers(false);
-  }
-
-  public Map<String, List<Listable>> getMembers(boolean readonly) {
-    if (members == Collections.EMPTY_MAP && !readonly) {
+    if (members == Collections.EMPTY_MAP) {
       members = new LinkedHashMap<>();
     }
     return members;
@@ -182,7 +178,7 @@ public class Annotation implements Listable {
 
   @Override
   public String toString() {
-    return "Annotation{" + getTypeName() + ", members=" + getMembers(true) + "}";
+    return "Annotation{" + getTypeName() + ", members=" + members + "}";
   }
 
   /** Annotation array-aware value(s) appender. */

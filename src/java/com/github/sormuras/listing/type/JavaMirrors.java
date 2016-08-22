@@ -26,7 +26,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -125,7 +124,7 @@ public interface JavaMirrors {
 
   /** Create {@link Annotation} based on {@link AnnotationMirror} instance. */
   static Annotation of(AnnotationMirror mirror) {
-    TypeElement element = (TypeElement) mirror.getAnnotationType().asElement();
+    Element element = mirror.getAnnotationType().asElement();
     Annotation annotation = new Annotation(Name.of(element));
     Map<? extends ExecutableElement, ? extends AnnotationValue> values = mirror.getElementValues();
     if (values.isEmpty()) {
