@@ -294,7 +294,7 @@ public class Name implements Listable, Modifiable {
         + ", target="
         + getTarget()
         + ", modifiers="
-        + getModifiers()
+        + modifiers
         + "}";
   }
 }

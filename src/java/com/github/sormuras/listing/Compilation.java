@@ -183,15 +183,7 @@ public interface Compilation {
     StandardJavaFileManager sjfm =
         compiler.getStandardFileManager(diagnostics, Locale.getDefault(), StandardCharsets.UTF_8);
     Manager manager = new Manager(sjfm, parent);
-    CompilationTask task =
-        compiler.getTask(
-            null,
-            manager,
-            diagnostics,
-            options,
-            null, // names of classes to be processed by annotation processing, null means none
-            // Arrays.stream(units).map(Compilation::source).collect(Collectors.toList()));
-            units);
+    CompilationTask task = compiler.getTask(null, manager, diagnostics, options, null, units);
     if (!processors.isEmpty()) {
       task.setProcessors(processors);
     }
@@ -201,12 +193,6 @@ public interface Compilation {
     }
     return manager.getClassLoader(StandardLocation.CLASS_PATH);
   }
-
-  //  static JavaFileObject source(JavaUnit unit) {
-  //    TypeDeclaration<?> declaration = unit.getEponymousDeclaration().get();
-  //    URI uri = unit.getPackageDeclaration().toURI(declaration.getName() + ".java");
-  //    return source(uri, unit.list());
-  //  }
 
   static JavaFileObject source(String uri, String charContent) {
     return source(URI.create(uri), charContent);
