@@ -16,7 +16,6 @@ package com.github.sormuras.listing;
 
 import static java.lang.Character.isISOControl;
 import static java.util.Collections.addAll;
-import static java.util.Collections.reverse;
 import static java.util.Objects.requireNonNull;
 
 import java.lang.annotation.ElementType;
@@ -24,8 +23,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.lang.model.element.Modifier;
@@ -209,12 +208,11 @@ public interface Tool {
   /** Return all simple names of the given class as a list of Strings. */
   static List<String> simpleNames(Class<?> type, String... additionalNames) {
     requireNonNull(type, "type");
-    List<String> names = new ArrayList<>();
+    List<String> names = new LinkedList<>();
     while (type != null) {
-      names.add(type.getSimpleName());
+      names.add(0, type.getSimpleName());
       type = type.getEnclosingClass();
     }
-    reverse(names);
     addAll(names, additionalNames);
     return names;
   }
