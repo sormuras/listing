@@ -277,12 +277,6 @@ public class Name implements Listable, Modifiable {
     return !modifiers.isEmpty();
   }
 
-  public Name resolve(String newLastName) {
-    List<String> names = new ArrayList<>(simpleNames);
-    names.add(newLastName);
-    return new Name(getPackageName(), names);
-  }
-
   public void setTarget(ElementType target) {
     this.target = target;
   }

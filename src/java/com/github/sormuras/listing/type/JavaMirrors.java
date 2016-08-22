@@ -17,6 +17,8 @@ package com.github.sormuras.listing.type;
 import com.github.sormuras.listing.Annotatable;
 import com.github.sormuras.listing.Annotation;
 import com.github.sormuras.listing.Name;
+import java.lang.annotation.ElementType;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.lang.model.AnnotatedConstruct;
@@ -25,6 +27,7 @@ import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeKind;
@@ -68,7 +71,13 @@ public interface JavaMirrors {
     public Annotation visitEnumConstant(VariableElement element, String name) {
       ClassType classType = (ClassType) JavaMirrors.of(element.asType());
       String constantName = element.getSimpleName().toString();
-      annotation.addMember(name, classType.getName().resolve(constantName));
+      List<String> simpleNames = new ArrayList<String>();
+      classType.getNames().forEach(sn -> simpleNames.add(sn.getName()));
+      simpleNames.add(constantName);
+      Name constant = new Name(classType.getPackageName(), simpleNames);
+      constant.setTarget(ElementType.FIELD);
+      constant.setModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
+      annotation.addMember(name, constant);
       return annotation;
     }
 
