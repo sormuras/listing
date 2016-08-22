@@ -11,5 +11,5 @@ import org.junit.runner.RunWith;
  * @see <a href="http://junit.org/junit5/docs/snapshot/user-guide/#test-suite">Test Suite</a>
  */
 @RunWith(JUnitPlatform.class)
-@SelectPackages("com.github.sormuras.listing")
+@SelectPackages("com.github.sormuras")
 public class JUnit4Suite {}
