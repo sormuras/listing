@@ -27,9 +27,7 @@ public class ArrayType extends ReferenceType {
 
   public static List<ArrayDimension> createArrayDimensions(int size) {
     List<ArrayDimension> dimensions = new ArrayList<>();
-    for (int i = 0; i < size; i++) {
-      dimensions.add(new ArrayDimension());
-    }
+    IntStream.range(0, size).forEach(i -> dimensions.add(new ArrayDimension()));
     return dimensions;
   }
 
