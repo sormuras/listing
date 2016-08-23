@@ -106,7 +106,7 @@ public final class Name {
     return packageName;
   }
 
-  public Iterable<String> simpleNames() {
+  public List<String> simpleNames() {
     return identifiers.subList(packageLevel, size);
   }
 
@@ -116,6 +116,6 @@ public final class Name {
 
   @Override
   public String toString() {
-    return "Name{" + packageName + simpleNames() + "}";
+    return String.format("Name{%s/%s}", packageName, String.join(".", simpleNames()));
   }
 }
