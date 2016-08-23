@@ -10,6 +10,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.PackageElement;
 
 /**
  * Names are used to refer to entities declared in a program.
@@ -68,6 +71,20 @@ public final class Name {
     names.addAll(declaringName.identifiers);
     names.add(declaredMemberName);
     return new Name(declaringName.packageLevel, names);
+  }
+
+  /** Create new Name based on type element instance. */
+  public static Name name(Element element) {
+    List<String> simpleNames = new ArrayList<>();
+    for (Element e = element; true; e = e.getEnclosingElement()) {
+      if (e.getKind() == ElementKind.PACKAGE) {
+        PackageElement casted = (PackageElement) e;
+        String[] packageNames = DOT.split(casted.getQualifiedName().toString());
+        simpleNames.addAll(0, Arrays.asList(packageNames));
+        return new Name(packageNames.length, simpleNames);
+      }
+      simpleNames.add(0, e.getSimpleName().toString());
+    }
   }
 
   /** Create name instance for the given enum constant. */
