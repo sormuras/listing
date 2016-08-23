@@ -116,6 +116,6 @@ public final class Name {
 
   @Override
   public String toString() {
-    return "Name {" + canonical + "}";
+    return "Name{" + packageName + simpleNames() + "}";
   }
 }

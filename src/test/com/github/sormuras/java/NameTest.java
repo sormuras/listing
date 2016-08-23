@@ -16,6 +16,14 @@ class NameTest {
 
   @Test
   void primitive() {
+    assertEquals("boolean", Name.name(boolean.class).canonical());
+    assertEquals("byte", Name.name(byte.class).canonical());
+    assertEquals("char", Name.name(char.class).canonical());
+    assertEquals("double", Name.name(double.class).canonical());
+    assertEquals("float", Name.name(float.class).canonical());
+    assertEquals("int", Name.name(int.class).canonical());
+    assertEquals("long", Name.name(long.class).canonical());
+    assertEquals("short", Name.name(short.class).canonical());
     assertEquals("void", Name.name(void.class).canonical());
   }
 
@@ -69,5 +77,14 @@ class NameTest {
     assertEquals("java.lang.Thread.State.NEW", Name.name(Thread.State.NEW).canonical());
     assertEquals("java.lang", Name.name(Thread.State.NEW).packageName());
     assertEquals("NEW", Name.name(Thread.State.NEW).lastName());
+  }
+
+  @Test
+  void string() {
+    assertEquals("Name{[void]}", Name.name(void.class).toString());
+    assertEquals("Name{[int]}", Name.name(int.class).toString());
+    assertEquals("Name{[int[][]]}", Name.name(int[][].class).toString());
+    assertEquals("Name{java.lang[Object]}", Name.name(Object.class).toString());
+    assertEquals("Name{java.lang[Thread, State, NEW]}", Name.name(Thread.State.NEW).toString());
   }
 }
