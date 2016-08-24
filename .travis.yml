@@ -1,6 +1,9 @@
 language:
   java
   
+install:
+  ant test
+  
 jdk:
   - oraclejdk8
 
