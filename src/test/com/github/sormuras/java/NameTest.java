@@ -36,7 +36,7 @@ class NameTest {
     assertEquals("java", java.canonical());
     assertFalse(java.isEnclosed());
     assertFalse(java.isJavaLangPackage());
-    assertThrows(IllegalStateException.class, () -> java.enclosing());
+    assertThrows(IllegalStateException.class, java::enclosing);
   }
 
   @Test
